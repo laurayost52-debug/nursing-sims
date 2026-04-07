@@ -22,39 +22,40 @@
             line-height: 1.6; 
         }
         
-        /* --- FIXED HEADER SECTION --- */
+        /* --- HEADER SECTION --- */
         header { 
-            background-color: #ffffff; /* Pure white to match logo background */
-            color: var(--ui-blue);     /* Using UI Blue for the text for a professional look */
-            padding: 40px 20px; 
+            background-color: #ffffff; 
+            color: var(--ui-blue);     
+            padding: 30px 20px; 
             text-align: center; 
-            border-bottom: 8px solid var(--ui-gold); /* Iowa Gold accent */
+            border-bottom: 8px solid var(--ui-gold); 
             display: flex;
             flex-direction: column;
             align-items: center;
         }
 
-        /* Styles for the Logo */
+        /* Shrinking the Logo */
         .header-logo {
-            margin-bottom: 20px;
+            max-width: 150px; /* Adjusted size */
+            height: auto;
+            margin-bottom: 15px;
             display: block;
         }
 
         header h1 { 
             margin: 0; 
-            font-size: 2.5rem; 
+            font-size: 2.2rem; 
             letter-spacing: -0.025em; 
             color: var(--ui-blue);
         }
 
         header p { 
-            font-size: 1.2rem; 
-            color: #64748b; /* Subtle grey for the tagline */
+            font-size: 1.1rem; 
+            color: #64748b; 
             max-width: 700px; 
-            margin: 15px auto 0; 
+            margin: 10px auto 0; 
             font-weight: 300; 
         }
-        /* --- END HEADER SECTION --- */
 
         .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
 
@@ -70,7 +71,11 @@
         .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; text-decoration: none; color: inherit; border: 1px solid #e2e8f0; }
         .card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border-color: var(--ui-blue); }
         .card-content { padding: 25px; flex-grow: 1; }
+        
         .card-tag { display: inline-block; background: #e0f2fe; color: #0369a1; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; margin-bottom: 12px; text-transform: uppercase; }
+        /* Special Tag for Audio Encounters */
+        .tag-audio { background: #f3e8ff; color: #7e22ce; }
+
         .card h3 { margin: 0 0 10px; color: var(--ui-blue); }
         .card p { margin: 0; font-size: 0.95rem; color: #64748b; }
         .card-footer { background: #f8fafc; padding: 15px 25px; font-size: 0.85rem; font-weight: 600; color: var(--ui-blue); border-top: 1px solid #e2e8f0; }
@@ -104,21 +109,20 @@
             <div class="card-footer">Launch Module →</div>
         </a>
 
+        <a href="patient_encounters.html" class="card">
+            <div class="card-content">
+                <span class="card-tag tag-audio">Audio Lab</span>
+                <h3>Patient Encounters</h3>
+                <p>Listen to immersive, AI-generated patient symptom descriptions. Refine clinical ear skills and determine the next best step for care.</p>
+            </div>
+            <div class="card-footer">Launch Module →</div>
+        </a>
+
         <div class="card" style="opacity: 0.7; cursor: default;">
             <div class="card-content">
                 <span class="card-tag" style="background: #f1f5f9; color: #475569;">Upcoming</span>
                 <h3>SBAR Synthesis Lab</h3>
                 <p>A dynamic communication tool where students must translate clinical findings into a professional handoff report using real-time data.</p>
-            </div>
-            <div class="card-footer">In Development</div>
-        </div>
-
-        <div class="card" style="opacity: 0.7; cursor: default;">
-            <a href="patient_encounters.html" class="card">
-                <div class="card-content">
-                <span class="card-tag" style="background: #f1f5f9; color: #475569;">Upcoming</span>
-                <h3>Patient Encounters</h3>
-                <p>Analyze AI-generated nursing diagnoses for hallucinations and errors. Building AI literacy for the modern healthcare professional.</p>
             </div>
             <div class="card-footer">In Development</div>
         </div>
