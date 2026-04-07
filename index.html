@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,19 +6,55 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Clinical Inquiry Lab | Creative Academic Engagement</title>
     <style>
-        :root { --ui-blue: #00558C; --ui-gold: #FFCD00; --bg: #f8fafc; --text: #1e293b; }
-        body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background-color: var(--bg); color: var(--text); margin: 0; padding: 0; line-height: 1.6; }
+        :root { 
+            --ui-blue: #00558C; 
+            --ui-gold: #FFCD00; 
+            --bg: #f8fafc; 
+            --text: #1e293b; 
+        }
+
+        body { 
+            font-family: 'Inter', system-ui, -apple-system, sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text); 
+            margin: 0; 
+            padding: 0; 
+            line-height: 1.6; 
+        }
         
-        /* Header Section */
+        /* --- FIXED HEADER SECTION --- */
         header { 
-    background: #ffffff; /* This makes it pure white to match your logo */
-    color: #000000;      /* This changes the text to black so it's readable */
-    padding: 60px 20px; 
-    text-align: center; 
-    border-bottom: 8px solid var(--ui-gold); /* Keeps that nice Iowa gold accent */
-}
-        header h1 { margin: 0; font-size: 2.5rem; letter-spacing: -0.025em; }
-        header p { font-size: 1.2rem; opacity: 0.9; max-width: 700px; margin: 15px auto 0; font-weight: 300; }
+            background-color: #ffffff; /* Pure white to match logo background */
+            color: var(--ui-blue);     /* Using UI Blue for the text for a professional look */
+            padding: 40px 20px; 
+            text-align: center; 
+            border-bottom: 8px solid var(--ui-gold); /* Iowa Gold accent */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Styles for the Logo */
+        .header-logo {
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        header h1 { 
+            margin: 0; 
+            font-size: 2.5rem; 
+            letter-spacing: -0.025em; 
+            color: var(--ui-blue);
+        }
+
+        header p { 
+            font-size: 1.2rem; 
+            color: #64748b; /* Subtle grey for the tagline */
+            max-width: 700px; 
+            margin: 15px auto 0; 
+            font-weight: 300; 
+        }
+        /* --- END HEADER SECTION --- */
 
         .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
 
@@ -44,11 +81,9 @@
 <body>
 
 <header>
+    <img src="logo.png" alt="Clinical Inquiry Lab Logo" width="180" class="header-logo">
     <h1>The Clinical Inquiry Lab</h1>
     <p>An exploration space for creative academic engagement and non-linear nursing pedagogy.</p>
-    <div style="display: flex; justify-content: center; align-items: center; padding: 40px 0;">
-    <img src="logo.png" alt="Clinical Inquiry Lab Logo" width="200">
-</div>
 </header>
 
 <div class="container">
@@ -60,7 +95,6 @@
     <h2 class="gallery-title">Interactive Collection</h2>
     
     <div class="grid">
-        <!-- Project 1: The Evidence Collector -->
         <a href="interview.html" class="card">
             <div class="card-content">
                 <span class="card-tag">Clinical Judgment</span>
@@ -70,7 +104,6 @@
             <div class="card-footer">Launch Module →</div>
         </a>
 
-        <!-- Project 2: Placeholder -->
         <div class="card" style="opacity: 0.7; cursor: default;">
             <div class="card-content">
                 <span class="card-tag" style="background: #f1f5f9; color: #475569;">Upcoming</span>
@@ -80,7 +113,6 @@
             <div class="card-footer">In Development</div>
         </div>
 
-        <!-- Project 3: Placeholder -->
         <div class="card" style="opacity: 0.7; cursor: default;">
             <div class="card-content">
                 <span class="card-tag" style="background: #f1f5f9; color: #475569;">Upcoming</span>
@@ -93,7 +125,7 @@
 </div>
 
 <footer>
-    &copy; 2024 University of Iowa College of Nursing | Designed for Academic Engagement
+    &copy; 2026 University of Iowa College of Nursing | Designed for Academic Engagement
 </footer>
 
 </body>
