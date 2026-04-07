@@ -1,63 +1,203 @@
-<style>
-    .critical-thinking-box {
-        margin-top: 15px;
-        border-top: 1px dashed #ccc;
-        padding-top: 10px;
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Patient Encounters | Clinical Inquiry Lab</title>
+    <style>
+        :root { 
+            --ui-blue: #00558C; 
+            --ui-gold: #FFCD00; 
+            --bg: #f8fafc; 
+            --text: #1e293b; 
+        }
 
-    label {
-        font-size: 0.8rem;
-        font-weight: bold;
-        display: block;
-        margin-bottom: 5px;
-        color: #333;
-    }
+        body { 
+            font-family: 'Inter', system-ui, -apple-system, sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text); 
+            margin: 0; 
+            padding: 0; 
+            line-height: 1.6; 
+        }
 
-    textarea {
-        width: 100%;
-        height: 60px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
-        padding: 5px;
-        font-family: inherit;
-        font-size: 0.85rem;
-        resize: none;
-        box-sizing: border-box;
-    }
+        /* Consistent Header with Homepage */
+        header { 
+            background-color: #ffffff; 
+            padding: 30px 20px; 
+            text-align: center; 
+            border-bottom: 8px solid var(--ui-gold); 
+        }
 
-    .submit-btn {
-        margin-top: 8px;
-        background-color: var(--ui-gold);
-        color: #000;
-        border: none;
-        padding: 8px 12px;
-        border-radius: 4px;
-        font-weight: bold;
-        cursor: pointer;
-        width: 100%;
-        font-size: 0.8rem;
-    }
+        .header-logo {
+            max-width: 120px;
+            height: auto;
+            margin-bottom: 15px;
+        }
 
-    .submit-btn:hover {
-        background-color: #e5b800;
-    }
-</style>
-
-<div class="case-card">
-    <img src="https://via.placeholder.com/300x180?text=Mr.+Henderson" alt="Patient Thumbnail" class="thumbnail">
-    <div class="card-content">
-        <div class="patient-name">Case #001: Mr. Henderson</div>
-        <p class="description">65-year-old male presenting with shortness of breath. History of hypertension.</p>
+        header h1 { margin: 0; font-size: 2rem; color: var(--ui-blue); }
         
-        <a href="YOUR_WONDERCRAFT_LINK_HERE" class="audio-link" target="_blank">▶ Listen to Encounter</a>
+        .nav-back {
+            display: inline-block;
+            margin-top: 15px;
+            color: var(--ui-blue);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
 
-        <div class="critical-thinking-box">
-            <form action="mailto:FACULTY_EMAIL@uiowa.edu" method="GET" enctype="text/plain">
-                <input type="hidden" name="subject" value="Clinical Response: Case #001 (Henderson)">
-                <label for="response-001">Next Best Clinical Step:</label>
-                <textarea id="response-001" name="body" placeholder="Listen to the audio, then type your priority intervention here..."></textarea>
-                <button type="submit" class="submit-btn">Email Response to Faculty</button>
-            </form>
-        </div>
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+
+        .page-intro { text-align: center; margin-bottom: 40px; }
+        .page-intro p { color: #64748b; max-width: 600px; margin: 10px auto; }
+
+        /* The 8-Card Grid */
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 25px; 
+        }
+
+        /* Patient Cards */
+        .patient-card { 
+            background: white; 
+            border-radius: 12px; 
+            overflow: hidden; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); 
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .patient-thumb {
+            width: 100%;
+            height: 160px;
+            background-color: #e2e8f0;
+            object-fit: cover;
+            border-bottom: 4px solid var(--ui-gold);
+        }
+
+        .card-content { padding: 20px; flex-grow: 1; }
+
+        .patient-name { 
+            font-size: 1.1rem; 
+            font-weight: 700; 
+            color: var(--ui-blue); 
+            margin-bottom: 8px; 
+        }
+
+        .patient-desc { 
+            font-size: 0.9rem; 
+            color: #64748b; 
+            margin-bottom: 15px; 
+            min-height: 45px;
+        }
+
+        .audio-btn {
+            display: block;
+            background: var(--ui-blue);
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            padding: 10px;
+            border-radius: 6px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            margin-bottom: 15px;
+        }
+
+        /* Critical Thinking Form */
+        .response-form {
+            border-top: 1px solid #f1f5f9;
+            padding-top: 15px;
+        }
+
+        textarea {
+            width: 100%;
+            height: 60px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            padding: 8px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            resize: none;
+            box-sizing: border-box;
+            margin-bottom: 8px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: #f1f5f9;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+            padding: 8px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .submit-btn:hover {
+            background: var(--ui-gold);
+            color: black;
+            border-color: var(--ui-gold);
+        }
+
+        footer { text-align: center; padding: 60px 20px; color: #94a3b8; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="CIL_logo.png" alt="CIL Logo" class="header-logo">
+    <h1>Clinical Ear: Patient Encounters</h1>
+    <a href="index.html" class="nav-back">← Back to Lab Home</a>
+</header>
+
+<div class="container">
+    <div class="page-intro">
+        <p>Listen to the patient's description of symptoms. Identify clinical cues and determine your priority nursing intervention.</p>
     </div>
+
+    <div class="grid">
+        
+        <div class="patient-card">
+            <img src="patient1.jpg" alt="Patient 1" class="patient-thumb">
+            <div class="card-content">
+                <div class="patient-name">Case #001: Respiratory</div>
+                <p class="patient-desc">Mr. Henderson, 65. Shortness of breath and tightness.</p>
+                <a href="WONDERCRAFT_LINK_1" class="audio-btn" target="_blank">▶ Listen to Audio</a>
+                
+                <form action="mailto:FACULTY@uiowa.edu" method="GET" enctype="text/plain" class="response-form">
+                    <input type="hidden" name="subject" value="Response: Case 001">
+                    <textarea name="body" placeholder="Your next clinical step..."></textarea>
+                    <button type="submit" class="submit-btn">Email Response</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="patient-card">
+            <img src="patient2.jpg" alt="Patient 2" class="patient-thumb">
+            <div class="card-content">
+                <div class="patient-name">Case #002: Acute Pain</div>
+                <p class="patient-desc">Elena, 24. Sudden sharp RLQ abdominal pain.</p>
+                <a href="WONDERCRAFT_LINK_2" class="audio-btn" target="_blank">▶ Listen to Audio</a>
+                
+                <form action="mailto:FACULTY@uiowa.edu" method="GET" enctype="text/plain" class="response-form">
+                    <input type="hidden" name="subject" value="Response: Case 002">
+                    <textarea name="body" placeholder="Your next clinical step..."></textarea>
+                    <button type="submit" class="submit-btn">Email Response</button>
+                </form>
+            </div>
+        </div>
+
+        </div>
 </div>
+
+<footer>
+    &copy; 2026 University of Iowa College of Nursing
+</footer>
+
+</body>
+</html>
