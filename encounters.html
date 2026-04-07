@@ -21,7 +21,6 @@
             line-height: 1.6; 
         }
 
-        /* Consistent Header with Homepage */
         header { 
             background-color: #ffffff; 
             padding: 30px 20px; 
@@ -51,14 +50,12 @@
         .page-intro { text-align: center; margin-bottom: 40px; }
         .page-intro p { color: #64748b; max-width: 600px; margin: 10px auto; }
 
-        /* The 8-Card Grid */
         .grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
-            gap: 25px; 
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); 
+            gap: 30px; 
         }
 
-        /* Patient Cards */
         .patient-card { 
             background: white; 
             border-radius: 12px; 
@@ -71,7 +68,7 @@
 
         .patient-thumb {
             width: 100%;
-            height: 160px;
+            height: 180px;
             background-color: #e2e8f0;
             object-fit: cover;
             border-bottom: 4px solid var(--ui-gold);
@@ -80,33 +77,40 @@
         .card-content { padding: 20px; flex-grow: 1; }
 
         .patient-name { 
-            font-size: 1.1rem; 
+            font-size: 1.2rem; 
             font-weight: 700; 
             color: var(--ui-blue); 
             margin-bottom: 8px; 
         }
 
         .patient-desc { 
-            font-size: 0.9rem; 
+            font-size: 0.95rem; 
             color: #64748b; 
             margin-bottom: 15px; 
-            min-height: 45px;
+            min-height: 50px;
         }
 
-        .audio-btn {
-            display: block;
-            background: var(--ui-blue);
-            color: white;
-            text-align: center;
-            text-decoration: none;
-            padding: 10px;
-            border-radius: 6px;
-            font-weight: 600;
-            font-size: 0.85rem;
-            margin-bottom: 15px;
+        /* Inline Audio Player Styling */
+        .audio-container {
+            margin: 15px 0; 
+            background: #f1f5f9; 
+            padding: 12px; 
+            border-radius: 8px; 
+            border: 1px solid #cbd5e1;
         }
 
-        /* Critical Thinking Form */
+        .audio-label {
+            font-size: 0.7rem; 
+            font-weight: 800; 
+            color: var(--ui-blue); 
+            text-transform: uppercase; 
+            display: block; 
+            margin-bottom: 8px; 
+            letter-spacing: 0.05em;
+        }
+
+        audio { width: 100%; height: 35px; }
+
         .response-form {
             border-top: 1px solid #f1f5f9;
             padding-top: 15px;
@@ -114,7 +118,7 @@
 
         textarea {
             width: 100%;
-            height: 60px;
+            height: 70px;
             border: 1px solid #cbd5e1;
             border-radius: 4px;
             padding: 8px;
@@ -122,26 +126,25 @@
             font-size: 0.85rem;
             resize: none;
             box-sizing: border-box;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .submit-btn {
             width: 100%;
-            background: #f1f5f9;
-            color: #475569;
-            border: 1px solid #cbd5e1;
-            padding: 8px;
+            background: var(--ui-blue);
+            color: white;
+            border: none;
+            padding: 10px;
             border-radius: 4px;
             font-weight: 600;
-            font-size: 0.75rem;
+            font-size: 0.85rem;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: background 0.2s;
         }
 
         .submit-btn:hover {
             background: var(--ui-gold);
             color: black;
-            border-color: var(--ui-gold);
         }
 
         footer { text-align: center; padding: 60px 20px; color: #94a3b8; font-size: 0.9rem; }
@@ -157,55 +160,73 @@
 
 <div class="container">
     <div class="page-intro">
-        <p>Listen to the patient's description of symptoms. Identify clinical cues and determine your priority nursing intervention.</p>
+        <p>Analyze the following patient encounters. Listen to the bedside report, identify key physiological cues, and submit your priority intervention.</p>
     </div>
 
     <div class="grid">
         
         <div class="patient-card">
-            <img src="patient1.jpg" alt="Patient 1" class="patient-thumb">
+            <img src="https://via.placeholder.com/400x180?text=Case+001" alt="Case 1 Thumbnail" class="patient-thumb">
             <div class="card-content">
                 <div class="patient-name">Case #001: Sudden Diagnosis</div>
-                <p class="patient-desc">Mr. Henderson, 65. Shortness of breath and tightness.</p>
-               <div style="margin: 15px 0; background: #f1f5f9; padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1;">
-    <label style="font-size: 0.7rem; font-weight: 800; color: var(--ui-blue); text-transform: uppercase; display: block; margin-bottom: 8px; letter-spacing: 0.05em;">
-        Listen to Encounter:
-    </label>
-    <audio controls style="width: 100%; height: 35px;">
-        <source src="Sudden_Diagnosis.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
-</div>
+                <p class="patient-desc">Mr. Henderson, 65. Presenting with acute shortness of breath and substernal tightness.</p>
+                
+                <div class="audio-container">
+                    <label class="audio-label">Listen to Encounter:</label>
+                    <audio controls>
+                        <source src="Sudden_Diagnosis.mp3" type="audio/mpeg">
+                    </audio>
+                </div>
                 
                 <form action="mailto:FACULTY@uiowa.edu" method="GET" enctype="text/plain" class="response-form">
-                    <input type="hidden" name="subject" value="Response: Case 001">
-                    <textarea name="body" placeholder="Your next clinical step..."></textarea>
-                    <button type="submit" class="submit-btn">Email Response</button>
+                    <input type="hidden" name="subject" value="Response: Case 001 - Sudden Diagnosis">
+                    <textarea name="body" placeholder="Identify the priority nursing action..."></textarea>
+                    <button type="submit" class="submit-btn">Submit Response</button>
                 </form>
             </div>
         </div>
 
         <div class="patient-card">
-            <img src="patient2.jpg" alt="Patient 2" class="patient-thumb">
+            <img src="https://via.placeholder.com/400x180?text=Case+002" alt="Case 2 Thumbnail" class="patient-thumb">
             <div class="card-content">
                 <div class="patient-name">Case #002: Acute Pain</div>
-                <p class="patient-desc">Elena, 24. Sudden sharp RLQ abdominal pain.</p>
-                <a href="WONDERCRAFT_LINK_2" class="audio-btn" target="_blank">▶ Listen to Audio</a>
+                <p class="patient-desc">Elena, 24. Reporting sudden, sharp RLQ pain. Guarding noted on assessment.</p>
+                
+                <div class="audio-container">
+                    <label class="audio-label">Listen to Encounter:</label>
+                    <audio controls>
+                        <source src="Case_002_Pain.mp3" type="audio/mpeg">
+                    </audio>
+                </div>
                 
                 <form action="mailto:FACULTY@uiowa.edu" method="GET" enctype="text/plain" class="response-form">
-                    <input type="hidden" name="subject" value="Response: Case 002">
-                    <textarea name="body" placeholder="Your next clinical step..."></textarea>
-                    <button type="submit" class="submit-btn">Email Response</button>
+                    <input type="hidden" name="subject" value="Response: Case 002 - Acute Pain">
+                    <textarea name="body" placeholder="Identify the priority nursing action..."></textarea>
+                    <button type="submit" class="submit-btn">Submit Response</button>
                 </form>
             </div>
         </div>
 
+        <div class="patient-card">
+            <img src="https://via.placeholder.com/400x180?text=Case+003" alt="Case 3 Thumbnail" class="patient-thumb">
+            <div class="card-content">
+                <div class="patient-name">Case #003: Post-Op Change</div>
+                <p class="patient-desc">Mr. Thompson, 72. 4 hours post-hip arthroplasty. New onset confusion and tachycardia.</p>
+                
+                <div class="audio-container">
+                    <label class="audio-label">Listen to Encounter:</label>
+                    <audio controls>
+                        <source src="Case_003_PostOp.mp3" type="audio/mpeg">
+                    </audio>
+                </div>
+                
+                <form action="mailto:FACULTY@uiowa.edu" method="GET" enctype="text/plain" class="response-form">
+                    <input type="hidden" name="subject" value="Response: Case 003 - Post-Op">
+                    <textarea name="body" placeholder="Identify the priority nursing action..."></textarea>
+                    <button type="submit" class="submit-btn">Submit Response</button>
+                </form>
+            </div>
         </div>
+
+    </div>
 </div>
-
-<footer>
-    &copy; 2026 University of Iowa College of Nursing
-</footer>
-
-</body>
-</html>
