@@ -243,12 +243,14 @@
                     <button type="button" class="submit-btn" onclick="alert('Response saved for faculty review.')">Submit Response</button>
                 </div>
             
-                <details style="margin-top: 20px; border: 2px solid var(--ui-blue); padding: 15px; border-radius: 8px; background-color: #f0f7ff;" onclick="evaluateCase(2)">
-                    <summary style="font-weight: 800; cursor: pointer; color: var(--ui-blue);">[+] REVEAL EXPERT FEEDBACK</summary>
-                    <div style="margin-top: 15px; font-size: 0.95rem; border-top: 1px solid #cbd5e1; padding-top: 10px;">
-                        <p><strong>Expert Rationale:</strong> Sharp RLQ pain with guarding is a hallmark of <strong>Appendicitis</strong>. Priority is keeping the patient NPO and preparing for potential imaging/surgery.</p>
-                    </div>
-                </details>
+               <details style="margin-top: 20px; border: 2px solid var(--ui-blue); padding: 15px; border-radius: 8px; background-color: #f0f7ff;" onclick="evaluateCase(1)">
+    <summary style="font-weight: 800; cursor: pointer; color: var(--ui-blue);">[+] REVEAL EXPERT FEEDBACK</summary>
+    <div style="margin-top: 15px; font-size: 0.95rem; border-top: 1px solid #cbd5e1; padding-top: 10px;">
+        <div id="case1-score" style="font-weight: 800; margin-bottom: 10px; padding: 5px 10px; border-radius: 4px; display: inline-block;"></div>
+        
+        <p><strong>Expert Rationale:</strong> The patient is exhibiting signs of <strong>Leukostasis</strong>. While the daughter is a psychosocial concern, the "fluttering" (palpitations) and shortness of breath are physiological priorities.</p>
+    </div>
+</details>
             </div>
         </div>
 
@@ -278,12 +280,14 @@
                     <button type="button" class="submit-btn" onclick="alert('Response saved for faculty review.')">Submit Response</button>
                 </div>
 
-                <details style="margin-top: 20px; border: 2px solid var(--ui-blue); padding: 15px; border-radius: 8px; background-color: #f0f7ff;" onclick="evaluateCase(3)">
-                    <summary style="font-weight: 800; cursor: pointer; color: var(--ui-blue);">[+] REVEAL EXPERT FEEDBACK</summary>
-                    <div style="margin-top: 15px; font-size: 0.95rem; border-top: 1px solid #cbd5e1; padding-top: 10px;">
-                        <p><strong>Expert Rationale:</strong> The "gush" and tachycardia indicate <strong>Hypovolemic Shock</strong>. Priority action is a physical assessment of the site and trendelenburg positioning.</p>
-                    </div>
-                </details>
+                <details style="margin-top: 20px; border: 2px solid var(--ui-blue); padding: 15px; border-radius: 8px; background-color: #f0f7ff;" onclick="evaluateCase(1)">
+    <summary style="font-weight: 800; cursor: pointer; color: var(--ui-blue);">[+] REVEAL EXPERT FEEDBACK</summary>
+    <div style="margin-top: 15px; font-size: 0.95rem; border-top: 1px solid #cbd5e1; padding-top: 10px;">
+        <div id="case1-score" style="font-weight: 800; margin-bottom: 10px; padding: 5px 10px; border-radius: 4px; display: inline-block;"></div>
+        
+        <p><strong>Expert Rationale:</strong> The patient is exhibiting signs of <strong>Leukostasis</strong>. While the daughter is a psychosocial concern, the "fluttering" (palpitations) and shortness of breath are physiological priorities.</p>
+    </div>
+</details>
             </div>
         </div>
 
@@ -296,27 +300,53 @@
 
 <script>
 function evaluateCase(caseNum) {
-    const answers = {
+    // 1. Define the "Master Answer Key"
+    const answerKey = {
         1: ['c1q1', 'c1q2', 'c1q4'],
         2: ['c2q1', 'c2q2', 'c2q3'],
         3: ['c3q1', 'c3q2', 'c3q4']
     };
 
-    const currentAnswers = answers[caseNum];
+    const correctAnswers = answerKey[caseNum];
+    const checklist = document.getElementById(`case${caseNum}-checklist`);
+    const inputs = checklist.querySelectorAll('input[type="checkbox"]');
+    const scoreDisplay = document.getElementById(`case${caseNum}-score`);
     
-    // Select all labels in this specific case
-    const labels = document.querySelectorAll(`#case${caseNum}-checklist label`);
-    
-    labels.forEach(label => {
-        const checkboxId = label.querySelector('input').id;
-        if (currentAnswers.includes(checkboxId)) {
-            label.classList.add('correct');
+    let userCorrectCount = 0;
+    let totalPossible = correctAnswers.length;
+
+    inputs.forEach(input => {
+        const label = input.parentElement;
+        const isCorrectCue = correctAnswers.includes(input.id);
+        const userChecked = input.checked;
+
+        // 2. Visual Indicator Logic
+        if (isCorrectCue) {
+            label.style.color = "#16a34a"; // Green
+            label.style.fontWeight = "bold";
             if (!label.innerText.includes('✓')) label.innerHTML = '✓ ' + label.innerHTML;
+            if (userChecked) userCorrectCount++; 
         } else {
-            label.classList.add('incorrect');
-            if (!label.innerText.includes('✗')) label.innerHTML = '✗ ' + label.innerHTML;
+            if (userChecked) {
+                label.style.color = "#dc2626"; // Red (Only if they picked a wrong one)
+                if (!label.innerText.includes('✗')) label.innerHTML = '✗ ' + label.innerHTML;
+            }
         }
+        // Disable after reveal so they can't change answers
+        input.disabled = true;
     });
+
+    // 3. Display the Score Line
+    scoreDisplay.style.display = "block";
+    if (userCorrectCount === totalPossible) {
+        scoreDisplay.style.backgroundColor = "#dcfce7";
+        scoreDisplay.style.color = "#16a34a";
+        scoreDisplay.innerText = `PERFECT: ${userCorrectCount}/${totalPossible} Cues Identified!`;
+    } else {
+        scoreDisplay.style.backgroundColor = "#fee2e2";
+        scoreDisplay.style.color = "#dc2626";
+        scoreDisplay.innerText = `SCORE: ${userCorrectCount}/${totalPossible} - You missed a clinical cue or were distracted!`;
+    }
 }
 </script>
 
