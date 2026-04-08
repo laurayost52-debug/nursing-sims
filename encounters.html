@@ -233,15 +233,35 @@
                <img src="./images/headshot_patient3.jpg" alt="Case Patient 3" class="patient-thumb">
             <div class="card-content">
                 <div class="patient-name">Case #03: Post-Op Change</div>
-                <p class="patient-desc">Mrs. Thompson . . . </p>
+                <p class="patient-desc">Mrs. Thompson, Age 32</p>
                 
                 <div class="audio-container">
                     <label class="audio-label">Listen to Encounter:</label>
                     <audio controls>
-                        <source src="Case_003_PostOp.mp3" type="audio/mpeg">
+                        <source src="./audio/Unexpected Waters.mp3" type="audio/mpeg">
                     </audio>
                 </div>
-                
+
+                 <div class="checklist">
+                <p><strong>Which cues did you hear?</strong></p>
+                <label><input type="checkbox"> Sudden "gush" of fluid/blood</label><br>
+                <label><input type="checkbox"> Tachycardia/"Racing heart"</label><br>
+                <label><input type="checkbox"> Frustration with call delay</label><br>
+                <label><input type="checkbox"> Dizziness and lightheadeness</label><br>
+                <label><input type="checkbox"> Dry moouth/Thirst</label>
+            </div>
+            
+            <div class="response-form">
+                <textarea placeholder="1. The Cue (What was most concerning?)"></textarea>
+                <textarea placeholder="2. The Inference (What is happening?)"></textarea>
+                <textarea placeholder="3. The Action (Priority intervention)"></textarea>
+                <button type="submit" class="submit-btn">Submit to Faculty</button>
+            </div>
+            
+           <details style="margin-top: 20px; border: 2px solid var(--ui-blue); padding: 15px; border-radius: 8px; background-color: #f0f7ff;">
+    <summary style="font-weight: 800; cursor: pointer; color: var(--ui-blue); list-style: none; outline: none;">
+        [+] CLICK FOR EXPERT FEEDBACK & RATIONALE
+    </summary>
                 <form action="mailto:FACULTY@uiowa.edu" method="GET" enctype="text/plain" class="response-form">
                     <input type="hidden" name="subject" value="Response: Case 003 - Post-Op">
                     <textarea name="body" placeholder="Identify the priority nursing action..."></textarea>
