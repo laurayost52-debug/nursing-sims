@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -124,6 +123,7 @@
             margin-bottom: 5px;
             font-size: 0.9rem;
             cursor: pointer;
+            color: #000000; /* Ensuring black text */
         }
 
         .response-form {
@@ -162,9 +162,14 @@
         }
 
         footer { text-align: center; padding: 60px 20px; color: #94a3b8; font-size: 0.9rem; }
-        
-        .correct { color: #16a34a !important; font-weight: bold; }
-        .incorrect { color: #dc2626 !important; font-weight: bold; }
+
+        /* Symbols styles */
+        .feedback-mark {
+            font-weight: bold;
+            margin-right: 5px;
+            display: inline-block;
+            width: 15px;
+        }
 
     </style>
 </head>
@@ -198,10 +203,10 @@
                 
                 <div class="checklist" id="case1-checklist">
                     <p><strong>Which cues did you hear?</strong></p>
-                    <label id="c1q1-label"><input type="checkbox" id="c1q1"> "Fluttering" in chest</label>
-                    <label id="c1q2-label"><input type="checkbox" id="c1q2"> Dizziness upon standing</label>
-                    <label id="c1q3-label"><input type="checkbox" id="c1q3"> Worry about kindergarten</label>
-                    <label id="c1q4-label"><input type="checkbox" id="c1q4"> Shortness of breath</label>
+                    <label><input type="checkbox" id="c1q1"> "Fluttering" in chest</label>
+                    <label><input type="checkbox" id="c1q2"> Dizziness upon standing</label>
+                    <label><input type="checkbox" id="c1q3"> Worry about kindergarten</label>
+                    <label><input type="checkbox" id="c1q4"> Shortness of breath</label>
                 </div>
             
                 <div class="response-form">
@@ -233,10 +238,10 @@
 
                 <div class="checklist" id="case2-checklist">
                     <p><strong>Which cues did you hear?</strong></p>
-                    <label id="c2q1-label"><input type="checkbox" id="c2q1"> Sharp RLQ Pain</label>
-                    <label id="c2q2-label"><input type="checkbox" id="c2q2"> Nausea</label>
-                    <label id="c2q3-label"><input type="checkbox" id="c2q3"> Feeling "gas-sy"</label>
-                    <label id="c2q4-label"><input type="checkbox" id="c2q4"> Fear of surgery</label>
+                    <label><input type="checkbox" id="c2q1"> Sharp RLQ Pain</label>
+                    <label><input type="checkbox" id="c2q2"> Nausea</label>
+                    <label><input type="checkbox" id="c2q3"> Feeling "gas-sy"</label>
+                    <label><input type="checkbox" id="c2q4"> Fear of surgery</label>
                 </div>
             
                 <div class="response-form">
@@ -244,14 +249,12 @@
                     <button type="button" class="submit-btn" onclick="alert('Response saved for faculty review.')">Submit Response</button>
                 </div>
             
-              <details style="margin-top: 20px; border: 2px solid var(--ui-blue); padding: 15px; border-radius: 8px; background-color: #f0f7ff;" onclick="evaluateCase(1)">
-    <summary style="font-weight: 800; cursor: pointer; color: var(--ui-blue);">[+] REVEAL EXPERT FEEDBACK</summary>
-    <div style="margin-top: 15px; font-size: 0.95rem; border-top: 1px solid #cbd5e1; padding-top: 10px;">
-        <div id="case1-score" style="font-weight: 800; margin-bottom: 10px; padding: 5px 10px; border-radius: 4px; display: inline-block;"></div>
-        
-        <p><strong>Expert Rationale:</strong> The patient is exhibiting signs of <strong>Leukostasis</strong>. While the daughter is a psychosocial concern, the "fluttering" (palpitations) and shortness of breath are physiological priorities.</p>
-    </div>
-</details>
+                <details style="margin-top: 20px; border: 2px solid var(--ui-blue); padding: 15px; border-radius: 8px; background-color: #f0f7ff;" onclick="evaluateCase(2)">
+                    <summary style="font-weight: 800; cursor: pointer; color: var(--ui-blue);">[+] REVEAL EXPERT FEEDBACK</summary>
+                    <div style="margin-top: 15px; font-size: 0.95rem; border-top: 1px solid #cbd5e1; padding-top: 10px;">
+                        <p><strong>Expert Rationale:</strong> Sharp RLQ pain combined with guarding suggests potential appendicitis. Identifying physiological symptoms over the psychosocial "fear of surgery" is critical for immediate surgical consultation.</p>
+                    </div>
+                </details>
             </div>
         </div>
 
@@ -270,10 +273,10 @@
 
                 <div class="checklist" id="case3-checklist">
                     <p><strong>Which cues did you hear?</strong></p>
-                    <label id="c3q1-label"><input type="checkbox" id="c3q1"> Sudden "gush" of fluid</label>
-                    <label id="c3q2-label"><input type="checkbox" id="c3q2"> Tachycardia / Racing heart</label>
-                    <label id="c3q3-label"><input type="checkbox" id="c3q3"> Frustration with call delay</label>
-                    <label id="c3q4-label"><input type="checkbox" id="c3q4"> Dizziness / Lightheadedness</label>
+                    <label><input type="checkbox" id="c3q1"> Sudden "gush" of fluid</label>
+                    <label><input type="checkbox" id="c3q2"> Tachycardia / Racing heart</label>
+                    <label><input type="checkbox" id="c3q3"> Frustration with call delay</label>
+                    <label><input type="checkbox" id="c3q4"> Dizziness / Lightheadedness</label>
                 </div>
             
                 <div class="response-form">
@@ -281,14 +284,12 @@
                     <button type="button" class="submit-btn" onclick="alert('Response saved for faculty review.')">Submit Response</button>
                 </div>
 
-               <details style="margin-top: 20px; border: 2px solid var(--ui-blue); padding: 15px; border-radius: 8px; background-color: #f0f7ff;" onclick="evaluateCase(1)">
-    <summary style="font-weight: 800; cursor: pointer; color: var(--ui-blue);">[+] REVEAL EXPERT FEEDBACK</summary>
-    <div style="margin-top: 15px; font-size: 0.95rem; border-top: 1px solid #cbd5e1; padding-top: 10px;">
-        <div id="case1-score" style="font-weight: 800; margin-bottom: 10px; padding: 5px 10px; border-radius: 4px; display: inline-block;"></div>
-        
-        <p><strong>Expert Rationale:</strong> The patient is exhibiting signs of <strong>Leukostasis</strong>. While the daughter is a psychosocial concern, the "fluttering" (palpitations) and shortness of breath are physiological priorities.</p>
-    </div>
-</details>
+                <details style="margin-top: 20px; border: 2px solid var(--ui-blue); padding: 15px; border-radius: 8px; background-color: #f0f7ff;" onclick="evaluateCase(3)">
+                    <summary style="font-weight: 800; cursor: pointer; color: var(--ui-blue);">[+] REVEAL EXPERT FEEDBACK</summary>
+                    <div style="margin-top: 15px; font-size: 0.95rem; border-top: 1px solid #cbd5e1; padding-top: 10px;">
+                        <p><strong>Expert Rationale:</strong> A sudden gush of fluid post-op can indicate hemorrhage or wound dehiscence. Tachycardia and dizziness are early signs of hypovolemia, requiring immediate vital sign assessment.</p>
+                    </div>
+                </details>
             </div>
         </div>
 
@@ -301,7 +302,6 @@
 
 <script>
 function evaluateCase(caseNum) {
-    // 1. Define the "Master Answer Key"
     const answerKey = {
         1: ['c1q1', 'c1q2', 'c1q4'],
         2: ['c2q1', 'c2q2', 'c2q3'],
@@ -311,43 +311,29 @@ function evaluateCase(caseNum) {
     const correctAnswers = answerKey[caseNum];
     const checklist = document.getElementById(`case${caseNum}-checklist`);
     const inputs = checklist.querySelectorAll('input[type="checkbox"]');
-    const scoreDisplay = document.getElementById(`case${caseNum}-score`);
-    
-    let userCorrectCount = 0;
-    let totalPossible = correctAnswers.length;
 
     inputs.forEach(input => {
         const label = input.parentElement;
         const isCorrectCue = correctAnswers.includes(input.id);
         const userChecked = input.checked;
 
-        // 2. Visual Indicator Logic
+        // Clean existing marks to prevent duplicates
+        const existingMark = label.querySelector('.feedback-mark');
+        if (existingMark) existingMark.remove();
+
+        const mark = document.createElement('span');
+        mark.className = 'feedback-mark';
+
         if (isCorrectCue) {
-            label.style.color = "#16a34a"; // Green
-            label.style.fontWeight = "bold";
-            if (!label.innerText.includes('✓')) label.innerHTML = '✓ ' + label.innerHTML;
-            if (userChecked) userCorrectCount++; 
-        } else {
-            if (userChecked) {
-                label.style.color = "#dc2626"; // Red (Only if they picked a wrong one)
-                if (!label.innerText.includes('✗')) label.innerHTML = '✗ ' + label.innerHTML;
-            }
+            mark.innerText = '✓';
+            label.prepend(mark);
+        } else if (userChecked) {
+            mark.innerText = '✕';
+            label.prepend(mark);
         }
-        // Disable after reveal so they can't change answers
+        
         input.disabled = true;
     });
-
-    // 3. Display the Score Line
-    scoreDisplay.style.display = "block";
-    if (userCorrectCount === totalPossible) {
-        scoreDisplay.style.backgroundColor = "#dcfce7";
-        scoreDisplay.style.color = "#16a34a";
-        scoreDisplay.innerText = `PERFECT: ${userCorrectCount}/${totalPossible} Cues Identified!`;
-    } else {
-        scoreDisplay.style.backgroundColor = "#fee2e2";
-        scoreDisplay.style.color = "#dc2626";
-        scoreDisplay.innerText = `SCORE: ${userCorrectCount}/${totalPossible} - You missed a clinical cue or were distracted!`;
-    }
 }
 </script>
 
