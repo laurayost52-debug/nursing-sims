@@ -35,12 +35,21 @@
             border-bottom: 8px solid var(--ui-gold); 
         }
 
-        .header-banner {
+      /* Optimized for 1172 x 292 dimensions */
+.header-banner {
     width: 100%;
-    height: auto;           
-    display: block;         
-    object-fit: cover;      
-    aspect-ratio: 16 / 4;   
+    max-width: 1172px;     /* Prevents the image from stretching and getting blurry */
+    height: auto;          /* Maintains the natural 4:1 proportion */
+    display: block;
+    margin: 0 auto;        /* Centers the banner if the screen is wider than 1172px */
+    object-fit: contain;   /* Ensures the whole image is visible */
+}
+
+/* Tablet & Mobile Adjustment */
+@media (max-width: 768px) {
+    .header-banner {
+        width: 100%;       /* On small screens, let it fill the width */
+    }
 }
 
 /* Tablet & Mobile Adjustment - Put this near the bottom of your style section */
