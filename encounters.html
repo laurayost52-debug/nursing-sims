@@ -16,7 +16,9 @@
             font-family: 'Inter', system-ui, -apple-system, sans-serif; 
             background-color: var(--bg); 
             color: var(--text); 
-            margin: 0; padding: 0; line-height: 1.6; 
+            margin: 0; 
+            padding: 0; 
+            line-height: 1.6; 
         }
 
         header { 
@@ -26,16 +28,27 @@
             border-bottom: 8px solid var(--ui-gold); 
         }
 
-        .header-logo { max-width: 120px; height: auto; margin-bottom: 15px; }
+        .header-logo {
+            max-width: 120px;
+            height: auto;
+            margin-bottom: 15px;
+        }
+
         header h1 { margin: 0; font-size: 2rem; color: var(--ui-blue); }
         
         .nav-back {
-            display: inline-block; margin-top: 15px;
-            color: var(--ui-blue); text-decoration: none;
-            font-weight: 600; font-size: 0.9rem;
+            display: inline-block;
+            margin-top: 15px;
+            color: var(--ui-blue);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
         }
 
         .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
+
+        .page-intro { text-align: center; margin-bottom: 40px; }
+        .page-intro p { color: #64748b; max-width: 600px; margin: 10px auto; }
 
         .grid { 
             display: grid; 
@@ -54,63 +67,107 @@
         }
 
         .patient-thumb {
-            width: 100%; height: 180px;
+            width: 100%;
+            height: 180px;
             background-color: #e2e8f0;
             object-fit: cover;
             border-bottom: 4px solid var(--ui-gold);
         }
 
-        .card-content { padding: 20px; flex-grow: 1; display: flex; flex-direction: column; }
+        .card-content { padding: 20px; flex-grow: 1; }
 
-        .patient-name { font-size: 1.2rem; font-weight: 700; color: var(--ui-blue); margin-bottom: 8px; }
-        .patient-desc { font-size: 0.95rem; color: #64748b; margin-bottom: 15px; min-height: 40px;}
+        .patient-name { 
+            font-size: 1.2rem; 
+            font-weight: 700; 
+            color: var(--ui-blue); 
+            margin-bottom: 8px; 
+        }
+
+        .patient-desc { 
+            font-size: 0.95rem; 
+            color: #64748b; 
+            margin-bottom: 15px; 
+            min-height: 40px;
+        }
 
         .section-label {
-            font-size: 0.75rem; font-weight: 800; color: var(--ui-blue);
-            text-transform: uppercase; letter-spacing: 0.05em;
-            margin-bottom: 8px; display: block;
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: var(--ui-blue);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 8px;
+            display: block;
         }
 
         .audio-container {
-            margin: 15px 0; background: #f1f5f9; 
-            padding: 12px; border-radius: 8px; border: 1px solid #cbd5e1;
+            margin: 15px 0; 
+            background: #f1f5f9; 
+            padding: 12px; 
+            border-radius: 8px; 
+            border: 1px solid #cbd5e1;
         }
 
         audio { width: 100%; height: 35px; }
 
         .checklist {
-            margin: 15px 0; padding: 15px;
-            background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;
+            margin: 15px 0;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
         }
 
-        .checklist label { display: block; margin-bottom: 5px; font-size: 0.9rem; cursor: pointer; }
+        .checklist label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+            cursor: pointer;
+            color: #000000;
+        }
 
-        .clinical-input-area { margin: 15px 0; }
+        .clinical-input-area {
+            margin-bottom: 20px;
+        }
 
         textarea {
-            width: 100%; height: 80px;
-            border: 1px solid #cbd5e1; border-radius: 4px;
-            padding: 10px; font-family: inherit; font-size: 0.85rem;
-            resize: none; box-sizing: border-box;
+            width: 100%;
+            height: 80px;
+            border: 1px solid #cbd5e1;
+            border-radius: 4px;
+            padding: 10px;
+            font-family: inherit;
+            font-size: 0.85rem;
+            resize: none;
+            box-sizing: border-box;
+            background-color: #ffffff;
         }
 
         .submit-btn {
-            width: 100%; background: var(--ui-blue); color: white;
-            border: none; padding: 12px; border-radius: 4px;
-            font-weight: 600; cursor: pointer; transition: background 0.2s;
-            margin-top: auto; /* Pushes button to bottom of card */
+            width: 100%;
+            background: var(--ui-blue);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            margin-top: 10px;
         }
 
         .submit-btn:hover { background: #003d66; }
 
-        details {
-            margin-top: 15px; border: 2px solid var(--ui-blue); 
-            padding: 12px; border-radius: 8px; background-color: #f0f7ff;
+        .feedback-mark {
+            font-weight: bold;
+            margin-right: 5px;
+            display: inline-block;
+            width: 15px;
         }
 
-        summary { font-weight: 800; cursor: pointer; color: var(--ui-blue); }
+        footer { text-align: center; padding: 60px 20px; color: #94a3b8; font-size: 0.9rem; }
 
-        footer { text-align: center; padding: 60px 20px; color: #94a3b8; }
     </style>
 </head>
 <body>
@@ -122,50 +179,67 @@
 </header>
 
 <div class="container">
+    <div class="page-intro">
+        <p>Listen to the patient, identify specific clues, and record your initial clinical judgment.  Then compare your diagnosis with the expert's! Finally, reflect on what you learned and share that with your instructor.</p>
+    </div>
+
     <div class="grid">
         
         <div class="patient-card">
-            <img src="./images/headshot_patient1.jpg" alt="Case 1" class="patient-thumb">
+            <img src="./images/headshot_patient1.jpg" alt="Case Patient 1" class="patient-thumb">
             <div class="card-content">
                 <div class="patient-name">Case #01: Sudden Diagnosis</div>
                 <p class="patient-desc">Mrs. Ramirez, 35. Admitted with a high WBC count.</p>
                 
                 <div class="audio-container">
-                    <span class="section-label">Listen:</span>
-                    <audio controls><source src="./audio/Sudden Diagnosis.mp3" type="audio/mpeg"></audio>
+                    <span class="section-label">Listen to Encounter:</span>
+                    <audio controls>
+                        <source src="./audio/Sudden Diagnosis.mp3" type="audio/mpeg">
+                    </audio>
                 </div>
                 
                 <div class="checklist" id="case1-checklist">
                     <span class="section-label">Identify Cues</span>
                     <label><input type="checkbox" id="c1q1"> "Fluttering" in chest</label>
                     <label><input type="checkbox" id="c1q2"> Dizziness upon standing</label>
-                    <label><input type="checkbox" id="c1q3"> Worry about daughter</label>
+                    <label><input type="checkbox" id="c1q3"> Worry about kindergarten</label>
                     <label><input type="checkbox" id="c1q4"> Shortness of breath</label>
                 </div>
 
-                <div class="clinical-input-area">
+                 <div class="clinical-input-area">
                     <span class="section-label">Initial Clinical Decision</span>
-                    <textarea placeholder="Immediate clinical priority?"></textarea>
+                    <textarea placeholder="Based on the audio, what is your immediate clinical priority?"></textarea>
                 </div>
-
-                <details onclick="evaluateCase(1)">
-                    <summary>REVEAL EXPERT FEEDBACK</summary>
-                    <p style="font-size: 0.9rem; margin-top: 10px;">The patient is exhibiting signs of <strong>Leukostasis</strong>. Priority: EKG and O2 assessment.</p>
-                </details>
-
-                <button type="button" class="submit-btn" onclick="alert('Case 1 Saved')">Submit Case for Review</button>
+            
+                         
+                <details style="margin-top: 20px; border: 2px solid var(--ui-blue); padding: 15px; border-radius: 8px; background-color: #f0f7ff;" onclick="evaluateCase(1)">
+                    <summary style="font-weight: 800; cursor: pointer; color: var(--ui-blue);">[+] REVEAL EXPERT FEEDBACK</summary>
+                    <div style="margin-top: 15px; font-size: 0.95rem; border-top: 1px solid #cbd5e1; padding-top: 10px;">
+                        <p><strong>Expert Rationale:</strong> The patient is exhibiting signs of <strong>Leukostasis</strong>. While the daughter is a psychosocial concern, the "fluttering" (palpitations) and shortness of breath are physiological priorities requiring an EKG and O2 assessment.</p>
+                    </div>
+                </details> 
             </div>
+                       <div class="clinical-input-area">
+                    <span class="section-label">Initial Clinical Decision</span>
+                    <textarea placeholder="Based on the audio, what is your immediate clinical priority?"></textarea>
+                
+            <div>
+             <button type="button" class="submit-btn" onclick="alert('Submission saved.')">Submit Case for Review</button>
+        </div>
+    </div>
         </div>
 
         <div class="patient-card">
-            <img src="./images/headshot_patient2.jpg" alt="Case 2" class="patient-thumb">
+            <img src="./images/headshot_patient2.jpg" alt="Case Patient 2" class="patient-thumb">
             <div class="card-content">
                 <div class="patient-name">Case #02: Acute Pain</div>
                 <p class="patient-desc">Elena, 24. Reporting sudden, sharp RLQ pain.</p>
                 
                 <div class="audio-container">
-                    <span class="section-label">Listen:</span>
-                    <audio controls><source src="./audio/Sudden Onset Symptoms.mp3" type="audio/mpeg"></audio>
+                    <span class="section-label">Listen to Encounter:</span>
+                    <audio controls>
+                        <source src="./audio/Sudden Onset Symptoms.mp3" type="audio/mpeg">
+                    </audio>
                 </div>
 
                 <div class="checklist" id="case2-checklist">
@@ -176,73 +250,99 @@
                     <label><input type="checkbox" id="c2q4"> Fear of surgery</label>
                 </div>
 
-                <div class="clinical-input-area">
+                 <div class="clinical-input-area">
                     <span class="section-label">Initial Clinical Decision</span>
-                    <textarea placeholder="Immediate clinical priority?"></textarea>
+                    <textarea placeholder="Based on the audio, what is your immediate clinical priority?"></textarea>
                 </div>
-
-                <details onclick="evaluateCase(2)">
-                    <summary>REVEAL EXPERT FEEDBACK</summary>
-                    <p style="font-size: 0.9rem; margin-top: 10px;">RLQ pain suggests appendicitis. Prioritize physiological assessment over psychosocial fears.</p>
-                </details>
-
-                <button type="button" class="submit-btn" onclick="alert('Case 2 Saved')">Submit Case for Review</button>
+            
             </div>
+            
+                <details style="margin-top: 20px; border: 2px solid var(--ui-blue); padding: 15px; border-radius: 8px; background-color: #f0f7ff;" onclick="evaluateCase(2)">
+                    <summary style="font-weight: 800; cursor: pointer; color: var(--ui-blue);">[+] REVEAL EXPERT FEEDBACK</summary>
+                    <div style="margin-top: 15px; font-size: 0.95rem; border-top: 1px solid #cbd5e1; padding-top: 10px;">
+                        <p><strong>Expert Rationale:</strong> Sharp RLQ pain combined with guarding suggests potential appendicitis. Identifying physiological symptoms over the psychosocial "fear of surgery" is critical for immediate surgical consultation.</p>
+                    </div>
+                </details>
+            
+               <button type="button" class="submit-btn" onclick="alert('Submission saved.')">Submit Case for Review</button>
         </div>
 
         <div class="patient-card">
-            <img src="./images/headshot_patient3.jpg" alt="Case 3" class="patient-thumb">
+            <img src="./images/headshot_patient3.jpg" alt="Case Patient 3" class="patient-thumb">
             <div class="card-content">
                 <div class="patient-name">Case #03: Post-Op Change</div>
-                <p class="patient-desc">Mrs. Thompson, 32. New, sudden discomfort.</p>
+                <p class="patient-desc">Mrs. Thompson, 32. Post-operative with new, sudden discomfort.</p>
                 
                 <div class="audio-container">
-                    <span class="section-label">Listen:</span>
-                    <audio controls><source src="./audio/Unexpected Waters.mp3" type="audio/mpeg"></audio>
+                    <span class="section-label">Listen to Encounter:</span>
+                    <audio controls>
+                        <source src="./audio/Unexpected Waters.mp3" type="audio/mpeg">
+                    </audio>
                 </div>
 
                 <div class="checklist" id="case3-checklist">
                     <span class="section-label">Identify Cues</span>
                     <label><input type="checkbox" id="c3q1"> Sudden "gush" of fluid</label>
-                    <label><input type="checkbox" id="c3q2"> Tachycardia</label>
-                    <label><input type="checkbox" id="c3q3"> Frustration</label>
-                    <label><input type="checkbox" id="c3q4"> Dizziness</label>
+                    <label><input type="checkbox" id="c3q2"> Tachycardia / Racing heart</label>
+                    <label><input type="checkbox" id="c3q3"> Frustration with call delay</label>
+                    <label><input type="checkbox" id="c3q4"> Dizziness / Lightheadedness</label>
                 </div>
-
-                <div class="clinical-input-area">
+                
+               <div class="clinical-input-area">
                     <span class="section-label">Initial Clinical Decision</span>
-                    <textarea placeholder="Immediate clinical priority?"></textarea>
+                    <textarea placeholder="Based on the audio, what is your immediate clinical priority?"></textarea>
                 </div>
+              
 
-                <details onclick="evaluateCase(3)">
-                    <summary>REVEAL EXPERT FEEDBACK</summary>
-                    <p style="font-size: 0.9rem; margin-top: 10px;">Potential hemorrhage or dehiscence. Requires immediate vital sign assessment.</p>
+                <details style="margin-top: 20px; border: 2px solid var(--ui-blue); padding: 15px; border-radius: 8px; background-color: #f0f7ff;" onclick="evaluateCase(3)">
+                    <summary style="font-weight: 800; cursor: pointer; color: var(--ui-blue);">[+] REVEAL EXPERT FEEDBACK</summary>
+                    <div style="margin-top: 15px; font-size: 0.95rem; border-top: 1px solid #cbd5e1; padding-top: 10px;">
+                        <p><strong>Expert Rationale:</strong> A sudden gush of fluid post-op can indicate hemorrhage or wound dehiscence. Tachycardia and dizziness are early signs of hypovolemia, requiring immediate vital sign assessment.</p>
+                    </div>
                 </details>
-
-                <button type="button" class="submit-btn" onclick="alert('Case 3 Saved')">Submit Case for Review</button>
             </div>
+              <button type="button" class="submit-btn" onclick="alert('Submission saved.')">Submit Case for Review</button>
         </div>
 
     </div>
 </div>
 
-<footer>&copy; 2026 University of Iowa College of Nursing</footer>
+<footer>
+    &copy; 2026 University of Iowa College of Nursing
+</footer>
 
 <script>
 function evaluateCase(caseNum) {
-    const answerKey = { 1: ['c1q1', 'c1q2', 'c1q4'], 2: ['c2q1', 'c2q2', 'c2q3'], 3: ['c3q1', 'c3q2', 'c3q4'] };
+    const answerKey = {
+        1: ['c1q1', 'c1q2', 'c1q4'],
+        2: ['c2q1', 'c2q2', 'c2q3'],
+        3: ['c3q1', 'c3q2', 'c3q4']
+    };
+
     const correctAnswers = answerKey[caseNum];
     const checklist = document.getElementById(`case${caseNum}-checklist`);
     const inputs = checklist.querySelectorAll('input[type="checkbox"]');
 
     inputs.forEach(input => {
         const label = input.parentElement;
-        if (correctAnswers.includes(input.id)) {
-            label.style.color = "green";
-            label.style.fontWeight = "bold";
-        } else if (input.checked) {
-            label.style.color = "red";
+        const isCorrectCue = correctAnswers.includes(input.id);
+        const userChecked = input.checked;
+
+        // Prevent duplicate marks
+        const existingMark = label.querySelector('.feedback-mark');
+        if (existingMark) existingMark.remove();
+
+        const mark = document.createElement('span');
+        mark.className = 'feedback-mark';
+
+        if (isCorrectCue) {
+            mark.innerText = '✓';
+            label.prepend(mark);
+        } else if (userChecked) {
+            mark.innerText = '✕';
+            label.prepend(mark);
         }
+        
         input.disabled = true;
     });
 }
