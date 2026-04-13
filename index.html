@@ -16,85 +16,119 @@
             font-family: 'Inter', system-ui, -apple-system, sans-serif; 
             background-color: var(--bg); 
             color: var(--text); 
-            margin: 0; 
-            padding: 0; 
-            line-height: 1.6; 
+            margin: 0; padding: 0; line-height: 1.6; 
         }
         
-        /* --- HEADER SECTION --- */
+        /* Accessibility: Skip link */
+        .skip-link {
+            position: absolute;
+            top: -40px; left: 0;
+            background: var(--ui-blue); color: white;
+            padding: 8px; z-index: 100;
+            transition: top 0.3s;
+        }
+        .skip-link:focus { top: 0; }
+
         header { 
             background-color: #ffffff; 
-            color: var(--ui-blue);     
-            padding: 30px 20px; 
             text-align: center; 
             border-bottom: 8px solid var(--ui-gold); 
-            display: flex;
-            flex-direction: column;
-            align-items: center;
         }
 
-        /* Shrinking the Logo */
-        .header-logo {
-            max-width: 150px; /* Adjusted size */
-            height: auto;
-            margin-bottom: 15px;
+        .header-banner {
+            width: 100%; height: auto;
+            max-height: 350px; object-fit: cover;
             display: block;
         }
 
+        .header-content { padding: 30px 20px; }
+
         header h1 { 
             margin: 0; 
-            font-size: 2.2rem; 
-            letter-spacing: -0.025em; 
+            font-size: clamp(1.5rem, 6vw, 2.2rem); 
             color: var(--ui-blue);
         }
 
         header p { 
-            font-size: 1.1rem; 
-            color: #64748b; 
-            max-width: 700px; 
-            margin: 10px auto 0; 
+            font-size: 1.1rem; color: #64748b; 
+            max-width: 700px; margin: 10px auto 0; 
             font-weight: 300; 
         }
 
         .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
 
-        /* Mission Statement */
-        .mission { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); margin-bottom: 40px; border-left: 6px solid var(--ui-blue); }
+        .mission { 
+            background: white; padding: 30px; 
+            border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); 
+            margin-bottom: 40px; border-left: 6px solid var(--ui-blue); 
+        }
         .mission h2 { margin-top: 0; color: var(--ui-blue); }
 
-        /* Gallery Grid */
-        .gallery-title { border-bottom: 2px solid #e2e8f0; padding-bottom: 10px; margin-bottom: 25px; color: var(--ui-blue); font-size: 1.5rem; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; }
+        .gallery-title { 
+            border-bottom: 2px solid #e2e8f0; 
+            padding-bottom: 10px; margin-bottom: 25px; 
+            color: var(--ui-blue); font-size: 1.5rem; 
+        }
 
-        /* Project Cards */
-        .card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; text-decoration: none; color: inherit; border: 1px solid #e2e8f0; }
-        .card:hover { transform: translateY(-5px); box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); border-color: var(--ui-blue); }
+        .grid { 
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 25px; 
+        }
+
+        .card { 
+            background: white; border-radius: 12px; overflow: hidden; 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1); 
+            transition: transform 0.2s; display: flex; 
+            flex-direction: column; text-decoration: none; color: inherit; 
+            border: 1px solid #e2e8f0; 
+        }
+        .card:hover, .card:focus { 
+            transform: translateY(-5px); 
+            border-color: var(--ui-blue);
+            outline: none; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+
         .card-content { padding: 25px; flex-grow: 1; }
-        
-        .card-tag { display: inline-block; background: #e0f2fe; color: #0369a1; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; margin-bottom: 12px; text-transform: uppercase; }
-        /* Special Tag for Audio Encounters */
+        .card-tag { 
+            display: inline-block; background: #e0f2fe; color: #0369a1; 
+            font-size: 0.75rem; font-weight: 700; padding: 4px 10px; 
+            border-radius: 20px; margin-bottom: 12px; text-transform: uppercase; 
+        }
         .tag-audio { background: #f3e8ff; color: #7e22ce; }
 
         .card h3 { margin: 0 0 10px; color: var(--ui-blue); }
         .card p { margin: 0; font-size: 0.95rem; color: #64748b; }
-        .card-footer { background: #f8fafc; padding: 15px 25px; font-size: 0.85rem; font-weight: 600; color: var(--ui-blue); border-top: 1px solid #e2e8f0; }
+        
+        .card-footer { 
+            background: #f8fafc; padding: 15px 25px; 
+            font-size: 0.85rem; font-weight: 600; 
+            color: var(--ui-blue); border-top: 1px solid #e2e8f0; 
+        }
 
         footer { text-align: center; padding: 40px; color: #94a3b8; font-size: 0.9rem; }
+
+        @media (max-width: 600px) {
+            .container { margin: 20px auto; }
+        }
     </style>
 </head>
 <body>
-  
 
-<header>
-    <img src="images/1200_CIL_Banner.jpg" alt="Exterior of the College of Nursing building on the University of Iowa campus.">
-   <h1>THE DIGITAL CLINCIAL INQUIRY LAB</h1>
-    <p>An exploration space for creative academic engagement and non-linear nursing pedagogy.</p>
+<a href="#main" class="skip-link">Skip to main content</a>
+
+<header role="banner">
+    <img src="images/1200_CIL_Banner.jpg" alt="University of Iowa College of Nursing building exterior" class="header-banner">
+    <div class="header-content">
+        <h1>THE DIGITAL CLINICAL INQUIRY LAB</h1>
+        <p>An exploration space for creative academic engagement and non-linear nursing pedagogy.</p>
+    </div>
 </header>
 
-<div class="container">
-    <section class="mission">
-        <h2>Moving Beyond the Linear</h2>
-        <p>This digital sandbox is dedicated to deconstructing complex clinical scenarios into active, decision-based learning experiences. By moving beyond traditional LMS constraints, we empower undergraduate students to practice high-stakes judgment in a safe, interactive environment.</p>
+<main id="main" class="container">
+    <section class="mission" aria-labelledby="mission-title">
+        <h2 id="mission-title">Moving Beyond the Linear</h2>
+        <p>This digital sandbox deconstructs complex clinical scenarios into active, decision-based learning experiences, empowering students to practice high-stakes judgment in a safe environment.</p>
     </section>
 
     <h2 class="gallery-title">Interactive Collection</h2>
@@ -104,30 +138,30 @@
             <div class="card-content">
                 <span class="card-tag">Clinical Judgment</span>
                 <h3>Evidence Tracker: Room 402</h3>
-                <p>Investigate patient statements to identify critical 'Red Flag' cues. Practice distinguishing signal from noise in a high-priority cardiac scenario.</p>
+                <p>Investigate patient statements to identify critical 'Red Flag' cues in a cardiac scenario.</p>
             </div>
             <div class="card-footer">Launch Module →</div>
         </a>
 
         <a href="encounters.html" class="card">
-    <div class="card-content">
-        <span class="card-tag tag-audio">Audio Lab</span>
-        <h3>Patient Encounters</h3>
-        <p>Listen to immersive, AI-generated patient symptom descriptions. Refine clinical ear skills and determine the next best step for care.</p>
-    </div>
-    <div class="card-footer">Launch Module →</div>
-</a>
+            <div class="card-content">
+                <span class="card-tag tag-audio">Audio Lab</span>
+                <h3>Patient Encounters</h3>
+                <p>Listen to immersive, AI-generated patient symptom descriptions and determine the next best step for care.</p>
+            </div>
+            <div class="card-footer">Launch Module →</div>
+        </a>
 
-        <div class="card" style="opacity: 0.7; cursor: default;">
+        <div class="card" style="opacity: 0.7;">
             <div class="card-content">
                 <span class="card-tag" style="background: #f1f5f9; color: #475569;">Upcoming</span>
                 <h3>SBAR Synthesis Lab</h3>
-                <p>A dynamic communication tool where students must translate clinical findings into a professional handoff report using real-time data.</p>
+                <p>A dynamic tool for translating clinical findings into professional handoff reports.</p>
             </div>
             <div class="card-footer">In Development</div>
         </div>
     </div>
-</div>
+</main>
 
 <footer>
     &copy; 2026 University of Iowa College of Nursing | Designed for Academic Engagement
