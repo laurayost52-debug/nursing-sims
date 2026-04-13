@@ -237,7 +237,7 @@
                     <span class="section-label">Clinical Decision Reflection</span>
                     <textarea placeholder="Based on the expert's feedback, what did you learn about your initial clinical conclusion(s)?"></textarea>
                 </div>
-                <button type="button" class="submit-btn" onclick="alert('Case 3 Saved')">Submit Case for Review</button>
+               <button type="button" class="submit-btn" onclick="sendEmail(3)">Submit Case for Review</button>
             </div>
         </div>
 
@@ -247,45 +247,41 @@
 <footer>&copy; 2026 University of Iowa College of Nursing</footer>
 
 <script>
-/**
- * Handles the email submission for each case.
- * It grabs all textareas within the specific patient card and formats them into an email.
- */
 function sendEmail(caseNum) {
-    // 1. Identify the specific patient card based on its position in the grid
-    const cards = document.querySelectorAll('.patient-card');
-    const selectedCard = cards[caseNum - 1];
-    const patientName = selectedCard.querySelector('.patient-name').innerText;
+    // 1. Target Case #3 specifically
+    const selectedCard = document.querySelectorAll('.patient-card')[caseNum - 1];
     
-    // 2. Pull text from all textareas in that card (handles 1 or 2 textboxes automatically)
-    const textareas = selectedCard.querySelectorAll('textarea');
-    let emailBody = `Student Submission for ${patientName}\n` + "=".repeat(30) + "\n\n";
+    // 2. Grab the specific textareas
+    const textAreas = selectedCard.querySelectorAll('textarea');
+    const initialDecision = textAreas[0].value.trim();
+    const reflection = textAreas[1] ? textAreas[1].value.trim() : "N/A";
+
+    // 3. Validation: Stop if the student hasn't typed anything
+    if (!initialDecision || !reflection) {
+        alert("Please complete both the Clinical Decision and the Reflection boxes before submitting.");
+        return;
+    }
+
+    // 4. Construct the Email components
+    // *** IMPORTANT: REPLACE THIS EMAIL WITH THE FACULTY ADDRESS ***
+    const facultyEmail = "FACULTY_EMAIL@uiowa.edu"; 
+    const subject = "Clinical Case #03 Submission - Student Review";
     
-    textareas.forEach((box) => {
-        // Find the label text directly above the textarea
-        const label = box.previousElementSibling.innerText;
-        emailBody += `${label}:\n${box.value}\n\n`;
-    });
+    const bodyText = `CASE #03: EMILY THOMPSON\n` +
+                     `--------------------------\n` +
+                     `INITIAL CLINICAL DECISION:\n${initialDecision}\n\n` +
+                     `CLINICAL DECISION REFLECTION:\n${reflection}`;
 
-    // 3. Construct the mailto link
-    // PLEASE UPDATE THE EMAIL BELOW TO THE FACULTY MEMBER'S ACTUAL EMAIL
-    const facultyEmail = "laura-yost@uiowa.edu"; 
-    const subject = encodeURIComponent(`Clinical Lab Submission: ${patientName}`);
-    const body = encodeURIComponent(emailBody);
-
-    // 4. Trigger the user's default email client
-    window.location.href = `mailto:${facultyEmail}?subject=${subject}&body=${body}`;
+    // 5. Open the email client
+    const mailtoLink = `mailto:${facultyEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
+    
+    console.log("Opening email client..."); // Check your browser console (F12) to see if this appears
+    window.location.href = mailtoLink;
 }
 
-/**
- * Your original logic for checking the checkboxes
- */
+// Keep your existing evaluateCase function below
 function evaluateCase(caseNum) {
-    const answerKey = { 
-        1: ['c1q1', 'c1q2', 'c1q4'], 
-        2: ['c2q1', 'c2q2', 'c2q3'], 
-        3: ['c3q1', 'c3q2', 'c3q4'] 
-    };
+    const answerKey = { 1: ['c1q1', 'c1q2', 'c1q4'], 2: ['c2q1', 'c2q2', 'c2q3'], 3: ['c3q1', 'c3q2', 'c3q4'] };
     const correctAnswers = answerKey[caseNum];
     const checklist = document.getElementById(`case${caseNum}-checklist`);
     const inputs = checklist.querySelectorAll('input[type="checkbox"]');
@@ -293,16 +289,12 @@ function evaluateCase(caseNum) {
     inputs.forEach(input => {
         const label = input.parentElement;
         if (label.querySelector('.feedback-mark')) return;
-
         const mark = document.createElement('span');
         mark.className = 'feedback-mark';
-
         if (correctAnswers.includes(input.id)) {
-            mark.innerText = '✓'; 
-            label.prepend(mark);
+            mark.innerText = '✓'; label.prepend(mark);
         } else if (input.checked) {
-            mark.innerText = '✕'; 
-            label.prepend(mark);
+            mark.innerText = '✕'; label.prepend(mark);
         }
         input.disabled = true;
     });
