@@ -143,7 +143,7 @@
             <img src="./images/headshot_patient1.jpg" alt="Case 1" class="patient-thumb">
             <div class="card-content">
                 <h2 class="patient-name">Case #01: Sudden Diagnosis</h2>
-                <p class="patient-desc">Mrs. Ramirez, 35. Admitted with a high WBC count.</p>
+                <p class="patient-desc">Mrs. Ramirez, 35. [UNDER CONSTRUCTION]</p>
                 
                 <div class="audio-container">
                     <span class="section-label">Listen to Encounter:</span>
@@ -176,7 +176,7 @@
             <img src="./images/headshot_patient2.jpg" alt="Case 2" class="patient-thumb">
             <div class="card-content">
                 <h2 class="patient-name">Case #02: Acute Pain</h2>
-                <p class="patient-desc">Elena, 24. Reporting sudden, sharp RLQ pain.</p>
+                <p class="patient-desc">Elena, 24. [UNDER CONSTRUCTION]</p>
                 
                 <div class="audio-container">
                     <span class="section-label">Listen to Encounter:</span>
@@ -191,20 +191,25 @@
                     <label><input type="checkbox" id="c2q4"> Fear of surgery</label>
                 </div>
 
-                <div class="clinical-input-area">
+                 <div class="clinical-input-area">
                     <span class="section-label">Initial Clinical Decision</span>
-                    <textarea placeholder="Based on the audio, what is your immediate clinical priority?"></textarea>
+                    <textarea placeholder="Based on the patient's description, what is your immediate clinical priority?"></textarea>
                 </div>
 
                 <details onclick="evaluateCase(2)">
                     <summary>[+] REVEAL EXPERT FEEDBACK</summary>
-                    <p style="font-size: 0.9rem; margin-top: 10px;">RLQ pain suggests appendicitis. Prioritize physiological assessment over psychosocial fears.</p>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Potential hemorrhage or dehiscence. Requires immediate vital sign assessment.</p>
                 </details>
-
-                <button type="button" class="submit-btn" onclick="alert('Case 2 Saved')">Submit Case for Review</button>
+ <div class="clinical-input-area">
+                    <span class="section-label">Clinical Decision Reflection</span>
+                    <textarea placeholder="Based on the expert's feedback, what did you learn about your initial clinical conclusion(s)?"></textarea>
+                </div>
+               <button type="button" class="submit-btn" onclick="sendEmail(2)">Submit Case for Review</button>
             </div>
         </div>
 
+    </div>
+</div>
         <div class="patient-card">
             <img src="./images/headshot_patient3.jpg" alt="Case 3" class="patient-thumb">
             <div class="card-content">
