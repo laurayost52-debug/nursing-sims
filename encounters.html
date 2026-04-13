@@ -247,6 +247,39 @@
 <footer>&copy; 2026 University of Iowa College of Nursing</footer>
 
 <script>
+/**
+ * Handles the email submission for each case.
+ * It grabs all textareas within the specific patient card and formats them into an email.
+ */
+function sendEmail(caseNum) {
+    // 1. Identify the specific patient card based on its position in the grid
+    const cards = document.querySelectorAll('.patient-card');
+    const selectedCard = cards[caseNum - 1];
+    const patientName = selectedCard.querySelector('.patient-name').innerText;
+    
+    // 2. Pull text from all textareas in that card (handles 1 or 2 textboxes automatically)
+    const textareas = selectedCard.querySelectorAll('textarea');
+    let emailBody = `Student Submission for ${patientName}\n` + "=".repeat(30) + "\n\n";
+    
+    textareas.forEach((box) => {
+        // Find the label text directly above the textarea
+        const label = box.previousElementSibling.innerText;
+        emailBody += `${label}:\n${box.value}\n\n`;
+    });
+
+    // 3. Construct the mailto link
+    // PLEASE UPDATE THE EMAIL BELOW TO THE FACULTY MEMBER'S ACTUAL EMAIL
+    const facultyEmail = "laura-yost@uiowa.edu"; 
+    const subject = encodeURIComponent(`Clinical Lab Submission: ${patientName}`);
+    const body = encodeURIComponent(emailBody);
+
+    // 4. Trigger the user's default email client
+    window.location.href = `mailto:${facultyEmail}?subject=${subject}&body=${body}`;
+}
+
+/**
+ * Your original logic for checking the checkboxes
+ */
 function evaluateCase(caseNum) {
     const answerKey = { 
         1: ['c1q1', 'c1q2', 'c1q4'], 
@@ -259,21 +292,18 @@ function evaluateCase(caseNum) {
 
     inputs.forEach(input => {
         const label = input.parentElement;
-        
-        // Prevent duplicate icons if button is clicked twice
         if (label.querySelector('.feedback-mark')) return;
 
         const mark = document.createElement('span');
         mark.className = 'feedback-mark';
 
         if (correctAnswers.includes(input.id)) {
-            mark.innerText = '✓'; // Correct Answer
+            mark.innerText = '✓'; 
             label.prepend(mark);
         } else if (input.checked) {
-            mark.innerText = '✕'; // Incorrect selection
+            mark.innerText = '✕'; 
             label.prepend(mark);
         }
-        
         input.disabled = true;
     });
 }
