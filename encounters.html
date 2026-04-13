@@ -148,13 +148,13 @@
             background: var(--ui-blue);
             color: white;
             border: none;
-            padding: 10px;
+            padding: 12px;
             border-radius: 4px;
             font-weight: 600;
             font-size: 0.85rem;
             cursor: pointer;
             transition: background 0.2s;
-            margin-top: 10px;
+            margin-top: 15px;
         }
 
         .submit-btn:hover { background: #003d66; }
@@ -164,6 +164,27 @@
             margin-right: 5px;
             display: inline-block;
             width: 15px;
+        }
+
+        details {
+            margin-top: 20px; 
+            border: 2px solid var(--ui-blue); 
+            padding: 15px; 
+            border-radius: 8px; 
+            background-color: #f0f7ff;
+        }
+
+        summary {
+            font-weight: 800; 
+            cursor: pointer; 
+            color: var(--ui-blue);
+        }
+
+        .expert-content {
+            margin-top: 15px; 
+            font-size: 0.95rem; 
+            border-top: 1px solid #cbd5e1; 
+            padding-top: 10px;
         }
 
         footer { text-align: center; padding: 60px 20px; color: #94a3b8; font-size: 0.9rem; }
@@ -180,7 +201,7 @@
 
 <div class="container">
     <div class="page-intro">
-        <p>Listen to the patient, identify specific clues, and record your initial clinical judgment.  Then compare your diagnosis with the expert's! Finally, reflect on what you learned and share that with your instructor.</p>
+        <p>Listen to the patient, identify specific clues, and record your initial clinical judgment. Then compare your diagnosis with the expert's!</p>
     </div>
 
     <div class="grid">
@@ -194,159 +215,4 @@
                 <div class="audio-container">
                     <span class="section-label">Listen to Encounter:</span>
                     <audio controls>
-                        <source src="./audio/Sudden Diagnosis.mp3" type="audio/mpeg">
-                    </audio>
-                </div>
-                
-                <div class="checklist" id="case1-checklist">
-                    <span class="section-label">Identify Cues</span>
-                    <label><input type="checkbox" id="c1q1"> "Fluttering" in chest</label>
-                    <label><input type="checkbox" id="c1q2"> Dizziness upon standing</label>
-                    <label><input type="checkbox" id="c1q3"> Worry about kindergarten</label>
-                    <label><input type="checkbox" id="c1q4"> Shortness of breath</label>
-                </div>
-
-                 <div class="clinical-input-area">
-                    <span class="section-label">Initial Clinical Decision</span>
-                    <textarea placeholder="Based on the audio, what is your immediate clinical priority?"></textarea>
-                </div>
-            
-                         
-                <details style="margin-top: 20px; border: 2px solid var(--ui-blue); padding: 15px; border-radius: 8px; background-color: #f0f7ff;" onclick="evaluateCase(1)">
-                    <summary style="font-weight: 800; cursor: pointer; color: var(--ui-blue);">[+] REVEAL EXPERT FEEDBACK</summary>
-                    <div style="margin-top: 15px; font-size: 0.95rem; border-top: 1px solid #cbd5e1; padding-top: 10px;">
-                        <p><strong>Expert Rationale:</strong> The patient is exhibiting signs of <strong>Leukostasis</strong>. While the daughter is a psychosocial concern, the "fluttering" (palpitations) and shortness of breath are physiological priorities requiring an EKG and O2 assessment.</p>
-                    </div>
-                </details> 
-            </div>
-                       <div class="clinical-input-area">
-                    <span class="section-label">Initial Clinical Decision</span>
-                    <textarea placeholder="Based on the audio, what is your immediate clinical priority?"></textarea>
-                
-            <div>
-             <button type="button" class="submit-btn" onclick="alert('Submission saved.')">Submit Case for Review</button>
-        </div>
-    </div>
-        </div>
-
-        <div class="patient-card">
-            <img src="./images/headshot_patient2.jpg" alt="Case Patient 2" class="patient-thumb">
-            <div class="card-content">
-                <div class="patient-name">Case #02: Acute Pain</div>
-                <p class="patient-desc">Elena, 24. Reporting sudden, sharp RLQ pain.</p>
-                
-                <div class="audio-container">
-                    <span class="section-label">Listen to Encounter:</span>
-                    <audio controls>
-                        <source src="./audio/Sudden Onset Symptoms.mp3" type="audio/mpeg">
-                    </audio>
-                </div>
-
-                <div class="checklist" id="case2-checklist">
-                    <span class="section-label">Identify Cues</span>
-                    <label><input type="checkbox" id="c2q1"> Sharp RLQ Pain</label>
-                    <label><input type="checkbox" id="c2q2"> Nausea</label>
-                    <label><input type="checkbox" id="c2q3"> Feeling "gas-sy"</label>
-                    <label><input type="checkbox" id="c2q4"> Fear of surgery</label>
-                </div>
-
-                 <div class="clinical-input-area">
-                    <span class="section-label">Initial Clinical Decision</span>
-                    <textarea placeholder="Based on the audio, what is your immediate clinical priority?"></textarea>
-                </div>
-            
-            </div>
-            
-                <details style="margin-top: 20px; border: 2px solid var(--ui-blue); padding: 15px; border-radius: 8px; background-color: #f0f7ff;" onclick="evaluateCase(2)">
-                    <summary style="font-weight: 800; cursor: pointer; color: var(--ui-blue);">[+] REVEAL EXPERT FEEDBACK</summary>
-                    <div style="margin-top: 15px; font-size: 0.95rem; border-top: 1px solid #cbd5e1; padding-top: 10px;">
-                        <p><strong>Expert Rationale:</strong> Sharp RLQ pain combined with guarding suggests potential appendicitis. Identifying physiological symptoms over the psychosocial "fear of surgery" is critical for immediate surgical consultation.</p>
-                    </div>
-                </details>
-            
-               <button type="button" class="submit-btn" onclick="alert('Submission saved.')">Submit Case for Review</button>
-        </div>
-
-        <div class="patient-card">
-            <img src="./images/headshot_patient3.jpg" alt="Case Patient 3" class="patient-thumb">
-            <div class="card-content">
-                <div class="patient-name">Case #03: Post-Op Change</div>
-                <p class="patient-desc">Mrs. Thompson, 32. Post-operative with new, sudden discomfort.</p>
-                
-                <div class="audio-container">
-                    <span class="section-label">Listen to Encounter:</span>
-                    <audio controls>
-                        <source src="./audio/Unexpected Waters.mp3" type="audio/mpeg">
-                    </audio>
-                </div>
-
-                <div class="checklist" id="case3-checklist">
-                    <span class="section-label">Identify Cues</span>
-                    <label><input type="checkbox" id="c3q1"> Sudden "gush" of fluid</label>
-                    <label><input type="checkbox" id="c3q2"> Tachycardia / Racing heart</label>
-                    <label><input type="checkbox" id="c3q3"> Frustration with call delay</label>
-                    <label><input type="checkbox" id="c3q4"> Dizziness / Lightheadedness</label>
-                </div>
-                
-               <div class="clinical-input-area">
-                    <span class="section-label">Initial Clinical Decision</span>
-                    <textarea placeholder="Based on the audio, what is your immediate clinical priority?"></textarea>
-                </div>
-              
-
-                <details style="margin-top: 20px; border: 2px solid var(--ui-blue); padding: 15px; border-radius: 8px; background-color: #f0f7ff;" onclick="evaluateCase(3)">
-                    <summary style="font-weight: 800; cursor: pointer; color: var(--ui-blue);">[+] REVEAL EXPERT FEEDBACK</summary>
-                    <div style="margin-top: 15px; font-size: 0.95rem; border-top: 1px solid #cbd5e1; padding-top: 10px;">
-                        <p><strong>Expert Rationale:</strong> A sudden gush of fluid post-op can indicate hemorrhage or wound dehiscence. Tachycardia and dizziness are early signs of hypovolemia, requiring immediate vital sign assessment.</p>
-                    </div>
-                </details>
-            </div>
-              <button type="button" class="submit-btn" onclick="alert('Submission saved.')">Submit Case for Review</button>
-        </div>
-
-    </div>
-</div>
-
-<footer>
-    &copy; 2026 University of Iowa College of Nursing
-</footer>
-
-<script>
-function evaluateCase(caseNum) {
-    const answerKey = {
-        1: ['c1q1', 'c1q2', 'c1q4'],
-        2: ['c2q1', 'c2q2', 'c2q3'],
-        3: ['c3q1', 'c3q2', 'c3q4']
-    };
-
-    const correctAnswers = answerKey[caseNum];
-    const checklist = document.getElementById(`case${caseNum}-checklist`);
-    const inputs = checklist.querySelectorAll('input[type="checkbox"]');
-
-    inputs.forEach(input => {
-        const label = input.parentElement;
-        const isCorrectCue = correctAnswers.includes(input.id);
-        const userChecked = input.checked;
-
-        // Prevent duplicate marks
-        const existingMark = label.querySelector('.feedback-mark');
-        if (existingMark) existingMark.remove();
-
-        const mark = document.createElement('span');
-        mark.className = 'feedback-mark';
-
-        if (isCorrectCue) {
-            mark.innerText = '✓';
-            label.prepend(mark);
-        } else if (userChecked) {
-            mark.innerText = '✕';
-            label.prepend(mark);
-        }
-        
-        input.disabled = true;
-    });
-}
-</script>
-
-</body>
-</html>
+                        <source src="./audio/Sudden Diagnosis.mp3
