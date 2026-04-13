@@ -248,38 +248,33 @@
 
 <script>
 function sendEmail(caseNum) {
-    // 1. Target Case #3 specifically
-    const selectedCard = document.querySelectorAll('.patient-card')[caseNum - 1];
+    // 1. Find the Patient Card for Case #3
+    const cards = document.querySelectorAll('.patient-card');
+    const caseCard = cards[caseNum - 1]; // caseNum 3 is index 2
     
-    // 2. Grab the specific textareas
-    const textAreas = selectedCard.querySelectorAll('textarea');
-    const initialDecision = textAreas[0].value.trim();
-    const reflection = textAreas[1] ? textAreas[1].value.trim() : "N/A";
+    // 2. Pull the text from the textboxes
+    const textboxes = caseCard.querySelectorAll('textarea');
+    const initialDecision = textboxes[0].value;
+    const reflection = textboxes[1] ? textboxes[1].value : "No reflection provided.";
 
-    // 3. Validation: Stop if the student hasn't typed anything
-    if (!initialDecision || !reflection) {
-        alert("Please complete both the Clinical Decision and the Reflection boxes before submitting.");
-        return;
-    }
-
-    // 4. Construct the Email components
-    // *** IMPORTANT: REPLACE THIS EMAIL WITH THE FACULTY ADDRESS ***
-    const facultyEmail = "FACULTY_EMAIL@uiowa.edu"; 
-    const subject = "Clinical Case #03 Submission - Student Review";
+    // 3. Setup the Email Details
+    const facultyEmail = "REPLACE_WITH_ACTUAL_EMAIL@uiowa.edu"; 
+    const subject = encodeURIComponent("Clinical Decision Submission: Case #03");
     
-    const bodyText = `CASE #03: EMILY THOMPSON\n` +
-                     `--------------------------\n` +
-                     `INITIAL CLINICAL DECISION:\n${initialDecision}\n\n` +
-                     `CLINICAL DECISION REFLECTION:\n${reflection}`;
+    // Create the body of the email
+    const emailBody = encodeURIComponent(
+        "STUDENT CLINICAL CASE SUBMISSION\n" +
+        "--------------------------------\n" +
+        "INITIAL CLINICAL DECISION:\n" + initialDecision + "\n\n" +
+        "CLINICAL DECISION REFLECTION:\n" + reflection
+    );
 
-    // 5. Open the email client
-    const mailtoLink = `mailto:${facultyEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(bodyText)}`;
-    
-    console.log("Opening email client..."); // Check your browser console (F12) to see if this appears
-    window.location.href = mailtoLink;
+    // 4. Launch the email
+    // This will open the student's email app (Outlook, etc.)
+    window.location.href = `mailto:${facultyEmail}?subject=${subject}&body=${emailBody}`;
 }
 
-// Keep your existing evaluateCase function below
+// This keeps your checkbox '✓' and '✕' logic working
 function evaluateCase(caseNum) {
     const answerKey = { 1: ['c1q1', 'c1q2', 'c1q4'], 2: ['c2q1', 'c2q2', 'c2q3'], 3: ['c3q1', 'c3q2', 'c3q4'] };
     const correctAnswers = answerKey[caseNum];
@@ -300,6 +295,5 @@ function evaluateCase(caseNum) {
     });
 }
 </script>
-
 </body>
 </html>
