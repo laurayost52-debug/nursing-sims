@@ -51,7 +51,7 @@
             border: 1px solid #e2e8f0;
             display: flex;
             flex-direction: column;
-            height: 100%;
+            height: 100%; /* Ensures all cards match height in a row */
         }
 
         .patient-thumb {
@@ -69,7 +69,7 @@
         }
 
         .patient-name { font-size: 1.2rem; font-weight: 700; color: var(--ui-blue); margin-bottom: 8px; }
-        .patient-desc { font-size: 0.95rem; color: #64748b; margin-bottom: 15px; min-height: 40px;}
+        .patient-desc { font-size: 0.95rem; color: #64748b; margin-bottom: 15px; }
 
         .section-label {
             font-size: 0.75rem; font-weight: 800; color: var(--ui-blue);
@@ -91,7 +91,6 @@
 
         .checklist label { display: block; margin-bottom: 5px; font-size: 0.9rem; cursor: pointer; color: var(--text); }
 
-        /* Style for the check/x marks */
         .feedback-mark {
             display: inline-block;
             width: 20px;
@@ -113,13 +112,13 @@
             width: 100%; background: var(--ui-blue); color: white;
             border: none; padding: 12px; border-radius: 4px;
             font-weight: 600; cursor: pointer; transition: background 0.2s;
-            margin-top: 20px; 
+            margin-top: auto; /* Pushes button to the very bottom */
         }
 
         .submit-btn:hover { background: #003d66; }
 
         details {
-            margin-top: 15px; border: 2px solid var(--ui-blue); 
+            margin: 15px 0; border: 2px solid var(--ui-blue); 
             padding: 12px; border-radius: 8px; background-color: #f0f7ff;
         }
 
@@ -191,29 +190,30 @@
                     <label><input type="checkbox" id="c2q4"> Fear of surgery</label>
                 </div>
 
-                 <div class="clinical-input-area">
+                <div class="clinical-input-area">
                     <span class="section-label">Initial Clinical Decision</span>
-                    <textarea placeholder="Based on the patient's description, what is your immediate clinical priority?"></textarea>
+                    <textarea placeholder="What is your immediate clinical priority?"></textarea>
                 </div>
 
                 <details onclick="evaluateCase(2)">
                     <summary>[+] REVEAL EXPERT FEEDBACK</summary>
-                    <p style="font-size: 0.9rem; margin-top: 10px;">Potential hemorrhage or dehiscence. Requires immediate vital sign assessment.</p>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Potential appendicitis. Prioritize physiological assessment over psychosocial fears.</p>
                 </details>
- <div class="clinical-input-area">
+
+                <div class="clinical-input-area">
                     <span class="section-label">Clinical Decision Reflection</span>
-                    <textarea placeholder="Based on the expert's feedback, what did you learn about your initial clinical conclusion(s)?"></textarea>
+                    <textarea placeholder="What did you learn about your initial clinical conclusion(s)?"></textarea>
                 </div>
-               <button type="button" class="submit-btn" onclick="sendEmail(2)">Submit Case for Review</button>
+                <button type="button" class="submit-btn" onclick="sendEmail(2)">Submit Case for Review</button>
             </div>
-    
-</div>
+        </div>
+
         <div class="patient-card">
             <img src="./images/headshot_patient3.jpg" alt="Case 3" class="patient-thumb">
             <div class="card-content">
                 <h2 class="patient-name">Case #03: Post-Op Change</h2>
-                <p class="patient-desc">Emily Thompson, 32 year-old.</p>
-                4 hours after a vaginal birth with a second degree lacerations and periurethral tear, no other complications. Last assessment was two hours earlier with the following findings: U/U, firm and midline, lochia rubra moderate, perineum reddened, edematous, incision intact, no drainage or bleeding. Voided once, two hours earlier. Breastfeeding, last feeding was one hour earlier, breasts soft, nipples intact.
+                <p class="patient-desc">Emily Thompson, 32 year-old. 4 hours post-vaginal birth.</p>
+                
                 <div class="audio-container">
                     <span class="section-label">Listen to Encounter:</span>
                     <audio controls><source src="./audio/Unexpected Waters.mp3" type="audio/mpeg"></audio>
@@ -229,53 +229,46 @@
 
                 <div class="clinical-input-area">
                     <span class="section-label">Initial Clinical Decision</span>
-                    <textarea placeholder="Based on the patient's description, what is your immediate clinical priority?"></textarea>
+                    <textarea placeholder="What is your immediate clinical priority?"></textarea>
                 </div>
 
                 <details onclick="evaluateCase(3)">
                     <summary>[+] REVEAL EXPERT FEEDBACK</summary>
-                    <p style="font-size: 0.9rem; margin-top: 10px;">Potential hemorrhage or dehiscence. Requires immediate vital sign assessment.</p>
+                    <p style="font-size: 0.9rem; margin-top: 10px;">Potential hemorrhage. Requires immediate vital sign assessment.</p>
                 </details>
- <div class="clinical-input-area">
+
+                <div class="clinical-input-area">
                     <span class="section-label">Clinical Decision Reflection</span>
-                    <textarea placeholder="Based on the expert's feedback, what did you learn about your initial clinical conclusion(s)?"></textarea>
+                    <textarea placeholder="What did you learn about your initial clinical conclusion(s)?"></textarea>
                 </div>
-               <button type="button" class="submit-btn" onclick="sendEmail(3)">Submit Case for Review</button>
+                <button type="button" class="submit-btn" onclick="sendEmail(3)">Submit Case for Review</button>
             </div>
         </div>
-    </div>
 
-<footer>&copy; 2026 University of Iowa College of Nursing</footer>
+    </div> </div> <footer>&copy; 2026 University of Iowa College of Nursing</footer>
 
 <script>
 function sendEmail(caseNum) {
-    // 1. Find the Patient Card for Case #3
     const cards = document.querySelectorAll('.patient-card');
-    const caseCard = cards[caseNum - 1]; // caseNum 3 is index 2
+    const caseCard = cards[caseNum - 1]; 
     
-    // 2. Pull the text from the textboxes
     const textboxes = caseCard.querySelectorAll('textarea');
     const initialDecision = textboxes[0].value;
     const reflection = textboxes[1] ? textboxes[1].value : "No reflection provided.";
 
-    // 3. Setup the Email Details
     const facultyEmail = "laura-yost@uiowa.edu"; 
-    const subject = encodeURIComponent("Clinical Decision Submission: Case #03");
+    const subject = encodeURIComponent(`Clinical Decision Submission: Case #0${caseNum}`);
     
-    // Create the body of the email
     const emailBody = encodeURIComponent(
-        "STUDENT CLINICAL CASE SUBMISSION\n" +
-        "--------------------------------\n" +
-        "INITIAL CLINICAL DECISION:\n" + initialDecision + "\n\n" +
-        "CLINICAL DECISION REFLECTION:\n" + reflection
+        `STUDENT CLINICAL CASE SUBMISSION\n` +
+        `--------------------------------\n` +
+        `INITIAL CLINICAL DECISION:\n` + initialDecision + `\n\n` +
+        `CLINICAL DECISION REFLECTION:\n` + reflection
     );
 
-    // 4. Launch the email
-    // This will open the student's email app (Outlook, etc.)
     window.location.href = `mailto:${facultyEmail}?subject=${subject}&body=${emailBody}`;
 }
 
-// This keeps your checkbox '✓' and '✕' logic working
 function evaluateCase(caseNum) {
     const answerKey = { 1: ['c1q1', 'c1q2', 'c1q4'], 2: ['c2q1', 'c2q2', 'c2q3'], 3: ['c3q1', 'c3q2', 'c3q4'] };
     const correctAnswers = answerKey[caseNum];
