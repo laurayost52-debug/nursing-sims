@@ -36,10 +36,19 @@
         }
 
         .header-banner {
-            width: 100%; height: auto;
-            max-height: 350px; object-fit: cover;
-            display: block;
-        }
+    width: 100%;
+    height: auto;           
+    display: block;         
+    object-fit: cover;      
+    aspect-ratio: 16 / 4;   
+}
+
+/* Tablet & Mobile Adjustment - Put this near the bottom of your style section */
+@media (max-width: 768px) {
+    .header-banner {
+        aspect-ratio: 16 / 9; 
+    }
+}
 
         .header-content { padding: 30px 20px; }
 
