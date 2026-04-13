@@ -43,7 +43,6 @@
             gap: 30px; 
         }
 
-        /* This is the main container for each case */
         .patient-card { 
             background: white; 
             border-radius: 12px; 
@@ -52,7 +51,7 @@
             border: 1px solid #e2e8f0;
             display: flex;
             flex-direction: column;
-            height: 100%; /* Ensures cards in a row are same height */
+            height: 100%;
         }
 
         .patient-thumb {
@@ -62,7 +61,6 @@
             border-bottom: 4px solid var(--ui-gold);
         }
 
-        /* This container keeps everything spaced correctly inside the card */
         .card-content { 
             padding: 20px; 
             flex-grow: 1; 
@@ -91,11 +89,18 @@
             background: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;
         }
 
-        .checklist label { display: block; margin-bottom: 5px; font-size: 0.9rem; cursor: pointer; }
+        .checklist label { display: block; margin-bottom: 5px; font-size: 0.9rem; cursor: pointer; color: var(--text); }
+
+        /* Style for the check/x marks */
+        .feedback-mark {
+            display: inline-block;
+            width: 20px;
+            font-weight: bold;
+            margin-right: 5px;
+        }
 
         .clinical-input-area { margin: 15px 0; }
 
-        /* width: 100% and box-sizing: border-box prevents the textarea from being "too wide" */
         textarea {
             width: 100%; height: 80px;
             border: 1px solid #cbd5e1; border-radius: 4px;
@@ -138,7 +143,7 @@
             <img src="./images/headshot_patient1.jpg" alt="Case 1" class="patient-thumb">
             <div class="card-content">
                 <h2 class="patient-name">Case #01: Sudden Diagnosis</h2>
-                <p class="patient-desc">Mrs. Ramirez, 35.</p>
+                <p class="patient-desc">Mrs. Ramirez, 35. Admitted with a high WBC count.</p>
                 
                 <div class="audio-container">
                     <span class="section-label">Listen to Encounter:</span>
@@ -196,11 +201,6 @@
                     <p style="font-size: 0.9rem; margin-top: 10px;">RLQ pain suggests appendicitis. Prioritize physiological assessment over psychosocial fears.</p>
                 </details>
 
-                  <div class="clinical-input-area">
-                    <span class="section-label">Revised Clinical Decision / Reflection</span>
-                    <textarea placeholder="Based on the exper's feedback, what did you learn abour your initial clinical decision?"></textarea>
-                </div>
-
                 <button type="button" class="submit-btn" onclick="alert('Case 2 Saved')">Submit Case for Review</button>
             </div>
         </div>
@@ -256,12 +256,21 @@ function evaluateCase(caseNum) {
 
     inputs.forEach(input => {
         const label = input.parentElement;
+        
+        // Prevent duplicate icons if button is clicked twice
+        if (label.querySelector('.feedback-mark')) return;
+
+        const mark = document.createElement('span');
+        mark.className = 'feedback-mark';
+
         if (correctAnswers.includes(input.id)) {
-            label.style.color = "#008000"; /* Green */
-            label.style.fontWeight = "bold";
+            mark.innerText = '✓'; // Correct Answer
+            label.prepend(mark);
         } else if (input.checked) {
-            label.style.color = "#d93025"; /* Red */
+            mark.innerText = '✕'; // Incorrect selection
+            label.prepend(mark);
         }
+        
         input.disabled = true;
     });
 }
