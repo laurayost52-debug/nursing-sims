@@ -36,13 +36,20 @@
         }
 
       /* Optimized for 1172 x 292 dimensions */
-.header-banner {
-    width: 100%;
-    max-width: 1172px;     /* Prevents the image from stretching and getting blurry */
-    height: auto;          /* Maintains the natural 4:1 proportion */
-    display: block;
-    margin: 0 auto;        /* Centers the banner if the screen is wider than 1172px */
-    object-fit: contain;   /* Ensures the whole image is visible */
+        .header-banner {
+            display: block;
+            margin: 0 auto;        /* Centers the image on the page */
+            max-width: 100%;       /* Allows it to shrink on small screens */
+            width: 1172px;         /* Forces it to stay at its original width on desktop */
+            height: 292px;         /* Forces its original height on desktop */
+        }
+
+/* On mobile/tablets, we let the height adjust automatically so it doesn't squish */
+@media (max-width: 1172px) {
+    .header-banner {
+        width: 100%;
+        height: auto;
+    }
 }
 
 /* Tablet & Mobile Adjustment */
