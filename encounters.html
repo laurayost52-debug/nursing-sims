@@ -275,7 +275,7 @@ function sendEmail(caseNum) {
 }
 
 function evaluateCase(caseNum) {
-    const answerKey = { 1: ['c1q1', 'c1q2', 'c1q4'], 2: ['c2q1', 'c2q2', 'c2q3'], 3: ['c3q1', 'c3q2', 'c3q4'] };
+    const answerKey = { 1: ['c1q1', 'c1q2', 'c1q4'], 2: ['c2q1', 'c2q2', 'c2q3'], 3: ['c3q3', 'c3q6', 'c3q7'] };
     const correctAnswers = answerKey[caseNum];
     const checklist = document.getElementById(`case${caseNum}-checklist`);
     const inputs = checklist.querySelectorAll('input[type="checkbox"]');
