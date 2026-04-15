@@ -288,7 +288,7 @@ function evaluateCase(event, caseNum) {
     // Guardrail logic
     if (!anyChecked || initialDecisionText.length < 5) {
         event.preventDefault(); // Prevents the <details> from opening
-        alert("Please identify the clinical cues and write your Initial Clinical Decision before viewing expert feedback.");
+        alert("Please identify the clinical cues and/or provide your initial clinical decision before viewing the expert's feedback.");
         return false;
     }
 
