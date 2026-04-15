@@ -51,7 +51,7 @@
             border: 1px solid #e2e8f0;
             display: flex;
             flex-direction: column;
-            height: 100%; /* Ensures all cards match height in a row */
+            height: 100%; 
         }
 
         .patient-thumb {
@@ -112,7 +112,7 @@
             width: 100%; background: var(--ui-blue); color: white;
             border: none; padding: 12px; border-radius: 4px;
             font-weight: 600; cursor: pointer; transition: background 0.2s;
-            margin-top: auto; /* Pushes button to the very bottom */
+            margin-top: auto; 
         }
 
         .submit-btn:hover { background: #003d66; }
@@ -138,7 +138,7 @@
 <div class="container">
     <div class="grid">
         
-        <div class="patient-card">
+        <div class="patient-card" id="card-1">
             <img src="./images/headshot_patient1.jpg" alt="Case 1" class="patient-thumb">
             <div class="card-content">
                 <h2 class="patient-name">Case #01: Sudden Diagnosis</h2>
@@ -159,10 +159,10 @@
 
                 <div class="clinical-input-area">
                     <span class="section-label">Initial Clinical Decision</span>
-                    <textarea placeholder="Based on the audio, what is your immediate clinical priority?"></textarea>
+                    <textarea class="initial-decision" placeholder="Based on the audio, what is your immediate clinical priority?"></textarea>
                 </div>
 
-                <details onclick="evaluateCase(1)">
+                <details onclick="return evaluateCase(event, 1)">
                     <summary>[+] REVEAL EXPERT FEEDBACK</summary>
                     <p style="font-size: 0.9rem; margin-top: 10px;">The patient is exhibiting signs of <strong>Leukostasis</strong>. Priority: EKG and O2 assessment.</p>
                 </details>
@@ -171,7 +171,7 @@
             </div>
         </div>
 
-        <div class="patient-card">
+        <div class="patient-card" id="card-2">
             <img src="./images/headshot_patient2.jpg" alt="Case 2" class="patient-thumb">
             <div class="card-content">
                 <h2 class="patient-name">Case #02: Acute Pain</h2>
@@ -192,10 +192,10 @@
 
                 <div class="clinical-input-area">
                     <span class="section-label">Initial Clinical Decision</span>
-                    <textarea placeholder="What is your immediate clinical priority?"></textarea>
+                    <textarea class="initial-decision" placeholder="What is your immediate clinical priority?"></textarea>
                 </div>
 
-                <details onclick="evaluateCase(2)">
+                <details onclick="return evaluateCase(event, 2)">
                     <summary>[+] REVEAL EXPERT FEEDBACK</summary>
                     <p style="font-size: 0.9rem; margin-top: 10px;">Potential appendicitis. Prioritize physiological assessment over psychosocial fears.</p>
                 </details>
@@ -208,7 +208,7 @@
             </div>
         </div>
 
-        <div class="patient-card">
+        <div class="patient-card" id="card-3">
             <img src="./images/headshot_patient3.jpg" alt="Case 3" class="patient-thumb">
             <div class="card-content">
                 <h2 class="patient-name">Case #03</h2>
@@ -234,10 +234,10 @@
 
                 <div class="clinical-input-area">
                     <span class="section-label">Initial Clinical Decision</span>
-                    <textarea placeholder="What was the rationale for your intitial clinical decision?"></textarea>
+                    <textarea class="initial-decision" placeholder="What was the rationale for your intitial clinical decision?"></textarea>
                 </div>
 
-                <details onclick="evaluateCase(3)">
+                <details onclick="return evaluateCase(event, 3)">
                     <summary>[+] REVEAL EXPERT FEEDBACK</summary>
                     <p style="font-size: 0.9rem; margin-top: 10px;">The patient should be further evaluated based on having a massive ‘gush’ of lochia or vaginal bleeding, feeling dizzy and lightheaded and her heart racing. Feel a massive ‘gush’ of lochia or other vaginal bleeding may be normal but only in limited circumstances such as when a patient stands or is breastfeeding or during a fundal massage. While a patient may experience dizziness due to orthostatic hypotension, it is not normal for a patient to feel dizzy, lightheaded, or that their heart racing while lying in bed. Bad uterine cramping with breastfeeding is normal for a multiparous patient. Postpartum patients often experience some difficulty urinating and a sore perineum after a vaginal birth. The patient’s last void of 300 mL suggests she was able to empty her bladder fully at that time. Sweating after giving birth is also normal in the first several days postpartum.</p>
                 </details>
@@ -250,12 +250,14 @@
             </div>
         </div>
 
-    </div> </div> <footer>&copy; 2026 University of Iowa College of Nursing</footer>
+    </div> 
+</div> 
+
+<footer>&copy; 2026 University of Iowa College of Nursing</footer>
 
 <script>
 function sendEmail(caseNum) {
-    const cards = document.querySelectorAll('.patient-card');
-    const caseCard = cards[caseNum - 1]; 
+    const caseCard = document.getElementById(`card-${caseNum}`); 
     
     const textboxes = caseCard.querySelectorAll('textarea');
     const initialDecision = textboxes[0].value;
@@ -274,21 +276,44 @@ function sendEmail(caseNum) {
     window.location.href = `mailto:${facultyEmail}?subject=${subject}&body=${emailBody}`;
 }
 
-function evaluateCase(caseNum) {
-    const answerKey = { 1: ['c1q1', 'c1q2', 'c1q4'], 2: ['c2q1', 'c2q2', 'c2q3'], 3: ['c3q3', 'c3q6', 'c3q7'] };
-    const correctAnswers = answerKey[caseNum];
+function evaluateCase(event, caseNum) {
+    const caseCard = document.getElementById(`card-${caseNum}`);
     const checklist = document.getElementById(`case${caseNum}-checklist`);
-    const inputs = checklist.querySelectorAll('input[type="checkbox"]');
+    const initialDecisionText = caseCard.querySelector('.initial-decision').value.trim();
+    
+    // Check if at least one checkbox is checked
+    const checkboxes = checklist.querySelectorAll('input[type="checkbox"]');
+    const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
 
-    inputs.forEach(input => {
+    // Guardrail logic
+    if (!anyChecked || initialDecisionText.length < 5) {
+        event.preventDefault(); // Prevents the <details> from opening
+        alert("Please identify the clinical cues and write your Initial Clinical Decision before viewing expert feedback.");
+        return false;
+    }
+
+    // If guardrail passed, run the existing evaluation logic
+    const answerKey = { 
+        1: ['c1q1', 'c1q2', 'c1q4'], 
+        2: ['c2q1', 'c2q2', 'c2q3'], 
+        3: ['c3q3', 'c3q6', 'c3q7'] 
+    };
+    
+    const correctAnswers = answerKey[caseNum];
+
+    checkboxes.forEach(input => {
         const label = input.parentElement;
         if (label.querySelector('.feedback-mark')) return;
+        
         const mark = document.createElement('span');
         mark.className = 'feedback-mark';
+        
         if (correctAnswers.includes(input.id)) {
-            mark.innerText = '✓'; label.prepend(mark);
+            mark.innerText = '✓'; 
+            label.prepend(mark);
         } else if (input.checked) {
-            mark.innerText = '✕'; label.prepend(mark);
+            mark.innerText = '✕'; 
+            label.prepend(mark);
         }
         input.disabled = true;
     });
