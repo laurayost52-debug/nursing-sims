@@ -167,7 +167,7 @@
                     <p style="font-size: 0.9rem; margin-top: 10px;">The patient is exhibiting signs of <strong>Leukostasis</strong>. Priority: EKG and O2 assessment.</p>
                 </details>
 
-                <button type="button" class="submit-btn" onclick="alert('Case 1 Saved')">Submit Case for Review</button>
+                <button type="button" class="submit-btn" onclick="sendEmail(1)">Submit Case for Review</button>
             </div>
         </div>
 
@@ -259,16 +259,32 @@
 function sendEmail(caseNum) {
     const caseCard = document.getElementById(`card-${caseNum}`); 
     
+    // 1. Gather Text Decisions
     const textboxes = caseCard.querySelectorAll('textarea');
     const initialDecision = textboxes[0].value;
     const reflection = textboxes[1] ? textboxes[1].value : "No reflection provided.";
 
+    // 2. Gather Selected Clues
+    const checklist = document.getElementById(`case${caseNum}-checklist`);
+    const selectedCheckboxes = checklist.querySelectorAll('input[type="checkbox"]:checked');
+    let selectedClues = [];
+    
+    selectedCheckboxes.forEach(cb => {
+        // Get the text from the label, but remove any feedback marks (✓/✕) if they exist
+        let clueText = cb.parentElement.innerText.replace('✓', '').replace('✕', '').trim();
+        selectedClues.push("- " + clueText);
+    });
+    
+    const cluesString = selectedClues.length > 0 ? selectedClues.join('\n') : "No clues selected.";
+
+    // 3. Email Config
     const facultyEmail = "pamela-mulder@uiowa.edu"; 
     const subject = encodeURIComponent(`Clinical Decision Submission: Case #0${caseNum}`);
     
     const emailBody = encodeURIComponent(
         `STUDENT CLINICAL CASE SUBMISSION\n` +
         `--------------------------------\n` +
+        `SELECTED CLINICAL CUES:\n` + cluesString + `\n\n` +
         `INITIAL CLINICAL DECISION:\n` + initialDecision + `\n\n` +
         `CLINICAL DECISION REFLECTION:\n` + reflection
     );
@@ -281,18 +297,15 @@ function evaluateCase(event, caseNum) {
     const checklist = document.getElementById(`case${caseNum}-checklist`);
     const initialDecisionText = caseCard.querySelector('.initial-decision').value.trim();
     
-    // Check if at least one checkbox is checked
     const checkboxes = checklist.querySelectorAll('input[type="checkbox"]');
     const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
 
-    // Guardrail logic
     if (!anyChecked || initialDecisionText.length < 5) {
-        event.preventDefault(); // Prevents the <details> from opening
-        alert("Please identify the clinical cues and/or provide your initial clinical decision before viewing the expert's feedback.");
+        event.preventDefault(); 
+        alert("Please identify the clinical cues and provide your initial clinical decision before viewing the expert's feedback.");
         return false;
     }
 
-    // If guardrail passed, run the existing evaluation logic
     const answerKey = { 
         1: ['c1q1', 'c1q2', 'c1q4'], 
         2: ['c2q1', 'c2q2', 'c2q3'], 
