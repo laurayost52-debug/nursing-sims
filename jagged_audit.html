@@ -2,24 +2,22 @@
     <div style="background-color: var(--ui-blue); color: white; padding: 10px; font-weight: 800; font-size: 0.75rem; text-align: center; letter-spacing: 0.05em;">
         AI INSIGHT: PROFESSIONAL DISCLOSURE
     </div>
+    
+    <div style="width: 100%; height: 180px; background-color: #fceaea; border-bottom: 4px solid var(--ui-gold); display: flex; align-items: center; justify-content: center; flex-direction: column;">
+        <span class="section-label" style="color: #d9534f; margin-bottom: 5px;">AI PREDICTIVE ALERT</span>
+        <div style="font-size: 2.2rem; font-weight: 900; color: #d9534f;">88% RISK</div>
+        <span style="font-size: 0.7rem; font-weight: 600;">System: GlobalHealth AI Triage</span>
+    </div>
+
     <div class="card-content">
         <h2 class="patient-name">Case #04: The Jagged Edge</h2>
         <p class="patient-desc">
-            <b>Mr. Henderson, 72.</b> Currently being monitored by the <i>GlobalHealth AI Triage Suite</i>. 
-            The system has issued a high-priority alert based on historical data. 
-            <b>Your Task:</b> Audit the AI score against the "human-only" cues present at the bedside.
+            <strong>Mr. Henderson, 72.</strong> The AI has flagged a high sepsis risk based on historical trends[cite: 27]. 
+            <strong>Task:</strong> Audit this score against the "human-only" cues present at the bedside[cite: 28, 33].
         </p>
-
-        <div class="audio-container" style="background: #fff5f5; border: 2px solid #d9534f;">
-            <span class="section-label" style="color: #d9534f;">AI PREDICTIVE ALERT</span>
-            <div style="font-size: 1.5rem; font-weight: 900; color: #d9534f; text-align: center; margin: 5px 0;">
-                88% SEPSIS RISK
-            </div>
-            <p style="font-size: 0.75rem; text-align: center; margin: 0;">Trigger: Automated analysis of WBC trends and age.</p>
-        </div>
-
+        
         <div class="checklist" id="case4-checklist">
-            <span class="section-label">Verify Bedside Realities (Select all that apply)</span>
+            <span class="section-label">Verify Bedside Realities</span>
             <label><input type="checkbox" id="c4q1"> AI: Historical WBC is elevated</label>
             <label><input type="checkbox" id="c4q2"> Bedside: Patient is alert/oriented x4</label>
             <label><input type="checkbox" id="c4q3"> Bedside: Skin is warm, pink, and dry</label>
@@ -29,18 +27,18 @@
 
         <div class="clinical-input-area">
             <span class="section-label">Audit Rationale (Verification Boundary)</span>
-            <textarea class="initial-decision" placeholder="Why does the 'bedside' contradict the 'screen'? Identify the conflict."></textarea>
+            <textarea class="initial-decision" placeholder="Why does the bedside reality contradict the screen logic?"></textarea>
         </div>
 
         <div class="clinical-input-area">
             <span class="section-label">Professional Disclosure Statement</span>
-            <textarea placeholder="Draft the EHR disclosure: 'This score was audited/overridden because...'"></textarea>
+            <textarea placeholder="Draft the EHR disclosure: 'This score was audited and overridden because...'"></textarea>
         </div>
 
         <details onclick="return evaluateCase(event, 4)">
             <summary>[+] REVEAL EXPERT AUDIT</summary>
             <p style="font-size: 0.9rem; margin-top: 10px;">
-                <b>Correct Action: Clinical Override.</b> While the AI is correctly analyzing historical data points (age, labs), it cannot "see" the patient’s current functional status (A&O x4, pink skin, eating). This is the "Jagged Edge" where human cues must override machine logic to prevent automation bias. [cite: 27, 34]
+                <strong>Correct Action: Clinical Override.</strong> The AI is anchored to historical data and missed "human-only" cues (alertness, skin color, appetite)[cite: 20, 27]. This demonstrates the "Jagged Edge" where your clinical assessment must be the final authority[cite: 22, 27].
             </p>
         </details>
 
