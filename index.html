@@ -19,7 +19,6 @@
             margin: 0; padding: 0; line-height: 1.6; 
         }
         
-        /* Accessibility: Skip link */
         .skip-link {
             position: absolute;
             top: -40px; left: 0;
@@ -35,49 +34,25 @@
             border-bottom: 8px solid var(--ui-gold); 
         }
 
-      /* Optimized for 1172 x 292 dimensions */
         .header-banner {
             display: block;
-            margin: 0 auto;        /* Centers the image on the page */
-            max-width: 100%;       /* Allows it to shrink on small screens */
-            width: 1172px;         /* Forces it to stay at its original width on desktop */
-            height: 292px;         /* Forces its original height on desktop */
+            margin: 0 auto;
+            max-width: 100%;
+            width: 1172px;
+            height: 292px;
         }
 
-/* On mobile/tablets, we let the height adjust automatically so it doesn't squish */
-@media (max-width: 1172px) {
-    .header-banner {
-        width: 100%;
-        height: auto;
-    }
-}
-
-/* Tablet & Mobile Adjustment */
-@media (max-width: 768px) {
-    .header-banner {
-        width: 100%;       /* On small screens, let it fill the width */
-    }
-}
-
-/* Tablet & Mobile Adjustment - Put this near the bottom of your style section */
-@media (max-width: 768px) {
-    .header-banner {
-        aspect-ratio: 16 / 9; 
-    }
-}
-
-        .header-content { padding: 30px 20px; }
-
-        header h1 { 
-            margin: 0; 
-            font-size: clamp(1.5rem, 6vw, 2.2rem); 
-            color: var(--ui-blue);
+        @media (max-width: 1172px) {
+            .header-banner {
+                width: 100%;
+                height: auto;
+            }
         }
 
-        header p { 
-            font-size: 1.1rem; color: #64748b; 
-            max-width: 700px; margin: 10px auto 0; 
-            font-weight: 300; 
+        @media (max-width: 768px) {
+            .header-banner {
+                aspect-ratio: 16 / 9; 
+            }
         }
 
         .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
@@ -144,18 +119,18 @@
 
 <header role="banner">
     <img src="images/CIL_banner.jpg" alt="University of Iowa College of Nursing building exterior" class="header-banner">
-   </header>
+</header>
 
 <main id="main" class="container">
     <section class="mission" aria-labelledby="mission-title">
-        <h2 id="mission-title">Advacning Dynamic Instruction</h2>
-        <p>Our mission? To develop an exploratory space housing authentic, activel, and decision-based learning experiences that empower students to practice and refine their decision-making and high-stakes clincial judgment skills.  Our goal? Work with faculty to provide cutting-edge, creative, engaging learning opportunities for our future nurses.</p>
+        <h2 id="mission-title">Advancing Dynamic Instruction</h2>
+        <p>Our mission? To develop an exploratory space housing authentic, active, and decision-based learning experiences that empower students to practice and refine their decision-making and high-stakes clinical judgment skills. Our goal? Work with faculty to provide cutting-edge, creative, engaging learning opportunities for our future nurses.</p>
     </section>
 
     <h2 class="gallery-title">INTERACTIVE COLLECTION</h2>
-      <div class="grid">
-     <div class="card">
-     <a href="encounters.html" class="card">
+    
+    <div class="grid">
+        <a href="encounters.html" class="card">
             <div class="card-content">
                 <span class="card-tag tag-audio">Audio Lab</span>
                 <h3>Patient Encounters</h3>
@@ -164,16 +139,16 @@
             <div class="card-footer">Launch Module →</div>
         </a>
       
-     <div class="card" style="opacity: 0.7;">
+        <div class="card" style="opacity: 0.7;">
             <div class="card-content">
                 <span class="card-tag">Clinical Judgment</span>
                 <h3>Evidence Tracker: Room 402</h3>
                 <p>Investigate patient statements to identify critical 'Red Flag' cues in a cardiac scenario.</p>
             </div>
-             <div class="card-footer">In Development</div>
-     </div>
+            <div class="card-footer">In Development</div>
+        </div>     
      
-       <div class="card" style="opacity: 0.7;">
+        <div class="card" style="opacity: 0.7;">
             <div class="card-content">
                 <span class="card-tag" style="background: #f1f5f9; color: #475569;">Upcoming</span>
                 <h3>SBAR Synthesis Lab</h3>
