@@ -256,6 +256,7 @@
 <footer>&copy; 2026 University of Iowa College of Nursing</footer>
 
 <script>
+<script>
 function sendEmail(caseNum) {
     const caseCard = document.getElementById(`card-${caseNum}`); 
     
@@ -270,26 +271,37 @@ function sendEmail(caseNum) {
     let selectedClues = [];
     
     selectedCheckboxes.forEach(cb => {
-        // Get the text from the label, but remove any feedback marks (✓/✕) if they exist
         let clueText = cb.parentElement.innerText.replace('✓', '').replace('✕', '').trim();
         selectedClues.push("- " + clueText);
     });
     
     const cluesString = selectedClues.length > 0 ? selectedClues.join('\n') : "No clues selected.";
 
-    // 3. Email Config
-    const facultyEmail = "pamela-mulder@uiowa.edu"; 
-    const subject = encodeURIComponent(`Clinical Decision Submission: Case #0${caseNum}`);
-    
-    const emailBody = encodeURIComponent(
-        `STUDENT CLINICAL CASE SUBMISSION\n` +
-        `--------------------------------\n` +
-        `SELECTED CLINICAL CUES:\n` + cluesString + `\n\n` +
-        `INITIAL CLINICAL DECISION:\n` + initialDecision + `\n\n` +
-        `CLINICAL DECISION REFLECTION:\n` + reflection
-    );
+    // 3. Generate Submission Content
+    const fileContent = `STUDENT CLINICAL CASE SUBMISSION
+--------------------------------
+DATE: ${new Date().toLocaleDateString()}
+CASE: #0${caseNum}
 
-    window.location.href = `mailto:${facultyEmail}?subject=${subject}&body=${emailBody}`;
+SELECTED CLINICAL CUES:
+${cluesString}
+
+INITIAL CLINICAL DECISION:
+${initialDecision}
+
+CLINICAL DECISION REFLECTION:
+${reflection}`;
+
+    // 4. Download File for GitHub Upload
+    const blob = new Blob([fileContent], { type: 'text/markdown' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Case0${caseNum}_Submission.md`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+
+    alert("Submission file generated! Please upload this file to the 'submissions' folder in GitHub to complete your assignment.");
 }
 
 function evaluateCase(event, caseNum) {
