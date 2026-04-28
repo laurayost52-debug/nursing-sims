@@ -1,0 +1,33 @@
+name: Generate Clinical Summary
+on:
+  push:
+    paths:
+      - 'submissions/**'
+
+jobs:
+  update-csv:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Create CSV
+        run: |
+          echo "Date,Student_File,Status" > summary_results.csv
+          for file in submissions/*; do
+            if [ "$file" != "submissions/placeholder.txt" ]; then
+              date_added=$(git log -1 --format=%cd --date=short -- "$file")
+              filename=$(basename "$file")
+              echo "$date_added,$filename,Submitted" >> summary_results.csv
+            fi
+          done
+
+      - name: Commit and Push Summary
+        run: |
+          git config --global user.name "Summary Bot"
+          git config --global user.email "bot@github.com"
+          git add summary_results.csv
+          git commit -m "Automated update of student summary" || exit 0
+          git push
