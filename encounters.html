@@ -246,7 +246,7 @@
                     <span class="section-label">Clinical Decision Reflection</span>
                     <textarea placeholder="What did you learn after reviewing the expert feedback?"></textarea>
                 </div>
-                <button type="button" class="submit-btn" onclick="sendEmail(3)">Submit Case for Review (CSV)</button>
+                <button type="button" class="submit-btn" onclick="sendEmail(3)">Submit Case for Review (CSV 2)</button>
             </div>
         </div>
 
@@ -255,7 +255,6 @@
 
 <footer>&copy; 2026 University of Iowa College of Nursing</footer>
 
-<script>
 <script>
 function sendEmail(caseNum) {
     const caseCard = document.getElementById(`card-${caseNum}`); 
@@ -280,7 +279,6 @@ function sendEmail(caseNum) {
     // 3. Generate Submission Content
     const fileContent = `STUDENT CLINICAL CASE SUBMISSION
 --------------------------------
-DATE: ${new Date().toLocaleDateString()}
 CASE: #0${caseNum}
 
 SELECTED CLINICAL CUES:
@@ -292,16 +290,16 @@ ${initialDecision}
 CLINICAL DECISION REFLECTION:
 ${reflection}`;
 
-    // 4. Download File for GitHub Upload
-    const blob = new Blob([fileContent], { type: 'text/markdown' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `Case0${caseNum}_Submission.md`;
-    a.click();
-    window.URL.revokeObjectURL(url);
-
-    alert("Submission file generated! Please upload this file to the 'submissions' folder in GitHub to complete your assignment.");
+    // 4. Copy to Clipboard
+    navigator.clipboard.writeText(fileContent).then(() => {
+        alert("Success! Your results have been copied to your clipboard.\n\nNow, click OK to go to the Submissions folder. Once there, click 'Add file' -> 'Create new file', name it after yourself, and PASTE your results.");
+        
+        // 5. Open the Submissions folder automatically
+        // REPLACE 'YourUsername/YourRepo' with your actual GitHub path
+        window.open('https://github.com/YourUsername/YourRepo/tree/main/submissions', '_blank');
+    }).catch(err => {
+        alert("Something went wrong copying the text. Please manually copy your text from the boxes before heading to GitHub.");
+    });
 }
 
 function evaluateCase(event, caseNum) {
@@ -318,21 +316,14 @@ function evaluateCase(event, caseNum) {
         return false;
     }
 
-    const answerKey = { 
-        1: ['c1q1', 'c1q2', 'c1q4'], 
-        2: ['c2q1', 'c2q2', 'c2q3'], 
-        3: ['c3q3', 'c3q6', 'c3q7'] 
-    };
-    
+    const answerKey = { 1: ['c1q1', 'c1q2', 'c1q4'], 2: ['c2q1', 'c2q2', 'c2q3'], 3: ['c3q3', 'c3q6', 'c3q7'] };
     const correctAnswers = answerKey[caseNum];
 
     checkboxes.forEach(input => {
         const label = input.parentElement;
         if (label.querySelector('.feedback-mark')) return;
-        
         const mark = document.createElement('span');
         mark.className = 'feedback-mark';
-        
         if (correctAnswers.includes(input.id)) {
             mark.innerText = '✓'; 
             label.prepend(mark);
