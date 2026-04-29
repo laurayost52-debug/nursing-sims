@@ -136,6 +136,12 @@
 </header>
 
 <div class="container">
+    <div class="container" style="margin-bottom: 0;">
+    <div style="background: white; padding: 20px; border-radius: 12px; border: 1px solid #e2e8f0; border-left: 8px solid var(--ui-blue); margin-bottom: 20px;">
+        <span class="section-label">Student Identification</span>
+        <input type="text" id="studentName" placeholder="Enter your Full Name" style="width: 100%; max-width: 400px; padding: 12px; border: 1px solid #cbd5e1; border-radius: 4px; font-family: inherit; font-size: 1rem;">
+    </div>
+</div>
     <div class="grid">
         
         <div class="patient-card" id="card-1">
@@ -246,60 +252,14 @@
                     <span class="section-label">Clinical Decision Reflection</span>
                     <textarea placeholder="What did you learn after reviewing the expert feedback?"></textarea>
                 </div>
-                <button type="button" class="submit-btn" onclick="sendEmail(3)">Submit Case for Review (CSV 6)</button>
+                <button type="button" class="submit-btn" onclick="sendEmail(3)">Submit Case for Review (CSV 7)</button>
             </div>
         </div>
 
     </div> 
 </div> 
-// PASTE YOUR SHEET MONKEY URL HERE
-const SHEET_URL = "https://api.sheetmonkey.io/form/qCxdMEvEt2HHMvx9GeREyA";
+</script>
 
-async function sendEmail(caseNum) { // Keeping the name 'sendEmail' so you don't have to change your HTML buttons
-    const caseCard = document.getElementById(`card-${caseNum}`); 
-    const textboxes = caseCard.querySelectorAll('textarea');
-    
-    const initialDecision = textboxes[0].value; 
-    const reflection = textboxes[1] ? textboxes[1].value : "N/A";
-
-    const checklist = document.getElementById(`case${caseNum}-checklist`);
-    const selectedCheckboxes = checklist.querySelectorAll('input[type="checkbox"]:checked');
-    let clues = [];
-    selectedCheckboxes.forEach(cb => {
-        clues.push(cb.parentElement.innerText.replace(/[✓✕]/g, "").trim());
-    });
-
-    // Prepare the data object
-    const formData = {
-        "Case_Number": caseNum,
-        "Clinical_Cues": clues.join(", "),
-        "Initial_Decision": initialDecision,
-        "Reflection": reflection,
-        "Submitted_At": new Date().toLocaleString()
-    };
-
-    try {
-        // Send data to Google Sheets silently
-        const response = await fetch(SHEET_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData),
-        });
-
-        if (response.ok) {
-            alert("Success! Your clinical encounter has been submitted to the instructor.");
-            // Optional: Disable the button so they don't submit twice
-            caseCard.querySelector('.submit-btn').innerText = "Submitted ✓";
-            caseCard.querySelector('.submit-btn').disabled = true;
-        } else {
-            throw new Error();
-        }
-    } catch (error) {
-        alert("Submission failed. Please check your internet connection and try again.");
-    }
-}
-
-// Keep your evaluateCase function exactly as it was below this...
-    <footer>&copy; 2026 University of Iowa College of Nursing</footer>
+<footer>&copy; 2026 University of Iowa College of Nursing</footer>
 </body>
 </html>
