@@ -252,86 +252,54 @@
 
     </div> 
 </div> 
-<script>
-function sendEmail(caseNum) {
+// PASTE YOUR SHEET MONKEY URL HERE
+const SHEET_URL = "https://api.sheetmonkey.io/form/qCxdMEvEt2HHMvx9GeREyA";
+
+async function sendEmail(caseNum) { // Keeping the name 'sendEmail' so you don't have to change your HTML buttons
     const caseCard = document.getElementById(`card-${caseNum}`); 
     const textboxes = caseCard.querySelectorAll('textarea');
     
-    // Clean text to avoid breaking CSV format (removing quotes and commas)
-    const initialDecision = textboxes[0].value.replace(/[",]/g, ""); 
-    const reflection = textboxes[1] ? textboxes[1].value.replace(/[",]/g, "") : "N/A";
+    const initialDecision = textboxes[0].value; 
+    const reflection = textboxes[1] ? textboxes[1].value : "N/A";
 
     const checklist = document.getElementById(`case${caseNum}-checklist`);
     const selectedCheckboxes = checklist.querySelectorAll('input[type="checkbox"]:checked');
     let clues = [];
     selectedCheckboxes.forEach(cb => {
-        clues.push(cb.parentElement.innerText.replace(/[✓✕,]/g, "").trim());
+        clues.push(cb.parentElement.innerText.replace(/[✓✕]/g, "").trim());
     });
-    const cluesString = clues.join(" | ");
 
-    // Create CSV Content
-    const csvHeader = "Case_Number,Clinical_Cues,Initial_Decision,Reflection\n";
-    const csvRow = `${caseNum},"${cluesString}","${initialDecision}","${reflection}"`;
-    const csvContent = csvHeader + csvRow;
-
-    // 1. Trigger the CSV Download
-    const blob = new Blob([csvContent], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `Case_0${caseNum}_Submission.csv`;
-    a.click();
-    window.URL.revokeObjectURL(url);
-
-    // 2. Trigger the Email Client
-    const facultyEmail = "pamela-mulder@uiowa.edu"; 
-    const subject = encodeURIComponent(`Clinical Submission: Case #0${caseNum}`);
-    const body = encodeURIComponent("Attached is my Clinical Lab Encounter CSV data file.");
-    
-    window.location.href = `mailto:${facultyEmail}?subject=${subject}&body=${body}`;
-
-    // 3. User Instructions
-    alert("SUCCESS:\n1. Your CSV data file has been downloaded.\n2. An email has opened.\n\nPlease ATTACH the downloaded file to the email and hit send.");
-}
-
-function evaluateCase(event, caseNum) {
-    const caseCard = document.getElementById(`card-${caseNum}`);
-    const checklist = document.getElementById(`case${caseNum}-checklist`);
-    const initialDecisionText = caseCard.querySelector('.initial-decision').value.trim();
-    
-    const checkboxes = checklist.querySelectorAll('input[type="checkbox"]');
-    const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
-
-    if (!anyChecked || initialDecisionText.length < 5) {
-        event.preventDefault(); 
-        alert("Please identify the clinical cues and provide your initial clinical decision before viewing the expert's feedback.");
-        return false;
-    }
-
-    const answerKey = { 
-        1: ['c1q1', 'c1q2', 'c1q4'], 
-        2: ['c2q1', 'c2q2', 'c2q3'], 
-        3: ['c3q3', 'c3q6', 'c3q7'] 
+    // Prepare the data object
+    const formData = {
+        "Case_Number": caseNum,
+        "Clinical_Cues": clues.join(", "),
+        "Initial_Decision": initialDecision,
+        "Reflection": reflection,
+        "Submitted_At": new Date().toLocaleString()
     };
-    
-    const correctAnswers = answerKey[caseNum];
 
-    checkboxes.forEach(input => {
-        const label = input.parentElement;
-        if (label.querySelector('.feedback-mark')) return;
-        const mark = document.createElement('span');
-        mark.className = 'feedback-mark';
-        if (correctAnswers.includes(input.id)) {
-            mark.innerText = '✓'; 
-            label.prepend(mark);
-        } else if (input.checked) {
-            mark.innerText = '✕'; 
-            label.prepend(mark);
+    try {
+        // Send data to Google Sheets silently
+        const response = await fetch(SHEET_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData),
+        });
+
+        if (response.ok) {
+            alert("Success! Your clinical encounter has been submitted to the instructor.");
+            // Optional: Disable the button so they don't submit twice
+            caseCard.querySelector('.submit-btn').innerText = "Submitted ✓";
+            caseCard.querySelector('.submit-btn').disabled = true;
+        } else {
+            throw new Error();
         }
-        input.disabled = true;
-    });
+    } catch (error) {
+        alert("Submission failed. Please check your internet connection and try again.");
+    }
 }
-</script>
+
+// Keep your evaluateCase function exactly as it was below this...
     <footer>&copy; 2026 University of Iowa College of Nursing</footer>
 </body>
 </html>
