@@ -256,27 +256,33 @@
                     <span class="section-label">Clinical Decision Reflection</span>
                     <textarea placeholder="What did you learn after reviewing the expert feedback?"></textarea>
                 </div>
-                <button type="button" class="submit-btn" onclick="sendEmail(3)">Submit Case for Review (CSV 8)</button>
+                <button type="button" class="submit-btn" onclick="sendEmail(3)">Submit Case for Review (CSV 9)</button>
             </div>
         </div>
 
     </div> 
 </div> 
-    <script>async function sendEmail(caseNum) {
-    const caseCard = document.getElementById(`card-${caseNum}`); 
-    
-    // 1. Grab the "Nurse on Duty" name from THIS specific card
-    const nurseName = caseCard.querySelector('.nurse-name').value.trim();
+    <script>
+// 1. REPLACE THE URL BELOW WITH YOUR ACTUAL SHEETMONKEY URL
+const SHEET_URL = "https://api.sheetmonkey.io/form/qCxdMEvEt2HHMvx9GeREyA";
 
-    // 2. Validation: Ensure they signed in as the nurse
+async function sendEmail(caseNum) {
+    const caseCard = document.getElementById(`card-${caseNum}`);
+    
+    // Grab the Nurse Name from this card
+    const nurseNameInput = caseCard.querySelector('.nurse-name');
+    const nurseName = nurseNameInput ? nurseNameInput.value.trim() : "";
+
+    // Validation: Ensure they signed in as the nurse
     if (!nurseName) {
         alert("Please enter your name in the 'Nurse on Duty' field before submitting.");
-        caseCard.querySelector('.nurse-name').focus();
+        if (nurseNameInput) nurseNameInput.focus();
         return;
     }
 
+    // Gather text and checkboxes
     const textboxes = caseCard.querySelectorAll('textarea');
-    const initialDecision = textboxes[0].value; 
+    const initialDecision = textboxes[0].value;
     const reflection = textboxes[1] ? textboxes[1].value : "N/A";
 
     const checklist = document.getElementById(`case${caseNum}-checklist`);
@@ -286,6 +292,7 @@
         clues.push(cb.parentElement.innerText.replace(/[✓✕]/g, "").trim());
     });
 
+    // Prepare data object for SheetMonkey
     const formData = {
         "Nurse_on_Duty": nurseName,
         "Case_Number": caseNum,
@@ -295,18 +302,69 @@
         "Submitted_At": new Date().toLocaleString()
     };
 
-    // ... (Your SheetMonkey fetch code below)
-    const response = await fetch(SHEET_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(formData),
-    });
-    
-    if (response.ok) {
-        alert("Success! Encounter documented for Case #" + caseNum);
-        caseCard.querySelector('.submit-btn').innerText = "Documented ✓";
-        caseCard.querySelector('.submit-btn').disabled = true;
+    try {
+        // Change button to show progress
+        const btn = caseCard.querySelector('.submit-btn');
+        const originalText = btn.innerText;
+        btn.innerText = "Submitting...";
+        btn.disabled = true;
+
+        const response = await fetch(SHEET_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData),
+        });
+
+        if (response.ok) {
+            alert("Success! Encounter documented for Case #" + caseNum);
+            btn.innerText = "Documented ✓";
+        } else {
+            throw new Error("Server error");
+        }
+    } catch (error) {
+        alert("Submission failed. Check your URL and Internet connection.");
+        const btn = caseCard.querySelector('.submit-btn');
+        btn.innerText = "Submit Case for Review";
+        btn.disabled = false;
     }
+}
+
+function evaluateCase(event, caseNum) {
+    const caseCard = document.getElementById(`card-${caseNum}`);
+    const checklist = document.getElementById(`case${caseNum}-checklist`);
+    const initialDecisionText = caseCard.querySelector('.initial-decision').value.trim();
+    
+    const checkboxes = checklist.querySelectorAll('input[type="checkbox"]');
+    const anyChecked = Array.from(checkboxes).some(cb => cb.checked);
+
+    if (!anyChecked || initialDecisionText.length < 5) {
+        event.preventDefault(); 
+        alert("Please identify the clinical cues and provide your initial clinical decision before viewing the expert's feedback.");
+        return false;
+    }
+
+    const answerKey = { 
+        1: ['c1q1', 'c1q2', 'c1q4'], 
+        2: ['c2q1', 'c2q2', 'c2q3'], 
+        3: ['c3q3', 'c3q6', 'c3q7'] 
+    };
+    
+    const correctAnswers = answerKey[caseNum];
+
+    checkboxes.forEach(input => {
+        const label = input.parentElement;
+        if (label.querySelector('.feedback-mark')) return;
+        const mark = document.createElement('span');
+        mark.className = 'feedback-mark';
+        if (correctAnswers.includes(input.id)) {
+            mark.innerText = '✓'; 
+            label.prepend(mark);
+        } else if (input.checked) {
+            mark.innerText = '✕'; 
+            label.prepend(mark);
+        }
+        input.disabled = true;
+    });
 }
 </script>
 <footer>&copy; 2026 University of Iowa College of Nursing</footer>
