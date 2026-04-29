@@ -122,6 +122,16 @@
             padding: 12px; border-radius: 8px; background-color: #f0f7ff;
         }
 
+        .input-group-centered {
+            text-align: center;
+        }
+        
+        .input-group-centered .nurse-name {
+            display: block;
+            margin: 0 auto; /* Centers the block-level input */
+            max-width: 90%; /* Prevents it from hitting the card edges too hard */
+        }
+        
         summary { font-weight: 800; cursor: pointer; color: var(--ui-blue); }
 
         footer { text-align: center; padding: 60px 20px; color: #94a3b8; }
@@ -212,7 +222,7 @@
             <img src="./images/headshot_patient3.jpg" alt="Case 3" class="patient-thumb">
             <div class="card-content">
                 <h2 class="patient-name">Case #03</h2>
-                <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed #cbd5e1;">
+               <div class="input-group-centered" style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed #cbd5e1;">
     <span class="section-label">Nurse(s) on Duty</span>
     <input type="text" class="nurse-name" placeholder="Enter your name(s)." style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-family: inherit; font-size: 0.9rem;">
 </div>
@@ -250,7 +260,7 @@
                     <span class="section-label">Clinical Decision Reflection</span>
                     <textarea placeholder="What did you learn after reviewing the expert feedback?"></textarea>
                 </div>
-                <button type="button" class="submit-btn" onclick="sendEmail(3)">Finalize Case for Review (CSV 11)</button>
+                <button type="button" class="submit-btn" onclick="sendEmail(3)">Finalize Case for Review (CSV 12)</button>
             </div>
         </div>
 
