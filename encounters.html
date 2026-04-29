@@ -254,7 +254,7 @@
 </div> 
 
 <footer>&copy; 2026 University of Iowa College of Nursing</footer>
-
+<script>
 function sendEmail(caseNum) {
     const caseCard = document.getElementById(`card-${caseNum}`); 
     const textboxes = caseCard.querySelectorAll('textarea');
@@ -333,5 +333,6 @@ function evaluateCase(event, caseNum) {
         input.disabled = true;
     });
 }
+</script>
 </body>
 </html>
