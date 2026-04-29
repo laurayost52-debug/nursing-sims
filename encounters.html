@@ -218,6 +218,10 @@
             <img src="./images/headshot_patient3.jpg" alt="Case 3" class="patient-thumb">
             <div class="card-content">
                 <h2 class="patient-name">Case #03</h2>
+                <div style="margin-bottom: 15px; padding-bottom: 15px; border-bottom: 1px dashed #cbd5e1;">
+    <span class="section-label">Nurse on Duty</span>
+    <input type="text" class="nurse-name" placeholder="Enter your name..." style="width: 100%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-family: inherit; font-size: 0.9rem;">
+</div>
                 <p class="patient-desc"><b>Emily Thompson - Postpartum Patient</b><br>
                     Descriptors: 32-year-old G3P3, 4 hours after a vaginal birth with a second degree laceration and periurethral tear, no other complications. Last assessment was two hours earlier with the following findings: U/U, firm and midline, lochia rubra moderate, perineum reddened, edematous, incision intact, no drainage or bleeding. Voided once since birth, 300 mL, two hours earlier. Patient breastfed one hour ago. </p>
                 
@@ -252,14 +256,59 @@
                     <span class="section-label">Clinical Decision Reflection</span>
                     <textarea placeholder="What did you learn after reviewing the expert feedback?"></textarea>
                 </div>
-                <button type="button" class="submit-btn" onclick="sendEmail(3)">Submit Case for Review (CSV 7)</button>
+                <button type="button" class="submit-btn" onclick="sendEmail(3)">Submit Case for Review (CSV 8)</button>
             </div>
         </div>
 
     </div> 
 </div> 
-</script>
+    <script>async function sendEmail(caseNum) {
+    const caseCard = document.getElementById(`card-${caseNum}`); 
+    
+    // 1. Grab the "Nurse on Duty" name from THIS specific card
+    const nurseName = caseCard.querySelector('.nurse-name').value.trim();
 
+    // 2. Validation: Ensure they signed in as the nurse
+    if (!nurseName) {
+        alert("Please enter your name in the 'Nurse on Duty' field before submitting.");
+        caseCard.querySelector('.nurse-name').focus();
+        return;
+    }
+
+    const textboxes = caseCard.querySelectorAll('textarea');
+    const initialDecision = textboxes[0].value; 
+    const reflection = textboxes[1] ? textboxes[1].value : "N/A";
+
+    const checklist = document.getElementById(`case${caseNum}-checklist`);
+    const selectedCheckboxes = checklist.querySelectorAll('input[type="checkbox"]:checked');
+    let clues = [];
+    selectedCheckboxes.forEach(cb => {
+        clues.push(cb.parentElement.innerText.replace(/[✓✕]/g, "").trim());
+    });
+
+    const formData = {
+        "Nurse_on_Duty": nurseName,
+        "Case_Number": caseNum,
+        "Clinical_Cues": clues.join(", "),
+        "Initial_Decision": initialDecision,
+        "Reflection": reflection,
+        "Submitted_At": new Date().toLocaleString()
+    };
+
+    // ... (Your SheetMonkey fetch code below)
+    const response = await fetch(SHEET_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+    });
+    
+    if (response.ok) {
+        alert("Success! Encounter documented for Case #" + caseNum);
+        caseCard.querySelector('.submit-btn').innerText = "Documented ✓";
+        caseCard.querySelector('.submit-btn').disabled = true;
+    }
+}
+</script>
 <footer>&copy; 2026 University of Iowa College of Nursing</footer>
 </body>
 </html>
