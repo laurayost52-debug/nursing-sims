@@ -246,7 +246,7 @@
                     <span class="section-label">Clinical Decision Reflection</span>
                     <textarea placeholder="What did you learn after reviewing the expert feedback?"></textarea>
                 </div>
-                <button type="button" class="submit-btn" onclick="sendEmail(3)">Submit Case for Review (CSV 3)</button>
+                <button type="button" class="submit-btn" onclick="sendEmail(3)">Submit Case for Review (CSV 4)</button>
             </div>
         </div>
 
@@ -255,51 +255,45 @@
 
 <footer>&copy; 2026 University of Iowa College of Nursing</footer>
 
-<script>
 function sendEmail(caseNum) {
     const caseCard = document.getElementById(`card-${caseNum}`); 
-    
-    // 1. Gather Text Decisions
     const textboxes = caseCard.querySelectorAll('textarea');
-    const initialDecision = textboxes[0].value;
-    const reflection = textboxes[1] ? textboxes[1].value : "No reflection provided.";
+    
+    // Clean text to avoid breaking CSV format (removing quotes and commas)
+    const initialDecision = textboxes[0].value.replace(/[",]/g, ""); 
+    const reflection = textboxes[1] ? textboxes[1].value.replace(/[",]/g, "") : "N/A";
 
-    // 2. Gather Selected Clues
     const checklist = document.getElementById(`case${caseNum}-checklist`);
     const selectedCheckboxes = checklist.querySelectorAll('input[type="checkbox"]:checked');
-    let selectedClues = [];
-    
+    let clues = [];
     selectedCheckboxes.forEach(cb => {
-        let clueText = cb.parentElement.innerText.replace('✓', '').replace('✕', '').trim();
-        selectedClues.push("- " + clueText);
+        clues.push(cb.parentElement.innerText.replace(/[✓✕,]/g, "").trim());
     });
+    const cluesString = clues.join(" | ");
+
+    // Create CSV Content
+    const csvHeader = "Case_Number,Clinical_Cues,Initial_Decision,Reflection\n";
+    const csvRow = `${caseNum},"${cluesString}","${initialDecision}","${reflection}"`;
+    const csvContent = csvHeader + csvRow;
+
+    // 1. Trigger the CSV Download
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `Case_0${caseNum}_Submission.csv`;
+    a.click();
+    window.URL.revokeObjectURL(url);
+
+    // 2. Trigger the Email Client
+    const facultyEmail = "pamela-mulder@uiowa.edu"; 
+    const subject = encodeURIComponent(`Clinical Submission: Case #0${caseNum}`);
+    const body = encodeURIComponent("Attached is my Clinical Lab Encounter CSV data file.");
     
-    const cluesString = selectedClues.length > 0 ? selectedClues.join('\n') : "No clues selected.";
+    window.location.href = `mailto:${facultyEmail}?subject=${subject}&body=${body}`;
 
-    // 3. Generate Submission Content
-    const fileContent = `STUDENT CLINICAL CASE SUBMISSION
---------------------------------
-CASE: #0${caseNum}
-
-SELECTED CLINICAL CUES:
-${cluesString}
-
-INITIAL CLINICAL DECISION:
-${initialDecision}
-
-CLINICAL DECISION REFLECTION:
-${reflection}`;
-
-    // 4. Copy to Clipboard
-    navigator.clipboard.writeText(fileContent).then(() => {
-        alert("Success! Your results have been copied to your clipboard.\n\nNow, click OK to go to the Submissions folder. Once there, click 'Add file' -> 'Create new file', name it after yourself, and PASTE your results.");
-        
-        // 5. Open the Submissions folder automatically
-        // REPLACE 'YourUsername/YourRepo' with your actual GitHub path
-        window.open('https://github.com/YourUsername/YourRepo/tree/main/submissions', '_blank');
-    }).catch(err => {
-        alert("Something went wrong copying the text. Please manually copy your text from the boxes before heading to GitHub.");
-    });
+    // 3. User Instructions
+    alert("SUCCESS:\n1. Your CSV data file has been downloaded.\n2. An email has opened.\n\nPlease ATTACH the downloaded file to the email and hit send.");
 }
 
 function evaluateCase(event, caseNum) {
@@ -316,7 +310,12 @@ function evaluateCase(event, caseNum) {
         return false;
     }
 
-    const answerKey = { 1: ['c1q1', 'c1q2', 'c1q4'], 2: ['c2q1', 'c2q2', 'c2q3'], 3: ['c3q3', 'c3q6', 'c3q7'] };
+    const answerKey = { 
+        1: ['c1q1', 'c1q2', 'c1q4'], 
+        2: ['c2q1', 'c2q2', 'c2q3'], 
+        3: ['c3q3', 'c3q6', 'c3q7'] 
+    };
+    
     const correctAnswers = answerKey[caseNum];
 
     checkboxes.forEach(input => {
@@ -334,6 +333,5 @@ function evaluateCase(event, caseNum) {
         input.disabled = true;
     });
 }
-</script>
 </body>
 </html>
