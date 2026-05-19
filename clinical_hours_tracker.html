@@ -1,1 +1,295 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Clinical Inquiry Lab - Hours Tracker</title>
+    <style>
+        :root {
+            --primary: #002a5c; /* Deep institutional blue */
+            --secondary: #f4f6f9;
+            --accent: #0073e6;
+            --text: #333;
+            --success: #28a745;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text);
+            background-color: var(--secondary);
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        header h1 { margin: 0; font-size: 1.8rem; }
+        header p { margin: 5px 0 0 0; opacity: 0.9; }
+        
+        /* Dashboard Stats */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            border-left: 5px solid var(--accent);
+            text-align: center;
+        }
+        .stat-card.total { border-left-color: var(--success); }
+        .stat-card h3 { margin: 0; color: #666; font-size: 0.9rem; text-transform: uppercase; }
+        .stat-card .number { font-size: 2rem; font-weight: bold; color: var(--primary); margin-top: 5px; }
+
+        /* Main Layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 25px;
+        }
+        @media (max-width: 768px) {
+            .main-layout { grid-template-columns: 1fr; }
+        }
+
+        /* Forms & Cards */
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .card h2 { margin-top: 0; font-size: 1.3rem; color: var(--primary); border-bottom: 2px solid var(--secondary); padding-bottom: 10px; }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        input, select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+        textarea { resize: vertical; height: 80px; }
+        
+        button {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        button:hover { background: #0056b3; }
+
+        /* Tables */
+        .table-responsive {
+            overflow-x: auto;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 0.95rem;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        th { background-color: var(--secondary); color: var(--primary); font-weight: 600; }
+        tr:hover { background-color: #fdfdfd; }
+        
+        .empty-state {
+            text-align: center;
+            color: #888;
+            padding: 30px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Clinical Inquiry Lab</h1>
+        <p>Student Clinical Hours Experience Tracker</p>
+    </header>
+
+    <!-- Dashboard Summaries -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>Total Entries</h3>
+            <div id="count-entries" class="number">0</div>
+        </div>
+        <div class="stat-card total">
+            <h3>Total Accumulated Hours</h3>
+            <div id="total-hours" class="number">0.0</div>
+        </div>
+    </div>
+
+    <div class="main-layout">
+        <!-- Log Entry Form -->
+        <div class="card">
+            <h2>Log Clinical Session</h2>
+            <form id="hours-form">
+                <div class="form-group">
+                    <label for="student-name">Student Full Name</label>
+                    <input type="text" id="student-name" required placeholder="Jane Doe">
+                </div>
+                <div class="form-group">
+                    <label for="session-date">Date of Experience</label>
+                    <input type="date" id="session-date" required>
+                </div>
+                <div class="form-group">
+                    <label for="setting">Clinical Setting / Module</label>
+                    <select id="setting" required>
+                        <option value="">-- Select Setting --</option>
+                        <option value="Homeostasis Simulation">Homeostasis Simulation</option>
+                        <option value="Patient Encounter Simulation">Patient Encounter Simulation</option>
+                        <option value="Clinical Innovation Lab">Clinical Innovation Lab</option>
+                        <option value="Guided Inquiry Reflection">Guided Inquiry Reflection</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="hours">Hours Earned (e.g., 2.5)</label>
+                    <input type="number" id="hours" step="0.1" min="0.1" required placeholder="2.5">
+                </div>
+                <div class="form-group">
+                    <label for="notes">Clinical Judgment Reflection / Notes</label>
+                    <textarea id="notes" placeholder="Briefly summarize core observations or inquiries..."></textarea>
+                </div>
+                <button type="submit">Submit & Log Hours</button>
+            </form>
+        </div>
+
+        <!-- Recent Logs Display -->
+        <div class="card">
+            <h2>Session Log History (Current Session)</h2>
+            <div class="table-responsive">
+                <table id="log-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Student</th>
+                            <th>Setting/Module</th>
+                            <th>Hours</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table-body">
+                        <!-- Dynamic rows fit here -->
+                    </tbody>
+                </table>
+                <div id="empty-msg" class="empty-state">No hours logged in this session yet.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // Local state tracking for the user's active screen browser session
+    let localLogs = [];
+
+    const hoursForm = document.getElementById('hours-form');
+    const tableBody = document.getElementById('table-body');
+    const emptyMsg = document.getElementById('empty-msg');
+    const totalHoursEl = document.getElementById('total-hours');
+    const countEntriesEl = document.getElementById('count-entries');
+
+    hoursForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+
+        // 1. Capture Form Values
+        const studentName = document.getElementById('student-name').value;
+        const sessionDate = document.getElementById('session-date').value;
+        const setting = document.getElementById('setting').value;
+        const hours = parseFloat(document.getElementById('hours').value);
+        const notes = document.getElementById('notes').value;
+
+        const logEntry = { studentName, sessionDate, setting, hours, notes };
+
+        // 2. Update Local UI Data
+        localLogs.push(logEntry);
+        updateUI();
+
+        // 3. Send Data to Central Spreadsheet Backend
+        sendDataToBackend(logEntry);
+
+        // Reset form completely except for student name (for rapid entry convenience)
+        hoursForm.reset();
+        document.getElementById('student-name').value = studentName;
+    });
+
+    function updateUI() {
+        if (localLogs.length > 0) {
+            emptyMsg.style.display = 'none';
+        }
+
+        // Render table row
+        tableBody.innerHTML = '';
+        let runningHoursTotal = 0;
+
+        localLogs.forEach(log => {
+            runningHoursTotal += log.hours;
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${log.sessionDate}</td>
+                <td><strong>${log.studentName}</strong></td>
+                <td>${log.setting}</td>
+                <td><span style="font-weight:600; color:var(--accent);">${log.hours}</span></td>
+                <td style="font-size:0.85rem; color:#555;">${log.notes || '-'}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+
+        // Update top summary cards
+        countEntriesEl.textContent = localLogs.length;
+        totalHoursEl.textContent = runningHoursTotal.toFixed(1);
+    }
+
+    function sendDataToBackend(data) {
+        // TARGET WEBHOOK URL HERE (See Part 2 for setup)
+        const webhookUrl = "YOUR_MICROSOFT_POWER_AUTOMATE_OR_GOOGLE_SCRIPT_URL";
+
+        if(webhookUrl.includes("YOUR_")) {
+            console.log("Data captured locally. Configure your endpoint URL to build the master spreadsheet automated pipeline.", data);
+            return;
+        }
+
+        fetch(webhookUrl, {
+            method: 'POST',
+            mode: 'no-cors', // Keeps deployment simple without configuring cross-origin CORS headers
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        })
+        .then(() => console.log("Successfully securely delivered data to centralized spreadsheet."))
+        .catch(err => console.error("Network synchronization error: ", err));
+    }
+</script>
+</body>
+</html>
