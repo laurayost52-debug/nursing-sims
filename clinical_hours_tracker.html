@@ -127,7 +127,7 @@
     <div class="main-layout" id="main-layout-container" role="main">
         <!-- Step 1: Input Form (Left Column) -->
         <div class="card" role="region" aria-labelledby="step1-title">
-            <h2 id="step1-title">1. Log Your Hours</h2>
+            <h2 id="step1-title">Log Your Clinical Hours</h2>
             <form id="clinical-entry-form">
                 <div class="form-group">
                     <label for="student-name">Full Name (Last, First)</label>
@@ -201,35 +201,7 @@
                 <button type="submit">Generate Summary & Review</button>
             </form>
         </div>
-
-        <!-- Step 2: Verification Panel (Middle Column) -->
-        <div class="card" id="middle-summary-panel" role="region" aria-labelledby="step2-title">
-            <h2 id="step2-title">2. Current Entry Summary</h2>
-            <p style="font-size: 0.85rem; color: #555; margin-top: -10px;">Please review your entry details below carefully before submitting to faculty.</p>
-            
-            <div id="summary-display" style="color: #555; text-align: center; margin-top: 20px; font-style: italic;">
-                Complete step 1 to compile your entry details here.
-            </div>
-
-            <div id="verification-zone">
-                <div class="form-group">
-                    <label for="student-email">Confirm Your Email Address</label>
-                    <input type="email" id="student-email" placeholder="jane-doe@uiowa.edu">
-                </div>
-                <div class="form-group checkbox-group">
-                    <input type="checkbox" id="no-receipt">
-                    <label for="no-receipt">I don't need my summary sent to me.</label>
-                </div>
-
-                <button type="button" id="final-submit-btn">Final Submit to Faculty</button>
-                
-                <!-- Explicit ARIA dynamic live-alert handling boxes attached to targets -->
-                <div id="error-status" class="status-msg status-error" role="alert" aria-live="assertive"></div>
-                <div id="status" class="status-msg status-success" role="status" aria-live="polite">Entry securely transmitted to master log!</div>
-            </div>
-        </div>
-
-        <!-- Step 3: Session History (Right Column) -->
+         <!-- Step 3: Session History (Right Column) -->
         <div class="card" role="region" aria-labelledby="history-title">
             <h2 id="history-title">Session History</h2>
             <p style="font-size: 0.85rem; color: #555; margin-top: -10px;">Logs recorded on this device during your current visit.</p>
@@ -249,6 +221,31 @@
             </div>
         </div>
     </div>
+
+        <!-- Step 2: Verification Panel (Middle Column) -->
+        <div class="card" id="middle-summary-panel" role="region" aria-labelledby="step2-title">
+            <h2 id="step2-title">Review Your Clinical Hours</h2>
+            <p style="font-size: 0.85rem; color: #555; margin-top: -10px;">Please review your entry details below carefully before submitting to faculty.</p>
+            
+            <div id="verification-zone">
+                <div class="form-group">
+                    <label for="student-email">Provide Email to Receive Session Summary</label>
+                    <input type="email" id="student-email" placeholder="jane-doe@uiowa.edu">
+                </div>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="no-receipt">
+                    <label for="no-receipt">I don't need my summary sent to me.</label>
+                </div>
+
+                <button type="button" id="final-submit-btn">Submit Summary to Faculty</button>
+                
+                <!-- Explicit ARIA dynamic live-alert handling boxes attached to targets -->
+                <div id="error-status" class="status-msg status-error" role="alert" aria-live="assertive"></div>
+                <div id="status" class="status-msg status-success" role="status" aria-live="polite">Entry securely transmitted to master log!</div>
+            </div>
+        </div>
+
+       
 </div>
 
 <script>
