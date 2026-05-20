@@ -11,8 +11,9 @@
             --bg: #f8fafc; 
             --text: #1e293b; 
             --card-bg: #ffffff;
-            --border: #e2e8f0;
-            --text-muted: #64748b;
+            --border: #cbd5e1;
+            --text-muted: #475569;
+            --focus-ring: #0284c7;
         }
 
         * {
@@ -26,26 +27,47 @@
             background-color: var(--bg); 
             color: var(--text); 
             line-height: 1.6; 
-            padding-bottom: 60px;
+            padding-bottom: 40px;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Skip to content link for keyboard accessibility */
+        .skip-link {
+            position: absolute;
+            top: -100px;
+            left: 0;
+            background: var(--ui-blue);
+            color: white;
+            padding: 12px 24px;
+            z-index: 100;
+            text-decoration: none;
+            font-weight: 600;
+            border-bottom-right-radius: 8px;
+            transition: top 0.2s;
+        }
+
+        .skip-link:focus {
+            top: 0;
+            outline: 3px solid var(--ui-gold);
         }
 
         header { 
             background-color: #ffffff; 
-            padding: 40px 20px; 
+            padding: 30px 20px; 
             text-align: center; 
             border-bottom: 8px solid var(--ui-gold); 
             box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
         }
 
         .header-logo { 
-            max-width: 130px; 
+            max-width: 120px; 
             height: auto; 
-            margin-bottom: 15px; 
+            margin-bottom: 12px; 
         }
         
         header h1 { 
             margin: 0; 
-            font-size: 2.2rem; 
+            font-size: 1.8rem; 
             color: var(--ui-blue); 
             font-weight: 800;
             letter-spacing: -0.025em;
@@ -54,7 +76,7 @@
         header p {
             margin-top: 8px;
             color: var(--text-muted);
-            font-size: 1.1rem;
+            font-size: 1rem;
             max-width: 600px;
             margin-left: auto;
             margin-right: auto;
@@ -62,61 +84,85 @@
 
         .container { 
             max-width: 1200px; 
-            margin: 50px auto; 
-            padding: 0 24px; 
+            margin: 30px auto; 
+            padding: 0 16px; 
         }
 
-        .search-bar-container {
-            margin-bottom: 35px;
+        .search-container {
+            margin-bottom: 30px;
             text-align: center;
+            padding: 0 8px;
+        }
+
+        .search-label {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: var(--ui-blue);
+            font-size: 1rem;
         }
 
         .search-input {
             width: 100%;
-            max-width: 450px;
+            max-width: 480px;
             padding: 14px 20px;
             font-family: inherit;
             font-size: 1rem;
             border: 2px solid var(--border);
-            border-radius: 30px;
+            border-radius: 28px;
             outline: none;
-            transition: all 0.2s ease-in-out;
+            transition: border-color 0.2s, box-shadow 0.2s;
             box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
 
-        .search-input:focus {
+        .search-input:focus-visible {
             border-color: var(--ui-blue);
-            box-shadow: 0 0 0 4px rgba(0, 85, 140, 0.15);
+            box-shadow: 0 0 0 4px rgba(0, 85, 140, 0.25);
+        }
+
+        /* Screen reader only utility class */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rectangle(0, 0, 0, 0);
+            border: 0;
         }
 
         .grid { 
             display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); 
-            gap: 30px; 
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); 
+            gap: 24px; 
         }
 
         .faculty-card { 
             background: var(--card-bg); 
             border-radius: 12px; 
             overflow: hidden; 
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03); 
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); 
             border: 1px solid var(--border);
             display: flex;
             flex-direction: column;
             height: 100%; 
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: transform 0.2s, box-shadow 0.2s;
         }
 
-        .faculty-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08), 0 4px 6px -2px rgba(0,0,0,0.04);
+        /* Subtle lift styling on non-touch devices */
+        @media (hover: hover) {
+            .faculty-card:hover {
+                transform: translateY(-4px);
+                box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08);
+            }
         }
 
         .image-container {
             position: relative;
             width: 100%;
-            height: 240px;
-            background-color: #f1f5f9;
+            height: 220px;
+            background-color: #e2e8f0;
             overflow: hidden;
             border-bottom: 4px solid var(--ui-gold);
         }
@@ -132,8 +178,8 @@
         }
 
         .avatar-placeholder svg {
-            width: 70px;
-            height: 70px;
+            width: 64px;
+            height: 64px;
             opacity: 0.6;
         }
 
@@ -147,7 +193,7 @@
         }
 
         .card-content { 
-            padding: 24px; 
+            padding: 20px; 
             flex-grow: 1; 
             display: flex; 
             flex-direction: column; 
@@ -162,32 +208,35 @@
         }
 
         .faculty-role { 
-            font-size: 0.9rem; 
-            font-weight: 600;
+            font-size: 0.85rem; 
+            font-weight: 700;
             color: var(--text-muted); 
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            margin-bottom: 16px; 
+            margin-bottom: 12px; 
         }
 
         .faculty-email {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             color: var(--text-muted);
-            margin-bottom: 24px;
+            margin-bottom: 20px;
             word-break: break-all;
         }
 
         .portal-btn {
-            display: block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             width: 100%;
             background: var(--ui-blue); 
             color: white;
             text-decoration: none;
-            padding: 12px; 
+            padding: 14px 20px; /* Enhanced touch target size */
+            min-height: 48px;  /* Strict mobile requirement compliance */
             border-radius: 6px;
             font-weight: 600; 
-            font-size: 0.95rem;
-            transition: background 0.2s, transform 0.1s;
+            font-size: 1rem;
+            transition: background 0.2s, box-shadow 0.2s;
             margin-top: auto; 
             border: none;
             cursor: pointer;
@@ -197,8 +246,9 @@
             background: #003d66; 
         }
 
-        .portal-btn:active {
-            transform: scale(0.98);
+        .portal-btn:focus-visible {
+            outline: 3px solid var(--focus-ring);
+            outline-offset: 2px;
         }
 
         .no-results {
@@ -212,16 +262,26 @@
 
         footer { 
             text-align: center; 
-            padding: 40px 20px 0 20px; 
-            color: #94a3b8; 
-            font-size: 0.9rem;
+            padding: 30px 20px; 
+            color: #64748b; 
+            font-size: 0.85rem;
             border-top: 1px solid var(--border);
             max-width: 1200px;
-            margin: 40px auto 0 auto;
+            margin: 30px auto 0 auto;
+        }
+
+        /* Responsive breakpoints adjusting text sizes for mobile phones */
+        @media (min-width: 768px) {
+            header { padding: 40px 20px; }
+            header h1 { font-size: 2.2rem; }
+            header p { font-size: 1.1rem; }
+            .container { margin: 40px auto; }
         }
     </style>
 </head>
 <body>
+
+<a href="#mainGrid" class="skip-link">Skip to faculty cards</a>
 
 <header>
     <img src="./images/CIL_logo.png" alt="Clinical Inquiry Lab Logo" class="header-logo" onerror="this.style.display='none'">
@@ -229,120 +289,185 @@
     <p>Students: Please select your assigned clinical faculty advisor below to access your tracking and encounter submission page.</p>
 </header>
 
-<div class="container">
+<main class="container">
     
-    <div class="search-bar-container">
-        <input type="text" id="facultySearch" class="search-input" placeholder="Search for your instructor...">
+    <div class="search-container">
+        <label for="facultySearch" class="search-label">Filter Advisors</label>
+        <input type="text" id="facultySearch" class="search-input" placeholder="Type an instructor's name or title...">
     </div>
 
-    <div class="grid" id="facultyGrid">
+    <!-- Screen Reader dynamic status updates container -->
+    <div id="searchLiveStatus" class="sr-only" aria-live="polite"></div>
+
+    <div class="grid" id="mainGrid">
         
-        <div class="faculty-card">
+        <!-- CARD 1 -->
+        <article class="faculty-card">
             <div class="image-container">
                 <div class="avatar-placeholder">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/></svg>
                 </div>
-                <img src="./images/faculty_chen.jpg" alt="Dr. Elizabeth Chen" class="faculty-img" onerror="this.style.display='none'">
+                <img src="./images/faculty_chen.jpg" alt="" class="faculty-img" onerror="this.style.display='none'">
             </div>
             <div class="card-content">
                 <h2 class="faculty-name">Dr. Elizabeth Chen</h2>
                 <p class="faculty-role">Professor of Nursing</p>
                 <p class="faculty-email">elizabeth-chen@uiowa.edu</p>
-                <a href="encounters-chen.html" class="portal-btn">Access Submission Page</a>
+                <a href="encounters-chen.html" class="portal-btn" aria-label="Access Dr. Elizabeth Chen's submission page">Access Submission Page</a>
             </div>
-        </div>
+        </article>
 
-        <div class="faculty-card">
+        <!-- CARD 2 -->
+        <article class="faculty-card">
             <div class="image-container">
                 <div class="avatar-placeholder">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/></svg>
                 </div>
-                <img src="./images/faculty_rodriguez.jpg" alt="Dr. Marcus Rodriguez" class="faculty-img" onerror="this.style.display='none'">
+                <img src="./images/faculty_rodriguez.jpg" alt="" class="faculty-img" onerror="this.style.display='none'">
             </div>
             <div class="card-content">
                 <h2 class="faculty-name">Dr. Marcus Rodriguez</h2>
                 <p class="faculty-role">Associate Professor</p>
                 <p class="faculty-email">marcus-rodriguez@uiowa.edu</p>
-                <a href="encounters-rodriguez.html" class="portal-btn">Access Submission Page</a>
+                <a href="encounters-rodriguez.html" class="portal-btn" aria-label="Access Dr. Marcus Rodriguez's submission page">Access Submission Page</a>
             </div>
-        </div>
+        </article>
 
-        <div class="faculty-card">
+        <!-- CARD 3 -->
+        <article class="faculty-card">
             <div class="image-container">
                 <div class="avatar-placeholder">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/></svg>
                 </div>
-                <img src="./images/faculty_khan.jpg" alt="Dr. Ayesha Khan" class="faculty-img" onerror="this.style.display='none'">
+                <img src="./images/faculty_khan.jpg" alt="" class="faculty-img" onerror="this.style.display='none'">
             </div>
             <div class="card-content">
                 <h2 class="faculty-name">Dr. Ayesha Khan</h2>
                 <p class="faculty-role">Clinical Assistant Professor</p>
                 <p class="faculty-email">ayesha-khan@uiowa.edu</p>
-                <a href="encounters-khan.html" class="portal-btn">Access Submission Page</a>
+                <a href="encounters-khan.html" class="portal-btn" aria-label="Access Dr. Ayesha Khan's submission page">Access Submission Page</a>
             </div>
-        </div>
+        </article>
 
-        <div class="faculty-card">
+        <!-- CARD 4 -->
+        <article class="faculty-card">
             <div class="image-container">
                 <div class="avatar-placeholder">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/></svg>
                 </div>
-                <img src="./images/faculty_wei.jpg" alt="Prof. Li Wei" class="faculty-img" onerror="this.style.display='none'">
+                <img src="./images/faculty_wei.jpg" alt="" class="faculty-img" onerror="this.style.display='none'">
             </div>
             <div class="card-content">
                 <h2 class="faculty-name">Prof. Li Wei</h2>
                 <p class="faculty-role">Senior Lecturer</p>
                 <p class="faculty-email">li-wei@uiowa.edu</p>
-                <a href="encounters-wei.html" class="portal-btn">Access Submission Page</a>
+                <a href="encounters-wei.html" class="portal-btn" aria-label="Access Professor Li Wei's submission page">Access Submission Page</a>
             </div>
-        </div>
+        </article>
 
-        <div class="faculty-card">
+        <!-- CARD 5 -->
+        <article class="faculty-card">
             <div class="image-container">
                 <div class="avatar-placeholder">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/></svg>
                 </div>
-                <img src="./images/faculty_jenkins.jpg" alt="Dr. Sarah Jenkins" class="faculty-img" onerror="this.style.display='none'">
+                <img src="./images/faculty_jenkins.jpg" alt="" class="faculty-img" onerror="this.style.display='none'">
             </div>
             <div class="card-content">
                 <h2 class="faculty-name">Dr. Sarah Jenkins</h2>
                 <p class="faculty-role">Clinical Instructor</p>
                 <p class="faculty-email">sarah-jenkins@uiowa.edu</p>
-                <a href="encounters-jenkins.html" class="portal-btn">Access Submission Page</a>
+                <a href="encounters-jenkins.html" class="portal-btn" aria-label="Access Dr. Sarah Jenkins's submission page">Access Submission Page</a>
             </div>
-        </div>
+        </article>
 
-        <div class="faculty-card">
+        <!-- CARD 6 -->
+        <article class="faculty-card">
             <div class="image-container">
                 <div class="avatar-placeholder">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/></svg>
                 </div>
-                <img src="./images/faculty_vance.jpg" alt="Dr. James Vance" class="faculty-img" onerror="this.style.display='none'">
+                <img src="./images/faculty_vance.jpg" alt="" class="faculty-img" onerror="this.style.display='none'">
             </div>
             <div class="card-content">
                 <h2 class="faculty-name">Dr. James Vance</h2>
                 <p class="faculty-role">Associate Professor (Clinical)</p>
                 <p class="faculty-email">james-vance@uiowa.edu</p>
-                <a href="encounters-vance.html" class="portal-btn">Access Submission Page</a>
+                <a href="encounters-vance.html" class="portal-btn" aria-label="Access Dr. James Vance's submission page">Access Submission Page</a>
             </div>
-        </div>
+        </article>
 
-        <div class="faculty-card">
+        <!-- CARD 7 -->
+        <article class="faculty-card">
             <div class="image-container">
                 <div class="avatar-placeholder">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/></svg>
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/></svg>
                 </div>
-                <img src="./images/faculty_rostova.jpg" alt="Prof. Elena Rostova" class="faculty-img" onerror="this.style.display='none'">
+                <img src="./images/faculty_rostova.jpg" alt="" class="faculty-img" onerror="this.style.display='none'">
             </div>
             <div class="card-content">
                 <h2 class="faculty-name">Prof. Elena Rostova</h2>
                 <p class="faculty-role">Clinical Practice Specialist</p>
                 <p class="faculty-email">elena-rostova@uiowa.edu</p>
-                <a href="encounters-rostova.html" class="portal-btn">Access Submission Page</a>
+                <a href="encounters-rostova.html" class="portal-btn" aria-label="Access Professor Elena Rostova's submission page">Access Submission Page</a>
             </div>
-        </div>
+        </article>
 
-        <div class="faculty-card">
+        <!-- CARD 8 -->
+        <article class="faculty-card">
             <div class="image-container">
                 <div class="avatar-placeholder">
-                    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/></svg>
+                </div>
+                <img src="./images/faculty_kael.jpg" alt="" class="faculty-img" onerror="this.style.display='none'">
+            </div>
+            <div class="card-content">
+                <h2 class="faculty-name">Dr. David Kael</h2>
+                <p class="faculty-role">Assistant Professor</p>
+                <p class="faculty-email">david-kael@uiowa.edu</p>
+                <a href="encounters-kael.html" class="portal-btn" aria-label="Access Dr. David Kael's submission page">Access Submission Page</a>
+            </div>
+        </article>
+
+        <!-- Dynamic Empty Search Result State -->
+        <div class="no-results" id="noResults" role="alert">No faculty members found matching your entry.</div>
+
+    </div>
+</main>
+
+<footer role="contentinfo">&copy; 2026 University of Iowa College of Nursing</footer>
+
+<script>
+    const searchInput = document.getElementById('facultySearch');
+    const facultyCards = document.querySelectorAll('.faculty-card');
+    const noResults = document.getElementById('noResults');
+    const dynamicAnnouncer = document.getElementById('searchLiveStatus');
+
+    searchInput.addEventListener('input', function(e) {
+        const searchTerm = e.target.value.toLowerCase().trim();
+        let activeMatchCount = 0;
+
+        facultyCards.forEach(card => {
+            const facultyName = card.querySelector('.faculty-name').innerText.toLowerCase();
+            const facultyRole = card.querySelector('.faculty-role').innerText.toLowerCase();
+            
+            if (facultyName.includes(searchTerm) || facultyRole.includes(searchTerm)) {
+                card.style.display = 'flex';
+                activeMatchCount++;
+            } else {
+                card.style.display = 'none';
+            }
+        });
+
+        // Update view of structural empty state element
+        if (activeMatchCount > 0) {
+            noResults.style.display = 'none';
+            dynamicAnnouncer.innerText = `Showing ${activeMatchCount} faculty members.`;
+        } else {
+            noResults.style.display = 'block';
+            dynamicAnnouncer.innerText = "No faculty members found matching that search entry.";
+        }
+    });
+</script>
+</body>
+</html>
