@@ -207,7 +207,11 @@
             <h2 id="step2-title">Review Your Clinical Hours Summary</h2>
             <p style="font-size: 0.85rem; color: #555; margin-top: -10px;">Please review your entry details carefully before submitting to faculty.</p>
             
-            <!-- Placed at the top of column 2 for flawless layout flow -->
+            <!-- FIXED: Re-inserted your target summary wrapper container safely here -->
+            <div id="summary-display" style="color: #555; text-align: center; margin-top: 20px; font-style: italic;">
+                Complete step 1 to compile your entry details here.
+            </div>
+
             <div id="verification-zone">
                 <div class="form-group">
                     <label for="student-email">Provide Email to Receive Session Summary</label>
@@ -226,7 +230,26 @@
             </div>
         </div>
 
-       
+        <!-- Step 3: Session History (Right Column) -->
+        <div class="card" role="region" aria-labelledby="history-title">
+            <h2 id="history-title">Session History</h2>
+            <p style="font-size: 0.85rem; color: #555; margin-top: -10px;">Logs recorded on this device during your current visit.</p>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Setting</th>
+                            <th scope="col">Hours</th>
+                        </tr>
+                    </thead>
+                    <tbody id="session-tbody">
+                        <tr><td colspan="3" style="text-align:center; color:#666;">No entries submitted yet.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
     </div>
 </div>
 
