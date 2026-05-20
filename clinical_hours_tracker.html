@@ -6,321 +6,401 @@
     <title>Clinical Hours Tracker</title>
     <style>
         :root {
-            /* WCAG AA Compliant Colors (Contrast Ratio > 4.5:1) */
             --primary: #002a5c;
             --secondary: #f4f6f9;
-            --accent: #005ec4; /* Enhanced for contrast against white */
-            --text: #222222;    /* Darkened for better legibility */
-            --text-muted: #555555;
-            --success-bg: #d4edda;
-            --success-text: #155724;
-            --success-border: #c3e6cb;
-            --danger-bg: #f8d7da;
-            --danger-text: #721c24;
-            --danger-border: #f5c6cb;
-            --focus-outline: #ffbf47;
+            --accent: #0066cc; /* Slightly deepened from #0073e6 to pass WCAG 4.5:1 text contrast check */
+            --text: #222;    /* Deepened from #333 for AAA compliant accessibility legibility */
+            --success: #28a745;
+            --danger: #dc3545;
+            --focus-ring: #ffbf47; /* High-visibility keyboard focus rings */
         }
-
         body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            line-height: 1.5;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            line-height: 1.6;
             color: var(--text);
             background-color: var(--secondary);
             margin: 0;
-            padding: 10px;
+            padding: 12px; /* Responsive baseline padding change */
         }
-
-        @media (min-width: 480px) {
+        @media (min-width: 600px) {
             body { padding: 20px; }
         }
 
-        /* Skip Link for Keyboard Navigation */
-        .skip-link {
+        /* Skip Link for Native Screen Reader and Keyboard Traversal */
+        .skip-to-content {
             position: absolute;
-            top: -40px;
+            top: -50px;
             left: 0;
-            background: var(--focus-outline);
+            background: var(--focus-ring);
             color: #000;
-            padding: 8px;
-            z-index: 100;
+            padding: 10px;
             font-weight: bold;
+            z-index: 999;
             text-decoration: none;
         }
-        .skip-link:focus {
-            top: 0;
-            outline: 3px solid #000;
-        }
+        .skip-to-content:focus { top: 0; outline: 2px solid #000; }
 
-        .container { 
-            max-width: 1400px; 
-            margin: 0 auto; 
-        }
-
+        .container { max-width: 1400px; margin: 0 auto; }
         header {
-            background: var(--primary); 
-            color: white; 
-            padding: 20px; 
-            border-radius: 8px; 
-            margin-bottom: 20px;
+            background: var(--primary); color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;
         }
-        header h1 { margin: 0; font-size: 1.75rem; }
-        header p { margin: 5px 0 0 0; opacity: 0.9; font-size: 1rem; }
+        header h1 { margin: 0; font-size: 1.6rem; }
+        header p { margin: 5px 0 0 0; opacity: 0.9; font-size: 0.9rem; }
         
-        /* Responsive CSS Grid Layout */
+        /* Layout Fluid Grid Engine */
         .main-layout { 
             display: grid; 
-            grid-template-columns: 1fr; 
+            grid-template-columns: 1fr; /* Strict mobile first layout blueprint stacking */
             gap: 20px; 
         }
-
-        @media (min-width: 768px) {
-            .main-layout { grid-template-columns: 1.2fr 1fr; }
+        @media (min-width: 850px) {
+            .main-layout { grid-template-columns: 1.1fr 1.1fr; } /* Tablet scaling split */
         }
         @media (min-width: 1200px) { 
-            .main-layout { grid-template-columns: 1.1fr 1.1fr 0.8fr; } 
+            .main-layout { grid-template-columns: 1.1fr 1.1fr 0.8fr; gap: 25px; } /* Desktop restored layout mapping */
         }
 
-        .card { 
-            background: white; 
-            padding: 20px; 
-            border-radius: 8px; 
-            box-shadow: 0 2px 4px rgba(0,0,0,0.08); 
-            height: fit-content; 
-        }
-        @media (min-width: 480px) {
-            .card { padding: 25px; }
-        }
-
-        .card h2 { 
-            margin-top: 0; 
-            font-size: 1.3rem; 
-            color: var(--primary); 
-            border-bottom: 2px solid var(--secondary); 
-            padding-bottom: 10px; 
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); height: fit-content; }
+        @media (min-width: 480px) { .card { padding: 25px; } }
+        
+        .card h2 { margin-top: 0; font-size: 1.25rem; color: var(--primary); border-bottom: 2px solid var(--secondary); padding-bottom: 10px; }
+        
+        .form-group { margin-bottom: 18px; }
+        
+        /* Date-time block responsive safety mechanics */
+        .date-time-row { display: grid; grid-template-columns: 1fr; gap: 10px; }
+        @media (min-width: 380px) { .date-time-row { grid-template-columns: 1.2fr 0.8fr; } }
+        
+        /* Interactive Tap Targets scaling updates */
+        .checkbox-group { display: flex; align-items: flex-start; gap: 12px; margin-top: 12px; margin-bottom: 18px; }
+        .checkbox-group input { width: 20px !important; height: 20px !important; margin-top: 2px; flex-shrink: 0; cursor: pointer; }
+        .checkbox-group label { display: inline-block; margin-bottom: 0; cursor: pointer; font-weight: normal; }
+        
+        label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 0.95rem; }
+        
+        /* Input structural parameters built for cross-device visibility */
+        input, select, textarea {
+            width: 100%; padding: 12px; border: 2px solid #767676; border-radius: 6px; box-sizing: border-box; 
+            font-size: 1rem; /* Locked minimum 16px font baseline standard stops implicit mobile browser layout visual zoom steps */
+            color: #000; background-color: #fff;
         }
         
-        .form-group { margin-bottom: 20px; }
-        
-        .date-time-row { 
-            display: grid; 
-            grid-template-columns: 1fr; 
-            gap: 15px; 
-        }
-        @media (min-width: 400px) {
-            .date-time-row { grid-template-columns: 1.2fr 0.8fr; }
-        }
-        
-        /* Enhanced Checkbox Target Sizes */
-        .checkbox-group { 
-            display: flex; 
-            align-items: flex-start; 
-            gap: 12px; 
-            margin-top: 15px; 
-            margin-bottom: 20px; 
-        }
-        .checkbox-group input[type="checkbox"] { 
-            width: 20px; 
-            height: 20px; 
-            margin-top: 2px;
-            flex-shrink: 0;
-            cursor: pointer;
-        }
-        .checkbox-group label {
-            margin-bottom: 0;
-            font-weight: normal;
-            cursor: pointer;
-        }
-        
-        label { 
-            display: block; 
-            margin-bottom: 8px; 
-            font-weight: 600; 
-            font-size: 0.95rem; 
-        }
-
-        /* Accessible Input Styling */
-        input[type="text"], 
-        input[type="date"], 
-        input[type="number"], 
-        select, 
-        textarea {
-            width: 100%; 
-            padding: 12px; 
-            border: 2px solid #767676; /* Standard accessible border color */
-            border-radius: 6px; 
-            box-sizing: border-box; 
-            font-size: 1rem; /* Prevents iOS auto-zoom on focus */
-            color: var(--text);
-            background-color: #fff;
-        }
-
-        /* Global Focus Indicator styling */
+        /* Universal Accessible Focus Rings indicators */
         input:focus, select:focus, textarea:focus, button:focus {
-            outline: 3px solid var(--focus-outline) !important;
+            outline: 3px solid var(--focus-ring) !important;
             outline-offset: 2px;
         }
         
         button {
-            background: var(--accent); 
-            color: white; 
-            border: none; 
-            padding: 14px 20px; 
-            font-size: 1.05rem; 
-            border-radius: 6px; 
-            cursor: pointer; 
-            width: 100%; 
-            font-weight: bold;
-            transition: background 0.2s ease;
+            background: var(--accent); color: white; border: none; padding: 14px 20px; font-size: 1.05rem; border-radius: 6px; cursor: pointer; width: 100%; font-weight: bold;
+            transition: background-color 0.15s ease-in-out;
         }
-        button:hover { background: #004694; }
+        button:hover { background: #004d99; }
         
-        /* Status ARIA containers */
-        .status-msg { 
-            margin-top: 15px; 
-            padding: 12px; 
-            border-radius: 6px; 
-            display: none; 
-            font-size: 1rem; 
-            font-weight: bold; 
-            text-align: center; 
-        }
-        .status-success { 
-            background: var(--success-bg); 
-            color: var(--success-text); 
-            border: 1px solid var(--success-border); 
-        }
-        .status-error { 
-            background: var(--danger-bg); 
-            color: var(--danger-text); 
-            border: 1px solid var(--danger-border); 
-        }
+        .status-msg { margin-top: 15px; padding: 12px; border-radius: 6px; display: none; font-size: 0.95rem; font-weight: bold; text-align: center; }
+        .status-success { background: #e2f0d9; color: #234710; border: 2px solid #b3debb; } /* Contrast fixed colors */
+        .status-error { background: #f8d7da; color: #61131a; border: 2px solid #ebccd1; }   /* Contrast fixed colors */
 
-        .summary-block { 
-            background: var(--secondary); 
-            padding: 15px; 
-            border-radius: 6px; 
-            margin-bottom: 15px; 
-        }
-        .summary-block p { margin: 6px 0; font-size: 0.95rem; }
+        .summary-block { background: var(--secondary); padding: 14px; border-radius: 6px; margin-bottom: 12px; border-left: 4px solid #cbd5e1; }
+        .summary-block p { margin: 4px 0; font-size: 0.95rem; }
 
-        #verification-zone { 
-            display: none; 
-            margin-top: 20px; 
-            padding-top: 20px; 
-            border-top: 2px dashed #cbd5e1; 
-        }
+        #verification-zone { margin-top: 20px; padding-top: 20px; border-top: 2px dashed #cbd5e1; }
 
-        /* Responsive, Scrollable Tables */
-        .table-responsive {
-            width: 100%;
-            overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            margin-top: 15px;
-            border: 1px solid #e2e8f0;
-            border-radius: 6px;
-        }
-        table { 
-            width: 100%; 
-            border-collapse: collapse; 
-            font-size: 0.95rem; 
-        }
-        th, td { 
-            padding: 12px; 
-            text-align: left; 
-            border-bottom: 1px solid #e2e8f0; 
-        }
-        th { 
-            background-color: #eec; /* Fallback baseline gray or subtle light-tint */
-            background-color: var(--secondary); 
-            color: var(--primary); 
-            font-weight: 700;
-        }
+        /* Mobile-responsive table wrappers overflow containers */
+        .table-responsive { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin-top: 10px; border-radius: 4px; }
+        table { width: 100%; border-collapse: collapse; font-size: 0.95rem; min-width: 280px; }
+        th, td { padding: 12px 10px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        th { background-color: var(--secondary); color: var(--primary); font-weight: 700; }
     </style>
 </head>
 <body>
 
-    <a href="#main-content" class="skip-link">Skip to main content</a>
+<a href="#main-layout-container" class="skip-to-content">Skip to content</a>
 
-    <div class="container">
-        <header role="banner">
-            <h1>Clinical Hours Tracker</h1>
-            <p>Hours Submission Portal</p>
-        </header>
+<div class="container">
+    <header role="banner">
+        <h1>Clinical Hours Tracker</h1>
+        <p>Hours Submission Portal</p>
+    </header>
 
-        <main id="main-content" class="main-layout">
-            <!-- Step 1: Input Form (Left Column) -->
-            <section class="card" aria-labelledby="form-heading">
-                <h2 id="form-heading">Log New Clinical Shift</h2>
-                
-                <form id="hours-form" action="#" method="POST">
-                    <div class="form-group">
-                        <label id="date-label" for="shift-date">Date of Shift</label>
-                        <input type="date" id="shift-date" name="shift-date" required aria-labelledby="date-label">
-                    </div>
-
-                    <div class="date-time-row">
-                        <div class="form-group">
-                            <label id="hours-label" for="hours-worked">Hours Worked</label>
-                            <input type="number" id="hours-worked" name="hours-worked" min="0.25" max="24" step="0.25" required aria-labelledby="hours-label">
-                        </div>
-                        <div class="form-group">
-                            <label id="environment-label" for="clinical-setting">Clinical Setting</label>
-                            <select id="clinical-setting" name="clinical-setting" required aria-labelledby="environment-label">
-                                <option value="" disabled selected>Select...</option>
-                                <option value="icu">ICU</option>
-                                <option value="er">Emergency Room</option>
-                                <option value="med-surg">Med-Surg</option>
-                                <option value="pediatrics">Pediatrics</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label id="notes-label" for="shift-notes">Clinical Notes & Learnings</label>
-                        <textarea id="shift-notes" name="shift-notes" rows="4" aria-labelledby="notes-label"></textarea>
-                    </div>
-
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="preceptor-signoff" name="preceptor-signoff">
-                        <label for="preceptor-signoff">I certify that my clinical preceptor has verified these hours.</label>
-                    </div>
-
-                    <button type="submit">Submit Shift Hours</button>
-                    
-                    <!-- Form Status Messages wrapped in dynamic live regions -->
-                    <div id="status-container" class="status-msg" role="status" aria-live="polite"></div>
-                </form>
-            </section>
-
-            <!-- Step 2: Live Log Table -->
-            <section class="card" aria-labelledby="log-heading">
-                <h2 id="log-heading">Recent Logged Shifts</h2>
-                <div class="table-responsive" linenums="false">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th scope="col">Date</th>
-                                <th scope="col">Setting</th>
-                                <th scope="col">Hours</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>2026-05-18</td>
-                                <td>ICU</td>
-                                <td>12.0</td>
-                            </tr>
-                            <tr>
-                                <td>2026-05-15</td>
-                                <td>Med-Surg</td>
-                                <td>8.5</td>
-                            </tr>
-                        </tbody>
-                    </table>
+    <!-- Semantic Aria Grid Wrapper Hook attached safely -->
+    <div class="main-layout" id="main-layout-container" role="main">
+        <!-- Step 1: Input Form (Left Column) -->
+        <div class="card" role="region" aria-labelledby="step1-title">
+            <h2 id="step1-title">1. Log Your Hours</h2>
+            <form id="clinical-entry-form">
+                <div class="form-group">
+                    <label for="student-name">Full Name (Last, First)</label>
+                    <input type="text" id="student-name" required placeholder="Doe, Jane">
                 </div>
-            </section>
-        </main>
-    </div>
+                
+                <div class="form-group">
+                    <label id="start-window-label">Experience Start</label>
+                    <div class="date-time-row">
+                        <input type="date" id="start-date" required aria-label="Experience Start Date">
+                        <input type="time" id="start-time" required aria-label="Experience Start Time">
+                    </div>
+                </div>
 
+                <div class="form-group">
+                    <label id="end-window-label">Experience End</label>
+                    <div class="date-time-row">
+                        <input type="date" id="end-date" required aria-label="Experience End Date">
+                        <input type="time" id="end-time" required aria-label="Experience End Time">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="setting">Clinical Setting</label>
+                    <select id="setting" required>
+                        <option value="">-- Select Setting --</option>
+                        <option value="SNICU">SNICU</option>
+                        <option value="Adult or Pediatric Inpatient Medical Surgical">Adult or Pediatric Inpatient Medical Surgical</option>
+                        <option value="CVICU">CVICU</option>
+                        <option value="MICU">MICU</option>
+                        <option value="Emergency Room">Emergency Room</option>
+                        <option value="Stem Cell Transplant and Cellular Therapies (3JCP)">Stem Cell Transplant and Cellular Therapies (3JCP)</option>
+                        <option value="SFCH Level 9 - Pediatric Inpatient">SFCH Level 9 - Pediatric Inpatient</option>
+                        <option value="Children Prep and Recovery">Children Prep and Recovery</option>
+                        <option value="Labor and Delivery-6JPP">Labor and Delivery-6JPP</option>
+                        <option value="SFCH Level 11 - Pediatric Oncology">SFCH Level 11 - Pediatric Oncology</option>
+                        <option value="SFCH Level 10 - Pediatric Cardiology">SFCH Level 10 - Pediatric Cardiology</option>
+                        <option value="Med/Surg Float Pool">Med/Surg Float Pool</option>
+                        <option value="Postpartum/Gynecology-3JPP">Postpartum/Gynecology-3JPP</option>
+                        <option value="NIC1">NIC1</option>
+                        <option value="Adult Acute Care Unit-2JC">Adult Acute Care Unit-2JC</option>
+                        <option value="CWS-Float Pool Team-PICU-NICU float">CWS-Float Pool Team-PICU-NICU float</option>
+                        <option value="RSCCU/Palliative Care-7JCP">RSCCU/Palliative Care-7JCP</option>
+                        <option value="Burn Unit">Burn Unit</option>
+                        <option value="NIC2">NIC2</option>
+                        <option value="St Lukes Birth Care Center">St Lukes Birth Care Center</option>
+                        <option value="Hematology/Oncology 4JPP">Hematology/Oncology 4JPP</option>
+                        <option value="Main OR">Main OR</option>
+                        <option value="SFCH Level 3 - PICU">SFCH Level 3 - PICU</option>
+                        <option value="CR1 Adult ICU Float Pool">CR1 Adult ICU Float Pool</option>
+                        <option value="St Lukes ICU">St Lukes ICU</option>
+                        <option value="St Lukes Adolescent Behavioral Health">St Lukes Adolescent Behavioral Health</option>          
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="hours">Hours</label>
+                    <input type="number" id="hours" step="0.1" min="0.1" required placeholder="2.0">
+                </div>
+                <div class="form-group">
+                    <label for="confirmation">Hours: Confirmation</label>
+                    <select id="confirmation" required>
+                        <option value="confirm">-- Confirmation of Completed Hours --</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="notes">Notes</label>
+                    <textarea id="notes" placeholder="Provide rationale for overtime..."></textarea>
+                </div>
+                <button type="submit">Generate Summary & Review</button>
+            </form>
+        </div>
+
+        <!-- Step 2: Verification Panel (Middle Column) -->
+        <div class="card" id="middle-summary-panel" role="region" aria-labelledby="step2-title">
+            <h2 id="step2-title">2. Current Entry Summary</h2>
+            <p style="font-size: 0.85rem; color: #555; margin-top: -10px;">Please review your entry details below carefully before submitting to faculty.</p>
+            
+            <div id="summary-display" style="color: #555; text-align: center; margin-top: 20px; font-style: italic;">
+                Complete step 1 to compile your entry details here.
+            </div>
+
+            <div id="verification-zone">
+                <div class="form-group">
+                    <label for="student-email">Confirm Your Email Address</label>
+                    <input type="email" id="student-email" placeholder="jane-doe@uiowa.edu">
+                </div>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="no-receipt">
+                    <label for="no-receipt">I don't need my summary sent to me.</label>
+                </div>
+
+                <button type="button" id="final-submit-btn">Final Submit to Faculty</button>
+                
+                <!-- Explicit ARIA dynamic live-alert handling boxes attached to targets -->
+                <div id="error-status" class="status-msg status-error" role="alert" aria-live="assertive"></div>
+                <div id="status" class="status-msg status-success" role="status" aria-live="polite">Entry securely transmitted to master log!</div>
+            </div>
+        </div>
+
+        <!-- Step 3: Session History (Right Column) -->
+        <div class="card" role="region" aria-labelledby="history-title">
+            <h2 id="history-title">Session History</h2>
+            <p style="font-size: 0.85rem; color: #555; margin-top: -10px;">Logs recorded on this device during your current visit.</p>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Setting</th>
+                            <th scope="col">Hours</th>
+                        </tr>
+                    </thead>
+                    <tbody id="session-tbody">
+                        <tr><td colspan="3" style="text-align:center; color:#666;">No entries submitted yet.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const entryForm = document.getElementById('clinical-entry-form');
+    const verificationZone = document.getElementById('verification-zone');
+    const summaryDisplay = document.getElementById('summary-display');
+    const finalSubmitBtn = document.getElementById('final-submit-btn');
+    
+    const statusMsg = document.getElementById('status');
+    const errorMsg = document.getElementById('error-status');
+    const tbody = document.getElementById('session-tbody');
+    
+    let sessionCount = 0;
+    let temporaryPayload = null; 
+
+    function formatUserFacingDate(dateStr) {
+        if(!dateStr) return '';
+        const [year, month, day] = dateStr.split('-');
+        return `${month}/${day}/${year}`;
+    }
+
+    function formatUserFacingTime(timeStr) {
+        if(!timeStr) return '';
+        const [hrs, mins] = timeStr.split(':');
+        let hour = parseInt(hrs);
+        const ampm = hour >= 12 ? 'PM' : 'AM';
+        hour = hour % 12 || 12;
+        return `${hour}:${mins} ${ampm}`;
+    }
+
+    // STEP 1: Generate Review Data Summary Sheet
+    entryForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        errorMsg.style.display = 'none';
+        statusMsg.style.display = 'none';
+
+        const studentName = document.getElementById('student-name').value;
+        const startDate = document.getElementById('start-date').value;
+        const startTime = document.getElementById('start-time').value;
+        const endDate = document.getElementById('end-date').value;
+        const endTime = document.getElementById('end-time').value;
+        const setting = document.getElementById('setting').value;
+        const hours = document.getElementById('hours').value;
+        const notes = document.getElementById('notes').value;
+        const confirmation = document.getElementById('confirmation').value;
+
+        temporaryPayload = { studentName, startDate, startTime, endDate, endTime, setting, hours, notes, confirmation };
+
+        summaryDisplay.innerHTML = `
+            <div class="summary-block" style="border-left: 4px solid var(--primary);">
+                <p><strong>Student Name:</strong></p>
+                <p style="font-weight: 600;">${studentName}</p>
+            </div>
+            <div class="summary-block" style="border-left: 4px solid var(--accent);">
+                <p><strong>Clinical Setting Location:</strong></p>
+                <p style="font-weight: 600; color: var(--primary);">${setting}</p>
+            </div>
+            <div class="summary-block">
+                <p><strong>Experience Window:</strong></p>
+                <p><strong>Start:</strong> ${formatUserFacingDate(startDate)} at ${formatUserFacingTime(startTime)}</p>
+                <p><strong>End:</strong> ${formatUserFacingDate(endDate)} at ${formatUserFacingTime(endTime)}</p>
+            </div>
+            <div class="summary-block" style="border-left: 4px solid var(--success);">
+                <p><strong>Total Logged Value:</strong></p>
+                <p style="font-size: 1.3rem; color: var(--success); font-weight: bold;">${hours} Hours</p>
+            </div>
+            ${notes ? `<div class="summary-block"><p><strong>Notes/Rationale:</strong></p><p style="font-style: italic; font-size: 0.85rem;">"${notes}"</p></div>` : ''}
+        `;
+        summaryDisplay.style.textAlign = "left";
+        summaryDisplay.style.fontStyle = "normal";
+
+        verificationZone.style.display = 'block';
+        verificationZone.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    });
+
+    // STEP 2: Final Validation & Post Data Transmission
+    finalSubmitBtn.addEventListener('click', function() {
+        errorMsg.style.display = 'none';
+        statusMsg.style.display = 'none';
+
+        const emailVal = document.getElementById('student-email').value.trim();
+        const noReceiptChecked = document.getElementById('no-receipt').checked;
+
+        if (!emailVal && !noReceiptChecked) {
+            errorMsg.innerText = "you can to provide and email or acknowldge you don't need a recipt";
+            errorMsg.style.display = 'block';
+            return;
+        }
+
+        const finalPayload = {
+            ...temporaryPayload,
+            email: emailVal,
+            receiptWaived: noReceiptChecked
+        };
+
+        // Your exact backend deployment endpoint web application URL
+        const scriptUrl = "https://script.google.com/macros/s/AKfycbyNhHuPGqqz7KZsLJDAz4RILpeIrICWvqtAYEpoxnqisdmc43T63fAjPunCEhv5a73c/exec";
+
+        if(sessionCount === 0) tbody.innerHTML = '';
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${formatUserFacingDate(finalPayload.startDate)}</td><td>${finalPayload.setting}</td><td><strong>${finalPayload.hours}</strong></td>`;
+        tbody.appendChild(row);
+        sessionCount++;
+
+        if(!scriptUrl.includes("YOUR_")) {
+            fetch(scriptUrl, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(finalPayload)
+            })
+            .then(() => {
+                showStatus();
+                resetPanels();
+            })
+            .catch(err => {
+                console.error("Data transmission fault: ", err);
+                errorMsg.innerText = "Network transmission failed. Please try again.";
+                errorMsg.style.display = 'block';
+            });
+        } else {
+            showStatus();
+            console.log("Local development execution simulation clear:", finalPayload);
+            resetPanels();
+        }
+    });
+
+    function showStatus() {
+        statusMsg.style.display = 'block';
+        setTimeout(() => { statusMsg.style.display = 'none'; }, 5000);
+    }
+
+    function resetPanels() {
+        document.getElementById('start-date').value = '';
+        document.getElementById('start-time').value = '';
+        document.getElementById('end-date').value = '';
+        document.getElementById('end-time').value = '';
+        document.getElementById('setting').value = '';
+        document.getElementById('hours').value = '';
+        document.getElementById('notes').value = '';
+        document.getElementById('confirmation').value = '';
+        
+        document.getElementById('student-email').value = '';
+        document.getElementById('no-receipt').checked = false;
+        
+        temporaryPayload = null;
+        verificationZone.style.display = 'none';
+        summaryDisplay.innerHTML = `Complete step 1 to compile your entry details here.`;
+        summaryDisplay.style.textAlign = "center";
+        summaryDisplay.style.fontStyle = "italic";
+    }
+</script>
 </body>
 </html>
