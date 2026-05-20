@@ -11,6 +11,7 @@
             --accent: #0073e6;
             --text: #333;
             --success: #28a745;
+            --danger: #dc3545;
         }
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -20,20 +21,24 @@
             margin: 0;
             padding: 20px;
         }
-        .container { max-width: 1100px; margin: 0 auto; }
+        .container { max-width: 1200px; margin: 0 auto; }
         header {
             background: var(--primary); color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;
         }
         header h1 { margin: 0; font-size: 1.6rem; }
         header p { margin: 5px 0 0 0; opacity: 0.9; font-size: 0.9rem; }
         
-        .main-layout { display: grid; grid-template-columns: 1fr 1.5fr; gap: 25px; }
-        @media (max-width: 768px) { .main-layout { grid-template-columns: 1fr; } }
+        /* Updated to 3 columns for Left Form, Middle Summary, and Right Browser History */
+        .main-layout { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 25px; }
+        @media (max-width: 992px) { .main-layout { grid-template-columns: 1fr; } }
 
         .card { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
         .card h2 { margin-top: 0; font-size: 1.25rem; color: var(--primary); border-bottom: 2px solid var(--secondary); padding-bottom: 10px; }
         
         .form-group { margin-bottom: 15px; }
+        .checkbox-group { display: flex; align-items: flex-start; gap: 10px; margin-top: 10px; }
+        .checkbox-group input { width: auto; margin-top: 4px; }
+        
         label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 0.9rem; }
         input, select, textarea {
             width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; font-size: 0.95rem;
@@ -46,6 +51,10 @@
         
         .status-msg { margin-top: 10px; padding: 10px; border-radius: 4px; display: none; font-size: 0.9rem; font-weight: bold; text-align: center; }
         .status-success { background: #e2f0d9; color: #385723; }
+        .status-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+
+        .summary-block { background: var(--secondary); padding: 15px; border-radius: 6px; margin-bottom: 15px; }
+        .summary-block p { margin: 5px 0; font-size: 0.95rem; }
 
         table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 0.9rem; }
         th, td { padding: 10px; text-align: left; border-bottom: 1px solid #eee; }
@@ -61,7 +70,7 @@
     </header>
 
     <div class="main-layout">
-        <!-- Input Form -->
+        <!-- 1. Input Form (Left) -->
         <div class="card">
             <h2>Log Your Hours</h2>
             <form id="master-tracker-form">
@@ -69,53 +78,49 @@
                     <label for="student-name">Full Name (Last, First)</label>
                     <input type="text" id="student-name" required placeholder="Doe, Jane">
                 </div>
+                <!-- Fixed missing ID field from your original JS script requirements -->
                 <div class="form-group">
-                    <label for="session-date">Experience Start Time</label>
-                    <input type="date" id="session-date" required>
+                    <label for="student-id">Student ID</label>
+                    <input type="text" id="student-id" required placeholder="00123456">
+                </div>
+                <div class="form-group">
+                    <label for="start-date">Experience Start Time</label>
+                    <input type="date" id="start-date" required>
                 </div>
                  <div class="form-group">
-                    <label for="session-date">ExperienceEnd Time</label>
-                    <input type="date" id="session-date" required>
+                    <label for="end-date">Experience End Time</label>
+                    <input type="date" id="end-date" required>
                 </div>
                 <div class="form-group">
                     <label for="setting">Clinical Setting</label>
                     <select id="setting" required>
                         <option value="">-- Select Setting --</option>
                         <option value="SNICU">SNICU</option>
-                        <option value="Adult or prediatric inpatient medical surgical">Adult or prediatric inpatient medical surgical</option>
+                        <option value="Adult or Pediatric Inpatient Medical Surgical">Adult or Pediatric Inpatient Medical Surgical</option>
                         <option value="CVICU">CVICU</option>
-                        <option value="Guided Inquiry Reflection">MICU</option>
-                        <option value="Guided Inquiry Reflection">Emergency Room</option>
-                        <option value="Guided Inquiry Reflection">Stem Cell Transplant and Cellular Therapies (3JCP)</option>
-                        <option value="Guided Inquiry Reflection">SFCH Level 9 - Pediatric Inpatient</option>
-                        <option value="Guided Inquiry Reflection">Children Prep and Recovery</option>
-                        <option value="Guided Inquiry Reflection">Labor and Delivery-6JPP </option>
-                        <option value="Guided Inquiry Reflection">SFCH Level 11 - Pediatric Oncology </option>
-                        <option value="Guided Inquiry Reflection">SFCH Level 10 - Pediatric Cardiology</option>
-                        <option value="Guided Inquiry Reflection">Med/Surg Float Pool</option>
-                        <option value="Guided Inquiry Reflection">Postpartum/Gynecology-3JPP</option>
-                        <option value="Guided Inquiry Reflection">NIC1</option>
-                        <option value="Guided Inquiry Reflection">Adult Acute Care Unit-2JC</option>
-                        <option value="Guided Inquiry Reflection">CWS-Float Pool Team-PICU-NICU float</option>
-                        <option value="Guided Inquiry Reflection">RSCCU/Palliative Care-7JCP</option>
-                        <option value="Guided Inquiry Reflection">CWS-Float Pool Team-PICU-NICU float</option>
-                        <option value="Guided Inquiry Reflection">Burn Unit</option>
-                        <option value="Guided Inquiry Reflection">NIC2</option>
-                        <option value="Guided Inquiry Reflection">RSCCU Palliative Care-7JCP</option>
-                        <option value="Guided Inquiry Reflection">SFCH Level 11 - Pediatric Oncology</option>
-                        <option value="Guided Inquiry Reflection">St Lukes Birth Care Center</option>
-                        <option value="Guided Inquiry Reflection">St Lukes BCC</option>
-                        <option value="Guided Inquiry Reflection">Hematology/Oncology 4JPP</option>
-                        <option value="Guided Inquiry Reflection">Main OR</option>
-                        <option value="Guided Inquiry Reflection">SFCH Level 3 - PICU</option>
-                        <option value="Guided Inquiry Reflection">Main OR</option>
-                        <option value="Guided Inquiry Reflection">SFCH Level 3 - PICU</option>
-                        <option value="Guided Inquiry Reflection">SFCH Level 9 - Pediatric Inpatient</option>
-                        <option value="Guided Inquiry Reflection">CR1 Adult ICU Float Pool</option>
-                        <option value="Guided Inquiry Reflection">Stem Cell Transplant and Cellular Therapies (3JCP)</option>
-                        <option value="Guided Inquiry Reflection">St Lukes ICU</option>
-                        <option value="Guided Inquiry Reflection">St Lukes Adolescent Behavioral Health</option>         
-                        
+                        <option value="MICU">MICU</option>
+                        <option value="Emergency Room">Emergency Room</option>
+                        <option value="Stem Cell Transplant and Cellular Therapies (3JCP)">Stem Cell Transplant and Cellular Therapies (3JCP)</option>
+                        <option value="SFCH Level 9 - Pediatric Inpatient">SFCH Level 9 - Pediatric Inpatient</option>
+                        <option value="Children Prep and Recovery">Children Prep and Recovery</option>
+                        <option value="Labor and Delivery-6JPP">Labor and Delivery-6JPP</option>
+                        <option value="SFCH Level 11 - Pediatric Oncology">SFCH Level 11 - Pediatric Oncology</option>
+                        <option value="SFCH Level 10 - Pediatric Cardiology">SFCH Level 10 - Pediatric Cardiology</option>
+                        <option value="Med/Surg Float Pool">Med/Surg Float Pool</option>
+                        <option value="Postpartum/Gynecology-3JPP">Postpartum/Gynecology-3JPP</option>
+                        <option value="NIC1">NIC1</option>
+                        <option value="Adult Acute Care Unit-2JC">Adult Acute Care Unit-2JC</option>
+                        <option value="CWS-Float Pool Team-PICU-NICU float">CWS-Float Pool Team-PICU-NICU float</option>
+                        <option value="RSCCU/Palliative Care-7JCP">RSCCU/Palliative Care-7JCP</option>
+                        <option value="Burn Unit">Burn Unit</option>
+                        <option value="NIC2">NIC2</option>
+                        <option value="St Lukes Birth Care Center">St Lukes Birth Care Center</option>
+                        <option value="Hematology/Oncology 4JPP">Hematology/Oncology 4JPP</option>
+                        <option value="Main OR">Main OR</option>
+                        <option value="SFCH Level 3 - PICU">SFCH Level 3 - PICU</option>
+                        <option value="CR1 Adult ICU Float Pool">CR1 Adult ICU Float Pool</option>
+                        <option value="St Lukes ICU">St Lukes ICU</option>
+                        <option value="St Lukes Adolescent Behavioral Health">St Lukes Adolescent Behavioral Health</option>          
                     </select>
                 </div>
                 <div class="form-group">
@@ -125,21 +130,46 @@
                 <div class="form-group">
                     <label for="confirmation">Hours: Confirmation</label>
                     <select id="confirmation" required>
-                    <label for="hours">Hours: Confirmation</label>
-                          <option value="">-- Confirmation of Completed Hours --</option>
+                        <option value="">-- Confirmation of Completed Hours --</option>
                         <option value="Yes">Yes</option>
                         <option value="No">No</option>
-                    </div>
+                    </select>
+                </div>
                 <div class="form-group">
                     <label for="notes">Notes</label>
                     <textarea id="notes" placeholder="Provide rationale for overtime..."></textarea>
                 </div>
+
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
+
+                <!-- Added Email & Receipt Checkbox Configuration -->
+                <div class="form-group">
+                    <label for="student-email">Email Address</label>
+                    <input type="email" id="student-email" placeholder="jane-doe@uiowa.edu">
+                </div>
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="no-receipt">
+                    <label for="no-receipt">I don't need my summary sent to me.</label>
+                </div>
+
                 <button type="submit">Submit Entry</button>
             </form>
+            
+            <!-- Target Notification Drop-down Buffers -->
+            <div id="error-status" class="status-msg status-error"></div>
             <div id="status" class="status-msg status-success">Entry securely transmitted to master log!</div>
         </div>
 
-        <!-- Local Confirmation Table -->
+        <!-- 2. Interactive Middle Panel: Live Submission Summary (Middle) -->
+        <div class="card" id="middle-summary-panel">
+            <h2>Current Entry Summary</h2>
+            <p style="font-size: 0.85rem; color: #666; margin-top: -10px;">Review your latest data submission details here.</p>
+            <div id="summary-display" style="color: #888; text-align: center; margin-top: 30px;">
+                No real-time summary data generated yet. Complete a form submission to display.
+            </div>
+        </div>
+
+        <!-- 3. Local Confirmation Table (Right) -->
         <div class="card">
             <h2>Entries Confirmed This Browser Session</h2>
             <p style="font-size: 0.85rem; color: #666; margin-top: -10px;">Below are logs recorded on this device during your current visit.</p>
@@ -162,33 +192,70 @@
 <script>
     const form = document.getElementById('master-tracker-form');
     const statusMsg = document.getElementById('status');
+    const errorMsg = document.getElementById('error-status');
     const tbody = document.getElementById('session-tbody');
+    const summaryDisplay = document.getElementById('summary-display');
     let sessionCount = 0;
 
     form.addEventListener('submit', function(e) {
         e.preventDefault();
 
+        // Clear existing message states
+        errorMsg.style.display = 'none';
+        statusMsg.style.display = 'none';
+
+        // Read receipt field variables
+        const emailVal = document.getElementById('student-email').value.trim();
+        const noReceiptChecked = document.getElementById('no-receipt').checked;
+
+        // Custom Validation Rule Check
+        if (!emailVal && !noReceiptChecked) {
+            errorMsg.innerText = "You must provide an email or acknowledge you don't need a receipt";
+            errorMsg.style.display = 'block';
+            errorMsg.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            return; // Terminate execution sequence
+        }
+
         const studentName = document.getElementById('student-name').value;
         const studentId = document.getElementById('student-id').value;
-        const sessionDate = document.getElementById('session-date').value;
+        const startDate = document.getElementById('start-date').value;
+        const endDate = document.getElementById('end-date').value;
         const setting = document.getElementById('setting').value;
         const hours = document.getElementById('hours').value;
         const notes = document.getElementById('notes').value;
 
-        // Create the clean data payload
-        const payload = { studentName, studentId, sessionDate, setting, hours, notes };
+        // Populate Middle Panel UI Component with Live Data Summary
+        summaryDisplay.innerHTML = `
+            <div class="summary-block">
+                <p><strong>Location/Setting:</strong></p>
+                <p>${setting}</p>
+            </div>
+            <div class="summary-block">
+                <p><strong>Timeline Interval:</strong></p>
+                <p>Start: ${startDate}</p>
+                <p>End: ${endDate}</p>
+            </div>
+            <div class="summary-block" style="border-left: 4px solid var(--accent);">
+                <p><strong>Total Logged Unit:</strong></p>
+                <p style="font-size: 1.4rem; color: var(--primary); font-weight: bold;">${hours} Hours</p>
+            </div>
+            <p style="font-size:0.8rem; color:var(--success); text-align:center;">✓ Summary Compiled Successfully</p>
+        `;
 
-        // TARGET URL: Paste your unique Google Apps Script URL here
+        // Create clean payload data object mapping for sheets target destination
+        const payload = { studentName, studentId, startDate, endDate, setting, hours, notes, email: emailVal, receiptWaived: noReceiptChecked };
+
+        // Target Deployment Endpoint Macro
         const scriptUrl = "https://script.google.com/macros/s/AKfycbwynr9E6ZVlEs5KSHsEddQG6vFv9IDQvZ2qv0KNwHDp9PlmG14Fhh0AB8Okk9qb4975jQ/exec";
 
-        // Append to the local screen summary table for immediate confirmation
+        // Append item entry line cleanly to standard historical logging grid
         if(sessionCount === 0) tbody.innerHTML = '';
         const row = document.createElement('tr');
-        row.innerHTML = `<td>${sessionDate}</td><td>${setting}</td><td><strong>${hours}</strong></td>`;
+        row.innerHTML = `<td>${startDate}</td><td>${setting}</td><td><strong>${hours}</strong></td>`;
         tbody.appendChild(row);
         sessionCount++;
 
-        // Secure background post directly to Google Sheets
+        // Secure background data execution channel
         if(!scriptUrl.includes("YOUR_")) {
             fetch(scriptUrl, {
                 method: 'POST',
@@ -202,14 +269,17 @@
             .catch(err => console.error("Data transmission fault: ", err));
         } else {
             showStatus();
-            console.log("Local demo submit success. Configure your Apps Script web app URL to connect the database.", payload);
+            console.log("Local execution capture simulation successful:", payload);
         }
 
-        // Clean up inputs, keeping identity fields intact for rapid consecutive entry logging
-        document.getElementById('session-date').value = '';
+        // Field cleanup sequence - Leaves student profile headers cached for fast workflows
+        document.getElementById('start-date').value = '';
+        document.getElementById('end-date').value = '';
         document.getElementById('setting').value = '';
         document.getElementById('hours').value = '';
         document.getElementById('notes').value = '';
+        document.getElementById('student-email').value = '';
+        document.getElementById('no-receipt').checked = false;
     });
 
     function showStatus() {
