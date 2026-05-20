@@ -21,17 +21,17 @@
             margin: 0;
             padding: 20px;
         }
-        .container { max-width: 1300px; margin: 0 auto; }
+        .container { max-width: 1400px; margin: 0 auto; }
         header {
             background: var(--primary); color: white; padding: 20px; border-radius: 8px; margin-bottom: 20px;
         }
         header h1 { margin: 0; font-size: 1.6rem; }
         header p { margin: 5px 0 0 0; opacity: 0.9; font-size: 0.9rem; }
         
-        .main-layout { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 25px; }
+        .main-layout { display: grid; grid-template-columns: 1.1fr 1.1fr 0.8fr; gap: 25px; }
         @media (max-width: 1100px) { .main-layout { grid-template-columns: 1fr; } }
 
-        .card { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
+        .card { background: white; padding: 25px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); height: fit-content; }
         .card h2 { margin-top: 0; font-size: 1.25rem; color: var(--primary); border-bottom: 2px solid var(--secondary); padding-bottom: 10px; }
         
         .form-group { margin-bottom: 15px; }
@@ -47,8 +47,6 @@
             background: var(--accent); color: white; border: none; padding: 12px 20px; font-size: 1rem; border-radius: 4px; cursor: pointer; width: 100%; font-weight: bold;
         }
         button:hover { background: #0056b3; }
-        button.secondary-btn { background: #6c757d; margin-top: 10px; }
-        button.secondary-btn:hover { background: #5a6268; }
         
         .status-msg { margin-top: 15px; padding: 10px; border-radius: 4px; display: none; font-size: 0.9rem; font-weight: bold; text-align: center; }
         .status-success { background: #e2f0d9; color: #385723; border: 1px solid #c3e6cb; }
@@ -82,16 +80,12 @@
                     <input type="text" id="student-name" required placeholder="Doe, Jane">
                 </div>
                 <div class="form-group">
-                    <label for="student-id">Student ID</label>
-                    <input type="text" id="student-id" required placeholder="00123456">
-                </div>
-                <div class="form-group">
-                    <label for="start-date">Experience Start Time</label>
-                    <input type="date" id="start-date" required>
+                    <label for="start-date">Experience Start Date & Time</label>
+                    <input type="datetime-local" id="start-date" required>
                 </div>
                  <div class="form-group">
-                    <label for="end-date">Experience End Time</label>
-                    <input type="date" id="end-date" required>
+                    <label for="end-date">Experience End Date & Time</label>
+                    <input type="datetime-local" id="end-date" required>
                 </div>
                 <div class="form-group">
                     <label for="setting">Clinical Setting</label>
@@ -141,23 +135,24 @@
                     <label for="notes">Notes</label>
                     <textarea id="notes" placeholder="Provide rationale for overtime..."></textarea>
                 </div>
-                <button type="submit">Generate Summary & Proceed</button>
+                <button type="submit">Generate Summary & Review</button>
             </form>
         </div>
 
         <!-- Step 2: Verification Panel (Middle Column) -->
         <div class="card" id="middle-summary-panel">
-            <h2>2. Review & Submit</h2>
+            <h2>2. Current Entry Summary</h2>
+            <p style="font-size: 0.85rem; color: #666; margin-top: -10px;">Please review your entry details below carefully before submitting to faculty.</p>
             
             <!-- Dynamic Summary Output Box -->
             <div id="summary-display" style="color: #666; text-align: center; margin-top: 20px; font-style: italic;">
                 Complete step 1 to compile your entry details here.
             </div>
 
-            <!-- Email validation and final button elements go inside this div container -->
+            <!-- Email validation and final button elements stay contained safely inside this zone -->
             <div id="verification-zone">
                 <div class="form-group">
-                    <label for="student-email">Email Address</label>
+                    <label for="student-email">Confirm Your Email Address</label>
                     <input type="email" id="student-email" placeholder="jane-doe@uiowa.edu">
                 </div>
                 <div class="form-group checkbox-group">
@@ -165,7 +160,7 @@
                     <label for="no-receipt">I don't need my summary sent to me.</label>
                 </div>
 
-                <button type="button" id="final-submit-btn">Final Submit Entry</button>
+                <button type="button" id="final-submit-btn">Final Submit to Faculty</button>
                 
                 <!-- Errors and Success handling alerts -->
                 <div id="error-status" class="status-msg status-error"></div>
@@ -194,7 +189,6 @@
 </div>
 
 <script>
-    // Component elements binding mappings
     const entryForm = document.getElementById('clinical-entry-form');
     const verificationZone = document.getElementById('verification-zone');
     const summaryDisplay = document.getElementById('summary-display');
@@ -205,19 +199,30 @@
     const tbody = document.getElementById('session-tbody');
     
     let sessionCount = 0;
-    let temporaryPayload = null; // Holds structured data between steps
+    let temporaryPayload = null; 
 
-    // STEP 1: Process Left Form submission to build summary fields middle column
+    // Helper utility to clean up date-time strings for crisp user readability
+    function formatDateTime(dateTimeStr) {
+        if(!dateTimeStr) return '';
+        const d = new Date(dateTimeStr);
+        return d.toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute:'2-digit'});
+    }
+
+    // Helper utility to isolate just the date portion for the short layout history table
+    function formatDateOnly(dateTimeStr) {
+        if(!dateTimeStr) return '';
+        const d = new Date(dateTimeStr);
+        return d.toLocaleDateString();
+    }
+
+    // STEP 1: Process Left Form and build out the Summary Review block
     entryForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
-        // Hide existing execution statuses inside middle card
         errorMsg.style.display = 'none';
         statusMsg.style.display = 'none';
 
-        // Extract input values
         const studentName = document.getElementById('student-name').value;
-        const studentId = document.getElementById('student-id').value;
         const startDate = document.getElementById('start-date').value;
         const endDate = document.getElementById('end-date').value;
         const setting = document.getElementById('setting').value;
@@ -225,34 +230,39 @@
         const notes = document.getElementById('notes').value;
         const confirmation = document.getElementById('confirmation').value;
 
-        // Cache object globally for step 2 submission
-        temporaryPayload = { studentName, studentId, startDate, endDate, setting, hours, notes, confirmation };
+        // Cache parameters locally 
+        temporaryPayload = { studentName, startDate, endDate, setting, hours, notes, confirmation };
 
-        // Output data directly to summary view elements inside middle panel
+        // Paint summary text inside the middle card area
         summaryDisplay.innerHTML = `
             <div class="summary-block" style="border-left: 4px solid var(--primary);">
+                <p><strong>Student Name:</strong></p>
+                <p style="font-weight: 600;">${studentName}</p>
+            </div>
+            <div class="summary-block" style="border-left: 4px solid var(--accent);">
                 <p><strong>Clinical Setting Location:</strong></p>
                 <p style="font-weight: 600; color: var(--primary);">${setting}</p>
             </div>
             <div class="summary-block">
-                <p><strong>Timeline Log Sequence:</strong></p>
-                <p>Start: ${startDate}</p>
-                <p>End: ${endDate}</p>
+                <p><strong>Time Duration Interval:</strong></p>
+                <p><strong>From:</strong> ${formatDateTime(startDate)}</p>
+                <p><strong>To:</strong> ${formatDateTime(endDate)}</p>
             </div>
             <div class="summary-block" style="border-left: 4px solid var(--success);">
-                <p><strong>Calculated Value units:</strong></p>
+                <p><strong>Total Logged Value:</strong></p>
                 <p style="font-size: 1.3rem; color: var(--success); font-weight: bold;">${hours} Hours</p>
             </div>
+            ${notes ? `<div class="summary-block"><p><strong>Notes/Rationale:</strong></p><p style="font-style: italic; font-size: 0.85rem;">"${notes}"</p></div>` : ''}
         `;
-        summaryDisplay.style.textAlignment = "left";
+        summaryDisplay.style.textAlign = "left";
         summaryDisplay.style.fontStyle = "normal";
 
-        // Display the interactive email and submission fields in middle panel
+        // Bring up the submission fields below the summary
         verificationZone.style.display = 'block';
         verificationZone.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
 
-    // STEP 2: Handle Final submission click inside the middle column card
+    // STEP 2: Execute validation verification checks and deploy to target Sheets Macro URL
     finalSubmitBtn.addEventListener('click', function() {
         errorMsg.style.display = 'none';
         statusMsg.style.display = 'none';
@@ -260,31 +270,29 @@
         const emailVal = document.getElementById('student-email').value.trim();
         const noReceiptChecked = document.getElementById('no-receipt').checked;
 
-        // Validation Rule Execution: Require email OR check acknowledgment condition check
+        // Strict Conditional Validation: Check for presence of email or receipt waiver toggle
         if (!emailVal && !noReceiptChecked) {
             errorMsg.innerText = "you can to provide and email or acknowldge you don't need a recipt";
             errorMsg.style.display = 'block';
             return;
         }
 
-        // Merge email/receipt values into final transmission data object
         const finalPayload = {
             ...temporaryPayload,
             email: emailVal,
             receiptWaived: noReceiptChecked
         };
 
-        // Destination Sheet Deployment Apps script target
         const scriptUrl = "https://script.google.com/macros/s/AKfycbwynr9E6ZVlEs5KSHsEddQG6vFv9IDQvZ2qv0KNwHDp9PlmG14Fhh0AB8Okk9qb4975jQ/exec";
 
-        // Append line item directly to local right database table view tracking card
+        // Log entry instantly into local device viewport tracking module
         if(sessionCount === 0) tbody.innerHTML = '';
         const row = document.createElement('tr');
-        row.innerHTML = `<td>${finalPayload.startDate}</td><td>${finalPayload.setting}</td><td><strong>${finalPayload.hours}</strong></td>`;
+        row.innerHTML = `<td>${formatDateOnly(finalPayload.startDate)}</td><td>${finalPayload.setting}</td><td><strong>${finalPayload.hours}</strong></td>`;
         tbody.appendChild(row);
         sessionCount++;
 
-        // Fire database background deployment requests
+        // Secure external fetch execution
         if(!scriptUrl.includes("YOUR_")) {
             fetch(scriptUrl, {
                 method: 'POST',
@@ -314,7 +322,7 @@
     }
 
     function resetPanels() {
-        // Clear clinical forms for consecutive loops while preserving identity profiles if needed
+        // Clear clinical inputs
         document.getElementById('start-date').value = '';
         document.getElementById('end-date').value = '';
         document.getElementById('setting').value = '';
@@ -322,11 +330,11 @@
         document.getElementById('notes').value = '';
         document.getElementById('confirmation').value = '';
         
-        // Wipe verification variables inside middle columns
+        // Clean receipt verification parameters
         document.getElementById('student-email').value = '';
         document.getElementById('no-receipt').checked = false;
         
-        // Revert middle container view state back to step 1 default instructions
+        // Revert middle summary target to clean un-compiled layout state
         temporaryPayload = null;
         verificationZone.style.display = 'none';
         summaryDisplay.innerHTML = `Complete step 1 to compile your entry details here.`;
