@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Clinical Inquiry Lab - Master Hours Portal</title>
+    <title>Clinical Hours Tracker</title>
     <style>
         :root {
             --primary: #002a5c;
@@ -56,35 +56,66 @@
 
 <div class="container">
     <header>
-        <h1>Clinical Inquiry Lab</h1>
-        <p>Centralized Clinical Hours Submission Portal</p>
+        <h1>Clinical hours Tracker</h1>
+        <p>Clinical Hours Submission Portal</p>
     </header>
 
     <div class="main-layout">
         <!-- Input Form -->
         <div class="card">
-            <h2>Log Your Experience</h2>
+            <h2>Log Your Hours</h2>
             <form id="master-tracker-form">
                 <div class="form-group">
                     <label for="student-name">Full Name (Last, First)</label>
                     <input type="text" id="student-name" required placeholder="Doe, Jane">
                 </div>
                 <div class="form-group">
-                    <label for="student-id">Student Institutional ID</label>
-                    <input type="text" id="student-id" required placeholder="12345678">
+                    <label for="session-date">Experience Start Time</label>
+                    <input type="date" id="session-date" required>
                 </div>
-                <div class="form-group">
-                    <label for="session-date">Date of Experience</label>
+                 <div class="form-group">
+                    <label for="session-date">ExperienceEnd Time</label>
                     <input type="date" id="session-date" required>
                 </div>
                 <div class="form-group">
-                    <label for="setting">Clinical Setting / Module</label>
+                    <label for="setting">Clinical Setting</label>
                     <select id="setting" required>
                         <option value="">-- Select Setting --</option>
-                        <option value="Homeostasis Simulation">Homeostasis Simulation</option>
-                        <option value="Patient Encounter Simulation">Patient Encounter Simulation</option>
-                        <option value="Clinical Innovation Lab">Clinical Innovation Lab</option>
-                        <option value="Guided Inquiry Reflection">Guided Inquiry Reflection</option>
+                        <option value="Homeostasis Simulation">SNICU</option>
+                        <option value="Patient Encounter Simulation">Adult or prediatric inpatient medical surgical</option>
+                        <option value="Clinical Innovation Lab">CVICU</option>
+                        <option value="Guided Inquiry Reflection">MICU</option>
+                        <option value="Guided Inquiry Reflection">Emergency Room</option>
+                        <option value="Guided Inquiry Reflection">Stem Cell Transplant and Cellular Therapies (3JCP)</option>
+                        <option value="Guided Inquiry Reflection">SFCH Level 9 - Pediatric Inpatient</option>
+                        <option value="Guided Inquiry Reflection">Children Prep and Recovery</option>
+                        <option value="Guided Inquiry Reflection">Labor and Delivery-6JPP </option>
+                        <option value="Guided Inquiry Reflection">SFCH Level 11 - Pediatric Oncology </option>
+                        <option value="Guided Inquiry Reflection">SFCH Level 10 - Pediatric Cardiology</option>
+                        <option value="Guided Inquiry Reflection">Med/Surg Float Pool</option>
+                        <option value="Guided Inquiry Reflection">Postpartum/Gynecology-3JPP</option>
+                        <option value="Guided Inquiry Reflection">NIC1</option>
+                        <option value="Guided Inquiry Reflection">Adult Acute Care Unit-2JC</option>
+                        <option value="Guided Inquiry Reflection">CWS-Float Pool Team-PICU-NICU float</option>
+                        <option value="Guided Inquiry Reflection">RSCCU/Palliative Care-7JCP</option>
+                        <option value="Guided Inquiry Reflection">CWS-Float Pool Team-PICU-NICU float</option>
+                        <option value="Guided Inquiry Reflection">Burn Unit</option>
+                        <option value="Guided Inquiry Reflection">NIC2</option>
+                        <option value="Guided Inquiry Reflection">RSCCU Palliative Care-7JCP</option>
+                        <option value="Guided Inquiry Reflection">SFCH Level 11 - Pediatric Oncology</option>
+                        <option value="Guided Inquiry Reflection">St Lukes Birth Care Center</option>
+                        <option value="Guided Inquiry Reflection">St Lukes BCC</option>
+                        <option value="Guided Inquiry Reflection">Hematology/Oncology 4JPP</option>
+                        <option value="Guided Inquiry Reflection">Main OR</option>
+                        <option value="Guided Inquiry Reflection">SFCH Level 3 - PICU</option>
+                        <option value="Guided Inquiry Reflection">Main OR</option>
+                        <option value="Guided Inquiry Reflection">SFCH Level 3 - PICU</option>
+                        <option value="Guided Inquiry Reflection">SFCH Level 9 - Pediatric Inpatient</option>
+                        <option value="Guided Inquiry Reflection">CR1 Adult ICU Float Pool</option>
+                        <option value="Guided Inquiry Reflection">Stem Cell Transplant and Cellular Therapies (3JCP)</option>
+                        <option value="Guided Inquiry Reflection">St Lukes ICU</option>
+                        <option value="Guided Inquiry Reflection">St Lukes Adolescent Behavioral Health</option>         
+                        
                     </select>
                 </div>
                 <div class="form-group">
