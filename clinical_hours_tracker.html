@@ -35,7 +35,6 @@
         .card h2 { margin-top: 0; font-size: 1.25rem; color: var(--primary); border-bottom: 2px solid var(--secondary); padding-bottom: 10px; }
         
         .form-group { margin-bottom: 15px; }
-        /* Layout utility for grouping date and time inputs side-by-side */
         .date-time-row { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 10px; }
         
         .checkbox-group { display: flex; align-items: flex-start; gap: 10px; margin-top: 10px; margin-bottom: 15px; }
@@ -83,7 +82,6 @@
                     <input type="text" id="student-name" required placeholder="Doe, Jane">
                 </div>
                 
-                <!-- Explicit Split Date and Time Layout Fields for Start -->
                 <div class="form-group">
                     <label>Experience Start</label>
                     <div class="date-time-row">
@@ -92,7 +90,6 @@
                     </div>
                 </div>
 
-                <!-- Explicit Split Date and Time Layout Fields for End -->
                 <div class="form-group">
                     <label>Experience End</label>
                     <div class="date-time-row">
@@ -158,12 +155,10 @@
             <h2>2. Current Entry Summary</h2>
             <p style="font-size: 0.85rem; color: #666; margin-top: -10px;">Please review your entry details below carefully before submitting to faculty.</p>
             
-            <!-- Dynamic Summary Output Box -->
             <div id="summary-display" style="color: #666; text-align: center; margin-top: 20px; font-style: italic;">
                 Complete step 1 to compile your entry details here.
             </div>
 
-            <!-- Validation inputs frame -->
             <div id="verification-zone">
                 <div class="form-group">
                     <label for="student-email">Confirm Your Email Address</label>
@@ -176,13 +171,12 @@
 
                 <button type="button" id="final-submit-btn">Final Submit to Faculty</button>
                 
-                <!-- Status Notifications -->
                 <div id="error-status" class="status-msg status-error"></div>
                 <div id="status" class="status-msg status-success">Entry securely transmitted to master log!</div>
             </div>
         </div>
 
-        <!-- Step 3: Local Session History (Right Column) -->
+        <!-- Step 3: Session History (Right Column) -->
         <div class="card">
             <h2>Session History</h2>
             <p style="font-size: 0.85rem; color: #666; margin-top: -10px;">Logs recorded on this device during your current visit.</p>
@@ -215,7 +209,6 @@
     let sessionCount = 0;
     let temporaryPayload = null; 
 
-    // Formatting string functions to display clear dates and times without timezone bugs
     function formatUserFacingDate(dateStr) {
         if(!dateStr) return '';
         const [year, month, day] = dateStr.split('-');
@@ -231,7 +224,7 @@
         return `${hour}:${mins} ${ampm}`;
     }
 
-    // STEP 1: Catch form submission, read all separate variables, draw UI block
+    // STEP 1: Generate Review Data Summary Sheet
     entryForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
@@ -248,10 +241,8 @@
         const notes = document.getElementById('notes').value;
         const confirmation = document.getElementById('confirmation').value;
 
-        // Bundle split parameters cleanly for background sync later
         temporaryPayload = { studentName, startDate, startTime, endDate, endTime, setting, hours, notes, confirmation };
 
-        // Construct preview cards inside middle review space
         summaryDisplay.innerHTML = `
             <div class="summary-block" style="border-left: 4px solid var(--primary);">
                 <p><strong>Student Name:</strong></p>
@@ -275,12 +266,11 @@
         summaryDisplay.style.textAlign = "left";
         summaryDisplay.style.fontStyle = "normal";
 
-        // Slide up the interactive verification panel zone elements below the text summary
         verificationZone.style.display = 'block';
         verificationZone.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
 
-    // STEP 2: Execute validation, pass complete data bundle to Apps Script target web application URL
+    // STEP 2: Final Validation & Post Data Transmission
     finalSubmitBtn.addEventListener('click', function() {
         errorMsg.style.display = 'none';
         statusMsg.style.display = 'none';
@@ -300,16 +290,15 @@
             receiptWaived: noReceiptChecked
         };
 
+        // Your exact backend deployment endpoint web application URL
         const scriptUrl = "https://script.google.com/macros/s/AKfycbwynr9E6ZVlEs5KSHsEddQG6vFv9IDQvZ2qv0KNwHDp9PlmG14Fhh0AB8Okk9qb4975jQ/exec";
 
-        // Print reference stamp to session log column layout
         if(sessionCount === 0) tbody.innerHTML = '';
         const row = document.createElement('tr');
         row.innerHTML = `<td>${formatUserFacingDate(finalPayload.startDate)}</td><td>${finalPayload.setting}</td><td><strong>${finalPayload.hours}</strong></td>`;
         tbody.appendChild(row);
         sessionCount++;
 
-        // Ship external payload mapping configuration parameters asynchronously
         if(!scriptUrl.includes("YOUR_")) {
             fetch(scriptUrl, {
                 method: 'POST',
@@ -328,7 +317,7 @@
             });
         } else {
             showStatus();
-            console.log("Local execution capture simulation successful:", finalPayload);
+            console.log("Local development execution simulation clear:", finalPayload);
             resetPanels();
         }
     });
@@ -339,7 +328,6 @@
     }
 
     function resetPanels() {
-        // Wipe primary clinical form fields
         document.getElementById('start-date').value = '';
         document.getElementById('start-time').value = '';
         document.getElementById('end-date').value = '';
@@ -349,11 +337,9 @@
         document.getElementById('notes').value = '';
         document.getElementById('confirmation').value = '';
         
-        // Wipe receipt verification options
         document.getElementById('student-email').value = '';
         document.getElementById('no-receipt').checked = false;
         
-        // Revert middle summary target block back to step 1 waiting status state
         temporaryPayload = null;
         verificationZone.style.display = 'none';
         summaryDisplay.innerHTML = `Complete step 1 to compile your entry details here.`;
