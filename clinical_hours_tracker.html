@@ -201,28 +201,7 @@
                 <button type="submit">Generate Summary & Review</button>
             </form>
         </div>
-         <!-- Step 3: Session History (Right Column) -->
-        <div class="card" role="region" aria-labelledby="history-title">
-            <h2 id="history-title">Session History</h2>
-            <p style="font-size: 0.85rem; color: #555; margin-top: -10px;">Logs recorded on this device during your current visit.</p>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th scope="col">Date</th>
-                            <th scope="col">Setting</th>
-                            <th scope="col">Hours</th>
-                        </tr>
-                    </thead>
-                    <tbody id="session-tbody">
-                        <tr><td colspan="3" style="text-align:center; color:#666;">No entries submitted yet.</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
-
-        <!-- Step 2: Verification Panel (Middle Column) -->
+                <!-- Step 2: Verification Panel (Middle Column) -->
         <div class="card" id="middle-summary-panel" role="region" aria-labelledby="step2-title">
             <h2 id="step2-title">Review Your Clinical Hours</h2>
             <p style="font-size: 0.85rem; color: #555; margin-top: -10px;">Please review your entry details below carefully before submitting to faculty.</p>
@@ -244,6 +223,27 @@
                 <div id="status" class="status-msg status-success" role="status" aria-live="polite">Entry securely transmitted to master log!</div>
             </div>
         </div>
+
+         <!-- Step 3: Session History (Right Column) -->
+        <div class="card" role="region" aria-labelledby="history-title">
+            <h2 id="history-title">Session History</h2>
+            <p style="font-size: 0.85rem; color: #555; margin-top: -10px;">Logs recorded on this device during your current visit.</p>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th scope="col">Date</th>
+                            <th scope="col">Setting</th>
+                            <th scope="col">Hours</th>
+                        </tr>
+                    </thead>
+                    <tbody id="session-tbody">
+                        <tr><td colspan="3" style="text-align:center; color:#666;">No entries submitted yet.</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 
        
 </div>
