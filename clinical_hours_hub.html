@@ -292,45 +292,12 @@
 
     <main class="container">
     
-    <div class="search-container">
-        <label for="facultySearch" class="search-label">Filter Advisors</label>
-        <input type="text" id="facultySearch" class="search-input" placeholder="Type an instructor's name or title...">
-    </div>
-
+       <!-- Screen Reader dynamic status updates container -->
     <div id="searchLiveStatus" class="sr-only" aria-live="polite"></div>
 
     <div class="grid" id="mainGrid">
         
-        <!-- CARD 1: DR. MACKENZIE WITH DYNAMIC PRECEPTOR DROPDOWN -->
-        <article class="faculty-card">
-            <div class="image-container">
-                <div class="avatar-placeholder">
-                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/></svg>
-                </div>
-                <img src="./images/faculty_mackenzie.jpg" alt="" class="faculty-img" onerror="this.style.display='none'">
-            </div>
-            <div class="card-content">
-                <h2 class="faculty-name">Dr. Mackenzie</h2>
-                <p class="faculty-role">Clinical Assistant Professor</p>
-                <p class="faculty-email">mackenzie@uiowa.edu</p>
-                
-                <!-- Preceptor Interactive Dropdown -->
-                <div class="preceptor-selector-area">
-                    <label for="preceptorSelect" class="select-label">Select Assigned Preceptor:</label>
-                    <select id="preceptorSelect" class="preceptor-dropdown" onchange="updateMackenzieLink(this.value)">
-                        <option value="">-- Choose Preceptor --</option>
-                        <option value="jenkins">Sarah Jenkins, BSN, RN (4 West Med-Surg)</option>
-                        <option value="miller">Marcus Miller, MSN, CCRN (ICU)</option>
-                        <option value="thompson">Emily Thompson, RN (Labor & Delivery)</option>
-                        <option value="davis">James Davis, ARNP (Pediatrics)</option>
-                    </select>
-                </div>
-
-                <a href="encounters-mackenzie.html" id="mackenzieBtn" class="portal-btn" aria-label="Access Dr. Mackenzie's submission page">Access Submission Page</a>
-            </div>
-        </article>
-
-        <!-- CARD 2 -->
+        <!-- CARD 1 -->
         <article class="faculty-card">
             <div class="image-container">
                 <div class="avatar-placeholder">
@@ -339,14 +306,14 @@
                 <img src="./images/faculty_chen.jpg" alt="" class="faculty-img" onerror="this.style.display='none'">
             </div>
             <div class="card-content">
-                <h2 class="faculty-name">Dr. Elizabeth Chen</h2>
+                <h2 class="faculty-name">Mackenzie Kane</h2>
                 <p class="faculty-role">Professor of Nursing</p>
-                <p class="faculty-email">elizabeth-chen@uiowa.edu</p>
-                <a href="encounters-chen.html" class="portal-btn" aria-label="Access Dr. Elizabeth Chen's submission page">Access Submission Page</a>
+                <p class="faculty-email">mackenzie-kane@uiowa.edu</p>
+                <a href="clinical_hours_tracker.html" class="portal-btn" aria-label="Access Mackenzie's submission page">Access Mackenzie's Preceptors</a>
             </div>
         </article>
 
-        <!-- CARD 3 -->
+        <!-- CARD 2 -->
         <article class="faculty-card">
             <div class="image-container">
                 <div class="avatar-placeholder">
@@ -362,7 +329,7 @@
             </div>
         </article>
 
-        <!-- CARD 4 -->
+        <!-- CARD 3 -->
         <article class="faculty-card">
             <div class="image-container">
                 <div class="avatar-placeholder">
@@ -378,7 +345,7 @@
             </div>
         </article>
 
-        <!-- CARD 5 -->
+        <!-- CARD 4 -->
         <article class="faculty-card">
             <div class="image-container">
                 <div class="avatar-placeholder">
@@ -391,6 +358,22 @@
                 <p class="faculty-role">Senior Lecturer</p>
                 <p class="faculty-email">li-wei@uiowa.edu</p>
                 <a href="encounters-wei.html" class="portal-btn" aria-label="Access Professor Li Wei's submission page">Access Submission Page</a>
+            </div>
+        </article>
+
+        <!-- CARD 5 -->
+        <article class="faculty-card">
+            <div class="image-container">
+                <div class="avatar-placeholder">
+                    <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5-4-8-4z"/></svg>
+                </div>
+                <img src="./images/faculty_jenkins.jpg" alt="" class="faculty-img" onerror="this.style.display='none'">
+            </div>
+            <div class="card-content">
+                <h2 class="faculty-name">Dr. Sarah Jenkins</h2>
+                <p class="faculty-role">Clinical Instructor</p>
+                <p class="faculty-email">sarah-jenkins@uiowa.edu</p>
+                <a href="encounters-jenkins.html" class="portal-btn" aria-label="Access Dr. Sarah Jenkins's submission page">Access Submission Page</a>
             </div>
         </article>
 
@@ -442,6 +425,7 @@
             </div>
         </article>
 
+        <!-- Dynamic Empty Search Result State -->
         <div class="no-results" id="noResults" role="alert">No faculty members found matching your entry.</div>
 
     </div>
@@ -450,7 +434,6 @@
 <footer role="contentinfo">&copy; 2026 University of Iowa College of Nursing</footer>
 
 <script>
-    // Live Search filtering logic
     const searchInput = document.getElementById('facultySearch');
     const facultyCards = document.querySelectorAll('.faculty-card');
     const noResults = document.getElementById('noResults');
@@ -472,6 +455,7 @@
             }
         });
 
+        // Update view of structural empty state element
         if (activeMatchCount > 0) {
             noResults.style.display = 'none';
             dynamicAnnouncer.innerText = `Showing ${activeMatchCount} faculty members.`;
@@ -480,17 +464,6 @@
             dynamicAnnouncer.innerText = "No faculty members found matching that search entry.";
         }
     });
-
-    // Smart logic for Mackenzie's preceptor configuration
-    function updateMackenzieLink(preceptorValue) {
-        const actionButton = document.getElementById('mackenzieBtn');
-        if (preceptorValue) {
-            // Appends selected preceptor directly to URL string parameter dynamically
-            actionButton.href = `encounters-mackenzie.html?preceptor=${preceptorValue}`;
-        } else {
-            actionButton.href = "encounters-mackenzie.html";
-        }
-    }
 </script>
 </body>
 </html>
