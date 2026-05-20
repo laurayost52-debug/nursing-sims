@@ -35,6 +35,9 @@
         .card h2 { margin-top: 0; font-size: 1.25rem; color: var(--primary); border-bottom: 2px solid var(--secondary); padding-bottom: 10px; }
         
         .form-group { margin-bottom: 15px; }
+        /* Layout utility for grouping date and time inputs side-by-side */
+        .date-time-row { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 10px; }
+        
         .checkbox-group { display: flex; align-items: flex-start; gap: 10px; margin-top: 10px; margin-bottom: 15px; }
         .checkbox-group input { width: auto; margin-top: 4px; }
         
@@ -79,14 +82,25 @@
                     <label for="student-name">Full Name (Last, First)</label>
                     <input type="text" id="student-name" required placeholder="Doe, Jane">
                 </div>
+                
+                <!-- Explicit Split Date and Time Layout Fields for Start -->
                 <div class="form-group">
-                    <label for="start-date">Experience Start Date & Time</label>
-                    <input type="datetime-local" id="start-date" required>
+                    <label>Experience Start</label>
+                    <div class="date-time-row">
+                        <input type="date" id="start-date" required>
+                        <input type="time" id="start-time" required>
+                    </div>
                 </div>
-                 <div class="form-group">
-                    <label for="end-date">Experience End Date & Time</label>
-                    <input type="datetime-local" id="end-date" required>
+
+                <!-- Explicit Split Date and Time Layout Fields for End -->
+                <div class="form-group">
+                    <label>Experience End</label>
+                    <div class="date-time-row">
+                        <input type="date" id="end-date" required>
+                        <input type="time" id="end-time" required>
+                    </div>
                 </div>
+
                 <div class="form-group">
                     <label for="setting">Clinical Setting</label>
                     <select id="setting" required>
@@ -149,7 +163,7 @@
                 Complete step 1 to compile your entry details here.
             </div>
 
-            <!-- Email validation and final button elements stay contained safely inside this zone -->
+            <!-- Validation inputs frame -->
             <div id="verification-zone">
                 <div class="form-group">
                     <label for="student-email">Confirm Your Email Address</label>
@@ -162,7 +176,7 @@
 
                 <button type="button" id="final-submit-btn">Final Submit to Faculty</button>
                 
-                <!-- Errors and Success handling alerts -->
+                <!-- Status Notifications -->
                 <div id="error-status" class="status-msg status-error"></div>
                 <div id="status" class="status-msg status-success">Entry securely transmitted to master log!</div>
             </div>
@@ -201,21 +215,23 @@
     let sessionCount = 0;
     let temporaryPayload = null; 
 
-    // Helper utility to clean up date-time strings for crisp user readability
-    function formatDateTime(dateTimeStr) {
-        if(!dateTimeStr) return '';
-        const d = new Date(dateTimeStr);
-        return d.toLocaleString([], {year: 'numeric', month: 'numeric', day: 'numeric', hour: '2-digit', minute:'2-digit'});
+    // Formatting string functions to display clear dates and times without timezone bugs
+    function formatUserFacingDate(dateStr) {
+        if(!dateStr) return '';
+        const [year, month, day] = dateStr.split('-');
+        return `${month}/${day}/${year}`;
     }
 
-    // Helper utility to isolate just the date portion for the short layout history table
-    function formatDateOnly(dateTimeStr) {
-        if(!dateTimeStr) return '';
-        const d = new Date(dateTimeStr);
-        return d.toLocaleDateString();
+    function formatUserFacingTime(timeStr) {
+        if(!timeStr) return '';
+        const [hrs, mins] = timeStr.split(':');
+        let hour = parseInt(hrs);
+        const ampm = hour >= 12 ? 'PM' : 'AM';
+        hour = hour % 12 || 12;
+        return `${hour}:${mins} ${ampm}`;
     }
 
-    // STEP 1: Process Left Form and build out the Summary Review block
+    // STEP 1: Catch form submission, read all separate variables, draw UI block
     entryForm.addEventListener('submit', function(e) {
         e.preventDefault();
         
@@ -224,16 +240,18 @@
 
         const studentName = document.getElementById('student-name').value;
         const startDate = document.getElementById('start-date').value;
+        const startTime = document.getElementById('start-time').value;
         const endDate = document.getElementById('end-date').value;
+        const endTime = document.getElementById('end-time').value;
         const setting = document.getElementById('setting').value;
         const hours = document.getElementById('hours').value;
         const notes = document.getElementById('notes').value;
         const confirmation = document.getElementById('confirmation').value;
 
-        // Cache parameters locally 
-        temporaryPayload = { studentName, startDate, endDate, setting, hours, notes, confirmation };
+        // Bundle split parameters cleanly for background sync later
+        temporaryPayload = { studentName, startDate, startTime, endDate, endTime, setting, hours, notes, confirmation };
 
-        // Paint summary text inside the middle card area
+        // Construct preview cards inside middle review space
         summaryDisplay.innerHTML = `
             <div class="summary-block" style="border-left: 4px solid var(--primary);">
                 <p><strong>Student Name:</strong></p>
@@ -244,9 +262,9 @@
                 <p style="font-weight: 600; color: var(--primary);">${setting}</p>
             </div>
             <div class="summary-block">
-                <p><strong>Time Duration Interval:</strong></p>
-                <p><strong>From:</strong> ${formatDateTime(startDate)}</p>
-                <p><strong>To:</strong> ${formatDateTime(endDate)}</p>
+                <p><strong>Experience Window:</strong></p>
+                <p><strong>Start:</strong> ${formatUserFacingDate(startDate)} at ${formatUserFacingTime(startTime)}</p>
+                <p><strong>End:</strong> ${formatUserFacingDate(endDate)} at ${formatUserFacingTime(endTime)}</p>
             </div>
             <div class="summary-block" style="border-left: 4px solid var(--success);">
                 <p><strong>Total Logged Value:</strong></p>
@@ -257,12 +275,12 @@
         summaryDisplay.style.textAlign = "left";
         summaryDisplay.style.fontStyle = "normal";
 
-        // Bring up the submission fields below the summary
+        // Slide up the interactive verification panel zone elements below the text summary
         verificationZone.style.display = 'block';
         verificationZone.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
     });
 
-    // STEP 2: Execute validation verification checks and deploy to target Sheets Macro URL
+    // STEP 2: Execute validation, pass complete data bundle to Apps Script target web application URL
     finalSubmitBtn.addEventListener('click', function() {
         errorMsg.style.display = 'none';
         statusMsg.style.display = 'none';
@@ -270,7 +288,6 @@
         const emailVal = document.getElementById('student-email').value.trim();
         const noReceiptChecked = document.getElementById('no-receipt').checked;
 
-        // Strict Conditional Validation: Check for presence of email or receipt waiver toggle
         if (!emailVal && !noReceiptChecked) {
             errorMsg.innerText = "you can to provide and email or acknowldge you don't need a recipt";
             errorMsg.style.display = 'block';
@@ -285,14 +302,14 @@
 
         const scriptUrl = "https://script.google.com/macros/s/AKfycbwynr9E6ZVlEs5KSHsEddQG6vFv9IDQvZ2qv0KNwHDp9PlmG14Fhh0AB8Okk9qb4975jQ/exec";
 
-        // Log entry instantly into local device viewport tracking module
+        // Print reference stamp to session log column layout
         if(sessionCount === 0) tbody.innerHTML = '';
         const row = document.createElement('tr');
-        row.innerHTML = `<td>${formatDateOnly(finalPayload.startDate)}</td><td>${finalPayload.setting}</td><td><strong>${finalPayload.hours}</strong></td>`;
+        row.innerHTML = `<td>${formatUserFacingDate(finalPayload.startDate)}</td><td>${finalPayload.setting}</td><td><strong>${finalPayload.hours}</strong></td>`;
         tbody.appendChild(row);
         sessionCount++;
 
-        // Secure external fetch execution
+        // Ship external payload mapping configuration parameters asynchronously
         if(!scriptUrl.includes("YOUR_")) {
             fetch(scriptUrl, {
                 method: 'POST',
@@ -322,19 +339,21 @@
     }
 
     function resetPanels() {
-        // Clear clinical inputs
+        // Wipe primary clinical form fields
         document.getElementById('start-date').value = '';
+        document.getElementById('start-time').value = '';
         document.getElementById('end-date').value = '';
+        document.getElementById('end-time').value = '';
         document.getElementById('setting').value = '';
         document.getElementById('hours').value = '';
         document.getElementById('notes').value = '';
         document.getElementById('confirmation').value = '';
         
-        // Clean receipt verification parameters
+        // Wipe receipt verification options
         document.getElementById('student-email').value = '';
         document.getElementById('no-receipt').checked = false;
         
-        // Revert middle summary target to clean un-compiled layout state
+        // Revert middle summary target block back to step 1 waiting status state
         temporaryPayload = null;
         verificationZone.style.display = 'none';
         summaryDisplay.innerHTML = `Complete step 1 to compile your entry details here.`;
