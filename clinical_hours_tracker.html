@@ -81,9 +81,9 @@
                     <label for="setting">Clinical Setting</label>
                     <select id="setting" required>
                         <option value="">-- Select Setting --</option>
-                        <option value="Homeostasis Simulation">SNICU</option>
-                        <option value="Patient Encounter Simulation">Adult or prediatric inpatient medical surgical</option>
-                        <option value="Clinical Innovation Lab">CVICU</option>
+                        <option value="SNICU">SNICU</option>
+                        <option value="Adult or prediatric inpatient medical surgical">Adult or prediatric inpatient medical surgical</option>
+                        <option value="CVICU">CVICU</option>
                         <option value="Guided Inquiry Reflection">MICU</option>
                         <option value="Guided Inquiry Reflection">Emergency Room</option>
                         <option value="Guided Inquiry Reflection">Stem Cell Transplant and Cellular Therapies (3JCP)</option>
@@ -119,7 +119,17 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <label for="hours">Hours Earned</label>
+                    <label for="hours">Hours</label>
+                    <input type="number" id="hours" step="0.1" min="0.1" required placeholder="2.5">
+                </div>
+                <div class="form-group">
+                    <label for="confirmation">Hours: Confirmation</label>
+                    <select id="confirmation" required>
+                    <label for="hours">Hours: Confirmation</label>
+                          <option value="">-- Confirmat Hours Submitted --</option>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                        <option value="Clinical Innovation Lab">CVICU</option>
                     <input type="number" id="hours" step="0.1" min="0.1" required placeholder="2.5">
                 </div>
                 <div class="form-group">
