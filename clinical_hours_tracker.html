@@ -198,7 +198,7 @@
                     <label for="notes">Notes</label>
                     <textarea id="notes" placeholder="Provide rationale for overtime..."></textarea>
                 </div>
-                <button type="submit">Generate Summary & Review!</button>
+                <button type="submit">Generate Summary & Review</button>
             </form>
         </div>
 
@@ -208,11 +208,7 @@
             <p style="font-size: 0.85rem; color: #555; margin-top: -10px;">Please review your entry details carefully before submitting to faculty.</p>
             
             <!-- FIXED: Re-inserted your target summary wrapper container safely here -->
-            <div id="summary-display" style="color: #555; text-align: center; margin-top: 20px; font-style: italic;">
-                Complete step 1 to compile your entry details here.
-            </div>
-
-            <div id="verification-zone">
+          <div id="verification-zone">
                 <div class="form-group">
                     <label for="student-email">Provide Email to Receive Session Summary</label>
                     <input type="email" id="student-email" placeholder="jane-doe@uiowa.edu">
@@ -298,13 +294,9 @@
         const notes = document.getElementById('notes').value;
         const confirmation = document.getElementById('confirmation').value;
 
-        temporaryPayload = { studentName, startDate, startTime, endDate, endTime, setting, hours, notes, confirmation };
+        temporaryPayload = { startDate, startTime, endDate, endTime, setting, hours, notes, confirmation };
 
         summaryDisplay.innerHTML = `
-            <div class="summary-block" style="border-left: 4px solid var(--primary);">
-                <p><strong>Student Name:</strong></p>
-                <p style="font-weight: 600;">${studentName}</p>
-            </div>
             <div class="summary-block" style="border-left: 4px solid var(--accent);">
                 <p><strong>Clinical Setting Location:</strong></p>
                 <p style="font-weight: 600; color: var(--primary);">${setting}</p>
