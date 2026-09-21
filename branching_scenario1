@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Clinical Priority Simulator - Branching Scenario</title>
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card-bg: #1e293b;
+      --border: #334155;
+      --text: #f8fafc;
+      --text-muted: #94a3b8;
+      --accent: #38bdf8;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --success: #10b981;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      justify-content: center;
+      padding: 2rem 1rem;
+      min-height: 100vh;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 800px;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 1rem;
+    }
+
+    header h1 {
+      font-size: 1.5rem;
+      color: var(--accent);
+    }
+
+    header p {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-top: 0.25rem;
+    }
+
+    /* Vitals Dashboard */
+    .telemetry-card {
+      background: #020617;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+    }
+
+    .telemetry-card h3 {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    .vitals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+      gap: 0.75rem;
+    }
+
+    .vital-box {
+      background: var(--card-bg);
+      padding: 0.75rem;
+      border-radius: 6px;
+      text-align: center;
+      border-left: 3px solid var(--accent);
+    }
+
+    .vital-box.warning { border-left-color: var(--warning); }
+    .vital-box.danger { border-left-color: var(--danger); }
+    .vital-box.success { border-left-color: var(--success); }
+
+    .vital-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    .vital-value {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-top: 0.25rem;
+      font-family: monospace;
+    }
+
+    /* Narrative Card */
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.5rem;
+    }
+
+    .time-badge {
+      display: inline-block;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--accent);
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .scenario-text {
+      line-height: 1.6;
+      font-size: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Actions */
+    .action-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-bottom: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .action-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .action-btn {
+      background: #0f172a;
+      border: 1px solid var(--border);
+      color: var(--text);
+      text-align: left;
+      padding: 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      transition: all 0.2s ease;
+    }
+
+    .action-btn:hover {
+      border-color: var(--accent);
+      background: #1e293b;
+      transform: translateY(-1px);
+    }
+
+    /* Debrief */
+    .debrief-box {
+      border-left: 4px solid var(--accent);
+      padding: 1rem;
+      background: rgba(15, 23, 42, 0.5);
+      margin-top: 1.25rem;
+      border-radius: 0 6px 6px 0;
+    }
+
+    .restart-btn {
+      margin-top: 1.5rem;
+      padding: 0.75rem 1.5rem;
+      background: var(--accent);
+      color: #020617;
+      font-weight: 700;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.95rem;
+    }
+
+    .restart-btn:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>Clinical Priority Simulator</h1>
+    <p>Practice evaluating conflicting cues and managing downstream consequences.</p>
+  </header>
+
+  <!-- Live Telemetry Display -->
+  <section class="telemetry-card">
+    <h3>Live Patient Telemetry & Observations</h3>
+    <div class="vitals-grid">
+      <div class="vital-box" id="box-hr">
+        <div class="vital-label">HR</div>
+        <div class="vital-value" id="val-hr">--</div>
+      </div>
+      <div class="vital-box" id="box-bp">
+        <div class="vital-label">BP</div>
+        <div class="vital-value" id="val-bp">--</div>
+      </div>
+      <div class="vital-box" id="box-rr">
+        <div class="vital-label">RR</div>
+        <div class="vital-value" id="val-rr">--</div>
+      </div>
+      <div class="vital-box" id="box-spo2">
+        <div class="vital-label">SpO2</div>
+        <div class="vital-value" id="val-spo2">--</div>
+      </div>
+      <div class="vital-box" id="box-pain">
+        <div class="vital-label">Pain</div>
+        <div class="vital-value" id="val-pain">--</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scenario & Options Card -->
+  <section class="card" id="scenario-card">
+    <span class="time-badge" id="time-badge">0715 Handover</span>
+    <div class="scenario-text" id="scenario-narrative">Loading scenario...</div>
+
+    <div id="choices-container">
+      <div class="action-title">Select Clinical Priority:</div>
+      <div class="action-list" id="action-list"></div>
+    </div>
+
+    <div id="resolution-container" style="display: none;">
+      <div class="debrief-box" id="debrief-text"></div>
+      <button class="restart-btn" onclick="startScenario()">Restart Scenario</button>
+    </div>
+  </section>
+</div>
+
+<script>
+  // Scenario Decision Tree State Machine
+  const scenarioData = {
+    start: {
+      time: "0715 Handover",
+      vitals: { hr: 98, bp: "134/82", rr: 11, spo2: "92% RA", pain: "9/10" },
+      statusStyles: { rr: "warning", spo2: "warning", pain: "danger" },
+      narrative: `You assume care of a 62-year-old patient on Post-Op Day 1 following major abdominal surgery. The patient is grimacing, guarding their incision, and reports their pain is a 9/10. However, you note shallow respiratory excursions with a respiratory rate of 11/min and oxygen saturation lingering at 92% on room air. They ask for their ordered IV hydromorphone immediately.`,
+      options: [
+        {
+          label: "Administer the IV Hydromorphone immediately to relieve the 9/10 pain.",
+          nextKey: "narcotic_first"
+        },
+        {
+          label: "Reposition patient upright, instruct on incentive spirometry, and reassess lungs before medicating.",
+          nextKey: "position_first"
+        },
+        {
+          label: "Leave the room to page the surgical resident for an alternative non-opioid order.",
+          nextKey: "defer_care"
+        }
+      ]
+    },
+
+    narcotic_first: {
+      time: "0730 Evaluation",
+      vitals: { hr: 82, bp: "112/68", rr: 7, spo2: "86% RA", pain: "0/10" },
+      statusStyles: { rr: "danger", spo2: "danger", pain: "success" },
+      narrative: `The pain is gone, but the patient has become somnolent and difficult to arouse. The chest barely moves, respirations have plummeted to 7 breaths per minute, and oxygen saturation has dropped to 86%. By treating pain without first stabilizing or investigating the borderline hypoventilation baseline, you induced severe opioid-induced respiratory depression.`,
+      options: [
+        {
+          label: "Call for a Rapid Response, apply high-flow oxygen, and prepare Naloxone (Narcan).",
+          nextKey: "naloxone_rescue"
+        },
+        {
+          label: "Gently shake the patient's shoulder and encourage them to breathe deeply.",
+          nextKey: "under_rescue"
+        }
+      ]
+    },
+
+    position_first: {
+      time: "0725 Evaluation",
+      vitals: { hr: 90, bp: "128/78", rr: 14, spo2: "96% RA", pain: "8/10" },
+      statusStyles: { rr: "success", spo2: "success", pain: "warning" },
+      narrative: `After elevating the head of the bed to 45 degrees, coaching three sustained lung expansions, and clearing shallow secretions, the patient's SpO2 rises to 96% and respiratory rate stabilizes at 14/min. With adequate respiratory reserve established, you can now safely address their severe surgical pain with an adjusted or monitored analgesia plan.`,
+      options: [
+        {
+          label: "Administer a reduced-dose analgesic with continuous pulse oximetry monitoring.",
+          nextKey: "optimal_resolution"
+        }
+      ]
+    },
+
+    defer_care: {
+      time: "0745 Evaluation",
+      vitals: { hr: 124, bp: "162/98", rr: 12, spo2: "90% RA", pain: "10/10" },
+      statusStyles: { hr: "danger", bp: "warning", rr: "warning", spo2: "danger", pain: "danger" },
+      narrative: `While waiting 30 minutes for a callback from the resident, the patient's pain escalates into severe sympathetic distress. Tachycardia has developed (HR 124), BP has spiked, and the patient refuses to take deep breaths due to agony, causing progressive atelectasis. Leaving the bedside without initiating immediate nursing actions (positioning/oxygen) worsened both clinical markers.`,
+      options: [
+        {
+          label: "Elevate bed immediately, place on 2L NC, and perform immediate bedside assessment.",
+          nextKey: "stabilize_late"
+        }
+      ]
+    },
+
+    // End Nodes (Debriefs)
+    naloxone_rescue: {
+      time: "0800 Debrief",
+      vitals: { hr: 110, bp: "140/90", rr: 16, spo2: "95% 4L NC", pain: "10/10" },
+      statusStyles: { hr: "warning", spo2: "success", pain: "danger" },
+      narrative: `The emergency was successfully resolved after administering dilute IV naloxone and initiating bag-valve assist until spontaneous respiration returned.`,
+      debrief: `<strong>Pedagogical Takeaway:</strong> Novice decision-making often treats isolated chief complaints (9/10 pain = give opioid). Expert clinical judgment recognizes competing constraints: administering a potent central nervous system depressant to a patient already showing borderline hypoventilation (RR 11) carries immediate airway risk. Prioritizing airway/breathing first creates the safety envelope for pain management.`
+    },
+
+    under_rescue: {
+      time: "0735 Critical Event",
+      vitals: { hr: 52, bp: "80/40", rr: 4, spo2: "74% RA", pain: "--" },
+      statusStyles: { hr: "danger", bp: "danger", rr: "danger", spo2: "danger" },
+      narrative: `Verbal and tactile stimuli fail. Cyanosis appears around the lips and severe bradycardia develops secondary to profound hypoxia. Code Blue called.`,
+      debrief: `<strong>Pedagogical Takeaway:</strong> When downstream failure modes occur, immediate rescue prioritization is essential. A respiratory rate below 8 following opioid administration is a medical emergency requiring pharmacologic reversal and ventilatory support, not conservative prompting.`
+    },
+
+    optimal_resolution: {
+      time: "0800 Debrief",
+      vitals: { hr: 76, bp: "120/74", rr: 14, spo2: "97% RA", pain: "3/10" },
+      statusStyles: { hr: "success", bp: "success", rr: "success", spo2: "success", pain: "success" },
+      narrative: `The patient is stable, comfortable, and resting with adequate pulmonary toilet and pain managed at a tolerable 3/10.`,
+      debrief: `<strong>Pedagogical Takeaway:</strong> Excellent clinical judgment. You recognized that the low SpO2 and bradypnea were driven by post-op hypoventilation/atelectasis. By using non-pharmacological nursing interventions first to restore respiratory baseline, you mitigated the risk of acute respiratory arrest before medicating.`
+    },
+
+    stabilize_late: {
+      time: "0815 Debrief",
+      vitals: { hr: 94, bp: "130/80", rr: 15, spo2: "94% 2L NC", pain: "5/10" },
+      statusStyles: { hr: "warning", spo2: "warning", pain: "warning" },
+      narrative: `Bedside interventions stabilized the patient, though the delay led to unnecessary physiological distress and atelectasis progression.`,
+      debrief: `<strong>Pedagogical Takeaway:</strong> While seeking interprofessional consultation is critical, delaying independent bedside nursing interventions (like positioning and non-pharmacologic support) leaves patients vulnerable to clinical deterioration.`
+    }
+  };
+
+  function updateVitals(vitals, styles = {}) {
+    const fields = ['hr', 'bp', 'rr', 'spo2', 'pain'];
+    fields.forEach(f => {
+      const valEl = document.getElementById(`val-${f}`);
+      const boxEl = document.getElementById(`box-${f}`);
+      valEl.textContent = vitals[f] || '--';
+      
+      boxEl.className = 'vital-box';
+      if (styles[f]) {
+        boxEl.classList.add(styles[f]);
+      }
+    });
+  }
+
+  function renderNode(key) {
+    const node = scenarioData[key];
+    if (!node) return;
+
+    document.getElementById('time-badge').textContent = node.time;
+    document.getElementById('scenario-narrative').textContent = node.narrative;
+    updateVitals(node.vitals, node.statusStyles);
+
+    const choicesContainer = document.getElementById('choices-container');
+    const resolutionContainer = document.getElementById('resolution-container');
+    const actionList = document.getElementById('action-list');
+
+    if (node.options && node.options.length > 0) {
+      choicesContainer.style.display = 'block';
+      resolutionContainer.style.display = 'none';
+      actionList.innerHTML = '';
+
+      node.options.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'action-btn';
+        btn.textContent = opt.label;
+        btn.onclick = () => renderNode(opt.nextKey);
+        actionList.appendChild(btn);
+      });
+    } else {
+      choicesContainer.style.display = 'none';
+      resolutionContainer.style.display = 'block';
+      document.getElementById('debrief-text').innerHTML = node.debrief || 'Scenario Concluded.';
+    }
+  }
+
+  function startScenario() {
+    renderNode('start');
+  }
+
+  // Initialize on load
+  startScenario();
+</script>
+
+</body>
+</html>
